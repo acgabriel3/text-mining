@@ -1,9 +1,8 @@
 import nltk as nltk
 import pandas as pd
 import string
-from bs4 import BeatifulSoup
-from nltk.corpus import stop_words
-from nltk.tokenize import RegexpTokenizer
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.stem.porter import PorterStemmer
 from os import listdir
@@ -22,6 +21,69 @@ for file in files:
         aux = pd.DataFrame(data = [[file, text]], columns = ['dossie', 'texto'])
         dossies = pd.DataFrame.append(dossies, aux, ignore_index = True) 
         
+
+def retiraPontuacao(texto):
+    semPontuacao = "".join([c for c in texto if c not in string.punctuation])
+    return semPontuacao
+
+
+dossies['texto'] = dossies['texto'].apply(retiraPontuacao)
+
+dossies['texto'] = dossies['texto'].apply(lambda x : word_tokenize(x.lower(), language = 'portuguese'))
+
+def remove_palavras_fracas(texto):
+    palavras = [w for w in texto if w not in stopwords.words('portuguese')]
+    return palavras
+
+dossies['texto'][0] =  remove_palavras_fracas(dossies['texto'][0])
+
+# O processo para retirar stopwords se mostrou extremamente lento ateh o momento
+#dossies['texto'][0].apply(lambda x : remove_palavras_fracas(x))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
