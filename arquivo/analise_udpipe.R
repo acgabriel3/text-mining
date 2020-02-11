@@ -9,7 +9,7 @@ library(dplyr)
 library(udpipe)
 library(readr)
 source("CRISPDM.R")
-#options("encoding" = "UTF-8")
+options("encoding" = "UTF-8")
 
 variaveis <- leitura_automatica_por_tipo_arquivo(diretorioAlvo = "~/dados/sbrt_txts/dossies", formatoArquivo = ".txt",
                                                  funcao_de_leitura = "readLines")
@@ -18,7 +18,11 @@ textoUnico <- NULL
 
 for(i in 1) {
   
+<<<<<<< HEAD
+  textoUnico <- c(textoUnico, eval(as.symbol(variaveis[1])))
+=======
   textoUnico <- c(textoUnico, eval(as.symbol(variaveis[15])))
+>>>>>>> eff1689fb982aca4f72cc1303db04ffb3a88b6fc
   
 }
 
