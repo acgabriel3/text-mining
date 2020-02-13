@@ -3,7 +3,7 @@ library(ggplot2)
 library(ggthemes)
 library(dplyr)
 library(stringr)
-dados<-"~/dados/sbrt_txts/amostra_dossie/"
+dados<-"dados/sbrt_txts/amostra_dossie/"
 txtdf<-readtext::readtext(dados, encoding = "latin1")
 txtdf$text<-sub('.*\nConteúdo',"",txtdf$text)
 txtdf$text<-sub('.*\nCONTEÚDO',"",txtdf$text)

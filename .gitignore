@@ -3,3 +3,4 @@ dados/*
 csv/*
 *.Rproj
 *.udpipe
+.Rproj.user

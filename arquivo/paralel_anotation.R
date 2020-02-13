@@ -1,7 +1,7 @@
 library(stringr)
 library(dplyr)
 options(stringsAsFactors = F)
-dados<-"~/dados/sbrt_txts/dossies/"
+dados<-"dados/sbrt_txts/dossies"
 txtdf<-readtext::readtext(dados, encoding = "latin1")
 txtdf$text<-sub('.*\nConteúdo',"",txtdf$text)
 txtdf$text<-sub('.*\nCONTEÚDO',"",txtdf$text)
@@ -23,10 +23,10 @@ txtdf$ID<-seq(1:nrow(txtdf))
 
 library(udpipe)
 library(data.table)
-ud_model <- udpipe_download_model(language = "portuguese")
-ud_model <- udpipe_load_model("~/text-mining-ud/portuguese-bosque-ud-2.4-190531.udpipe")
-#x <- udpipe_annotate(ud_model, x = txtdf$text, doc_id = txtdf$ID)
-#x <- as.data.frame(x)
+#ud_model <- udpipe_download_model(language = "portuguese")
+ud_model <- udpipe_load_model("lemmatizer_model.udpipe")
+x <- udpipe_annotate(ud_model, x = txtdf$text, doc_id = txtdf$ID,  parser = "none")
+x <- as.data.frame(x)
 
 
 # returns a data.table
@@ -34,7 +34,7 @@ annotate_splits <- function(x, file) {
   ud_model <- udpipe_load_model(file)
   x <- as.data.table(udpipe_annotate(ud_model, 
                                      x = x$text,
-                                     doc_id = x$doc_id))
+                                     doc_id = x$doc_id, parser = "none"))
   return(x)
 }
 
@@ -49,7 +49,7 @@ plan(multiprocess, workers = ncores)
 # split comments based on available cores
 corpus_splitted <- split(txtdf, seq(1, nrow(txtdf), by = 10))
 
-annotation <- future_lapply(corpus_splitted, annotate_splits, file = "~/text-mining-ud/portuguese-bosque-ud-2.4-190531.udpipe")
+annotation <- future_lapply(corpus_splitted, annotate_splits, file = "lemmatizer_model.udpipe")
 annotation <- rbindlist(annotation)
 
 #write.table(annotation, file="sbrt_dossies_POS.csv", sep = ";", row.names = F, fileEncoding = "utf-8")
