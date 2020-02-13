@@ -1,0 +1,45 @@
+---
+title: "Pré-processamento de textos em R"
+author: "Micael Filipe"
+date: "13/02/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Linguagem de programação R
+
+A linguagem de programação R pode ser utilizada para desempenhar inumeras tarefas, desde cálculos básicos a, até a realização de análises estatísticas complexas. Além disso, o R também pussui uma gama de recursos para plotagem de gráficos, como personalização de: cor, tipo e tamanho de letra, símbolos, títulos e subtítulos, pontos, linhas, legendas, planos de fundo e entre outros. Os gráficos podem ser usados para obter informações visuais significativas durante a análise de dados ou podem ser exportados em um relatório para apresentações. 
+
+Mais que um software que realiza análises estatísticas, R é um ambiente e uma linguagem de programação orientada a objeto. Nele, números, vetores, matrizes, arrays, data frames e listas podem ser armazenados em objetos. A linguagem R pode ser utilizada em diversas áreas e para diversos fins, tais como: pesquisa científica, business analytics, desenvolvimento de software, relatórios statísticos, econometria e análise financeira, ciência sociais, e big data analytics.
+
+
+## Mineração de textos em R
+
+Além das tarefas já citadas anteriormente, a linguagem R pode ser utilizada para mineração de textos. Mineração de textos pode ser definida como uma metodologia para extração de informações a partir de dados textuais, que tem como base o uso de técnicas de processamento de linguagem natural, recuperação de informação e aprendizado de maquina para tratar os dados a fim de filtar apenas os dados que possam ser úteis para o usuário final.  
+
+O processo de mineração de textos pode ser resumido em quatro etapas fundamentais:
+
+* **Coleta de documentos**
+
+  Essa etapa tem como ojetivo a coleta de documentos que irão compor o banco de textos a ser analisado.
+
+* **Pré-processamento**
+
+  Nesa etapa os documentos coletados são estruturados de forma padronizada para que os algoritimos que serão utilizados prosteriormente sejma capazes de fazer a manipulação de todos os documentos. Também são definidos os termos e caracteres especiais que não possuem significado relevante (preposições, artigos, pontuação, cabeçalhos, etc.) que serão removidos do conjunto de textos.
+
+
+* **Extração de conhecimento**
+
+  Essa etapa consiste na extração do conhecimento por meio da aplicação de algoritimos de extração automática de conhecimento. Os termos são agrupados conforme sua similaridade e interação entre si no conjunto de textos.
+
+* **Avaliação e interpretação dos resultados**
+
+  Por fim, os reultados obtidos são avaliados a fim de determinar se os algoritimos reveleram informações relevantes sobre o conjunto de textos.
+
+
+
+
+

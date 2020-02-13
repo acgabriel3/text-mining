@@ -18,20 +18,17 @@ textoUnico <- NULL
 
 for(i in 1) {
   
-<<<<<<< HEAD
   textoUnico <- c(textoUnico, eval(as.symbol(variaveis[1])))
-=======
   textoUnico <- c(textoUnico, eval(as.symbol(variaveis[15])))
->>>>>>> eff1689fb982aca4f72cc1303db04ffb3a88b6fc
-  
+
 }
 
 #Ajustando a codificação para evitar problemas com acentos e caracteres especiais
 textoUnico<-iconv(textoUnico, from = "ISO-8859-1", to = "UTF-8")
 
 #Leitura do texto bruto
-txt<-read_file("~/dados/sbrt_txts/dossies/9056.txt")%>%
-  iconv(from = "ISO-8859-1", to = "UTF-8")
+txt<-read_file("/home/micael/R_envs/text-mining/dados/sbrt_txts/dossies/9056.txt")%>%
+  iconv(from = "latin1", to = "UTF-8")
 
 #Tentativa de limpeza
 #Remove folha de rosto, sumário etc.
