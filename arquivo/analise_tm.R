@@ -10,9 +10,12 @@ library(stm)
 library(ggridges)
 library(formattable)
 options(scipen = 999)
-dados<-"~/dados/sbrt_txts/amostra_dossie/"
+dados<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/dossies"
 
+#leitura de todos os dados do diretorio para um dataframe
 txtdf<-readtext::readtext(dados, encoding = "latin1")
+
+#limpeza dos dados
 txtdf$text<-sub('.*\nConteúdo',"",txtdf$text)
 txtdf$text<-sub('.*\nCONTEÚDO',"",txtdf$text)
 txtdf$text<-sub('.*\nTítulo',"",txtdf$text)
@@ -40,32 +43,41 @@ sw_pt <- c(sbrt_sw, sw_pt_tm)
 # criar dataframe com uma linha por palavra
 df_palavra <- txtdf %>% 
   unnest_tokens(palavra, text) %>% 
-  # filtrar fora stopword
+  # filtrar palavras diferentes das stopwords
   filter(!palavra %in% sw_pt_tm)
 
+#apresenta palavras mais frequentes
 df_palavra %>% 
   count(palavra) %>% 
   arrange(desc(n)) %>% 
   head(50) %>% 
   formattable()
 
-sbrt_sw <- c("http", "senai", "deve","acesso", "brasil", "devem", "pode", "ser","norma","iso", "kg", "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
+#construção de stop words
+sbrt_sw <- c("http", "senai", "deve","acesso", "brasil", "devem", "pode",
+             "ser","norma","iso", "kg", "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
 sw_pt <- c(sbrt_sw, sw_pt_tm)
 
+#faz o processamento do texto
 proc <- stm::textProcessor(txtdf$text, metadata = txtdf, language = "portuguese",
                            customstopwords = sw_pt)
 
 out <- stm::prepDocuments(proc$documents, proc$vocab, proc$meta,
                           lower.thresh = 10)
 
-storage <- stm::searchK(out$documents, out$vocab, K = c(3:15),
-                        data = out$meta)
+#storage <- stm::searchK(out$documents, out$vocab, K = c(3:3),
+                      #data = out$meta)
+
+#modelagem de tópicos (10 tópicos)
 fit <- stm(
   documents = out$documents, vocab = out$vocab, data = out$meta,  K = 10,
   max.em.its = 75, init.type = "Spectral", verbose = FALSE
 )
-
+#grafico de tópicps
 plot(fit, "summary")
+
+#FREX apresenta as palavras que mais representam o tópico. 
+stm::labelTopics(fit)
 
 head(fit$theta)
 
@@ -73,12 +85,12 @@ head(fit$theta)
 nomes_topicos <- c("1", "2", "3",
                    "4", "5", "6", "7",
                    "8", "9", "10")
-# extrair a maior probabilidade pra cada documento
+# extrai a maior probabilidade pra cada documento
 maior_prob <- apply(fit$theta, 1, max)
-# extrair o nome do topico com a maior probabilidade
+# extrai o nome do topico com a maior probabilidade
 topico_doc <- nomes_topicos[apply(fit$theta, 1, which.max)]
 
-# acrescentar esses dados no dataframe principal
+# acrescenta esses dados no dataframe principal
 df_topico <- txtdf %>% 
   mutate(maior_prob = maior_prob,
          topico = topico_doc)
@@ -98,6 +110,15 @@ df_topico %>%
        title = "Quantidade de documentos por tópico") +
   coord_flip()
 
+#dataframe com nome do arquivo e tópico
+topico_doc<-df_topico %>% 
+  group_by(topico) %>% 
+  #filter(maior_prob == max(maior_prob)) %>% 
+  select(doc_id, topico, maior_prob)
+
+#con <- paste0(dados, "/","100.txt")
+#first_line <- read_file(con)
+#close(con)
 
 #########################
 
