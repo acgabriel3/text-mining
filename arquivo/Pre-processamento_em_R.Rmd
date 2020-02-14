@@ -1,12 +1,18 @@
 ---
-title: "Pré-processamento de textos em R"
+title: "Pré-processamento de textos"
 author: "Micael Filipe"
 date: "13/02/2020"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
 ```
 
 ## Linguagem de programação R
@@ -39,7 +45,236 @@ O processo de mineração de textos pode ser resumido em quatro etapas fundament
 
   Por fim, os reultados obtidos são avaliados a fim de determinar se os algoritimos reveleram informações relevantes sobre o conjunto de textos.
 
+### Pré-processamento
+
+Os pacotes UDpipe e TM foram utilizados para o pré processamento dos textos.
+
+Importação dos pacotes a seren utilizados:
+
+```{r}
+options("encoding" = "UTF-8")
+options(scipen = 999)
+library(stringr)
+library(tm)
+library(SnowballC)
+library(lexiconPT)
+library(tidytext)
+library(tidyverse)
+library(magrittr)
+library(stm)
+library(ggridges)
+library(formattable)
+```
+
+
+Leitura de todos os dados do diretorio para um dataframe:
+
+```{r}
+dados<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/dossies"
+txtdf<-readtext::readtext(dados, encoding = "latin1")
+```
+
+Tentativa de extração dos títulos dos documentos:
+
+```{r}
+titulo<-NULL
+for (i in 1:length(txtdf$text)){
+tx<-strsplit(x=txtdf[i,2], "\n")[[1]][2]
+titulo[i]<-tx
+}
+txtdf$titulo<-titulo
+```
+
+
+Limpeza dos arquivos de texto:
+
+```{r}
+txtdf$text<-sub('.*\nConteúdo',"",txtdf$text)
+txtdf$text<-sub('.*\nCONTEÚDO',"",txtdf$text)
+txtdf$text<-sub('.*\nTítulo',"",txtdf$text)
+txtdf$text<-gsub('[1-9][0-9]* Copyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.sbrt.ibict.br',"",txtdf$text)
+txtdf$text<-gsub('[1-9][0-9]* Copyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.respostatecnica.org.br',"", txtdf$text)
+txtdf$text<-gsub('[1-9][0-9]*\nCopyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.respostatecnica.org.br',"", txtdf$text)
+txtdf$text<-gsub('\nCopyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.sbrt.ibict.br\n\n[1-9][0-9]*',"", txtdf$text)
+txtdf$text<-gsub('Disponível em: ',"",txtdf$text)
+txtdf$text<-str_replace_all(txtdf$text, "[^[:alnum:].:,?!;]", " ")
+txtdf$text<-gsub("\\s+", " ", str_trim(txtdf$text))
+txtdf$text<-gsub('Copyright Serviço Brasileiro de Respostas Técnicas SBRT http: www.respostatecnica.org.br [1-9][0-9]*',"",txtdf$text)
+txtdf$text<-gsub('INTRODUÇÃO',"",txtdf$text)
+txtdf$text<-gsub('Introdução',"",txtdf$text)
+txtdf$text<-gsub('www.*.br',"",txtdf$text)
+txtdf$text<- iconv(txtdf$text, from = "UTF-8", to = "ASCII//TRANSLIT")
+```
+
+
+Palavras que serão removidas dos arquivos de texto:
+
+```{r}
+sw_pt_tm <- tm::stopwords("pt") %>% iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
+sbrt_sw <- c("http", "senai", "deve","acesso", "brasil", "devem","www.sbrt.ibict.br", 
+             "serviço", "brasileiro", "respostas", "técnicas", "técnico",
+             "www.respostatecnica.org.br", "pode", "ser","norma","iso", "kg", 
+             "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
+sw_pt_tm <- c(sbrt_sw, sw_pt_tm)
+```
+
+
+Apresenta as 50 palavras mais fequentes de todo o o conjunto de textos:
+
+```{r}
+df_palavra <- txtdf %>% 
+  unnest_tokens(palavra, text) %>% 
+  filter(!palavra %in% sw_pt_tm)
+
+df_palavra %>% 
+  count(palavra) %>% 
+  arrange(desc(n)) %>% 
+  head(50) %>% 
+  formattable()
+```
+
+
+Faz o processamento do texto:
+
+```{r}
+proc <- stm::textProcessor(txtdf$text, metadata = txtdf, language = "portuguese",
+                           customstopwords = sw_pt_tm)
+
+out <- stm::prepDocuments(proc$documents, proc$vocab, proc$meta,
+                          lower.thresh = 10)
+```
+
+
+Faz a modelagem de tópicos (10 tópicos):
+
+```{r}
+fit <- stm(
+  documents = out$documents, vocab = out$vocab, data = out$meta,  K = 10,
+  max.em.its = 75, init.type = "Spectral", verbose = FALSE
+)
+plot(fit, "summary")
+
+```
+
+Apresenta as palavras que mais representa cada tópico (FREX)
+```{r}
+stm::labelTopics(fit)
+```
+
+
+Apresenta gráfico de documento por tópico:
+```{r}
+nomes_topicos <- c("1", "2", "3",
+                   "4", "5", "6", "7",
+                   "8", "9", "10")
+maior_prob <- apply(fit$theta, 1, max)
+topico_doc <- nomes_topicos[apply(fit$theta, 1, which.max)]
+
+df_topico <- txtdf %>% 
+  mutate(maior_prob = maior_prob,
+         topico = topico_doc)
+df_topico %>% 
+  count(topico) %>% 
+  mutate(topico = forcats::fct_reorder(topico, n)) %>% 
+  ggplot(aes(x = topico, y = n)) + 
+  geom_col(fill = "mediumpurple4") +
+  theme_minimal() + 
+  labs(x = NULL, y = "Documentos",
+       title = "Quantidade de documentos por tópico") +
+  coord_flip()
+```
+
+
+Cria dataframe com nome do arquivo, titulo e tópico:
+
+```{r}
+
+topico_doc<-df_topico %>% 
+  group_by(topico)%>%
+  arrange(desc(maior_prob))%>%
+  select(titulo,doc_id, topico, maior_prob)
+```
 
 
 
+Apresenta dos 10 primeiros titulos relacionados ao tópico 1:
+```{r}
+topico_doc%>%
+  filter(topico==1)%>%
+  head(10)%>%
+  formattable()
+```
 
+Apresenta dos 10 primeiros titulos relacionados ao tópico 2:
+```{r}
+topico_doc%>%
+  filter(topico==2)%>%
+  head(10)%>%
+  formattable()
+```
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 3:
+```{r}
+topico_doc%>%
+  filter(topico==3)%>%
+  head(10)%>%
+  formattable()
+```
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 4:
+```{r}
+topico_doc%>%
+  filter(topico==4)%>%
+  head(10)%>%
+  formattable()
+```
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 5:
+```{r}
+topico_doc%>%
+  filter(topico==5)%>%
+  head(10)%>%
+  formattable()
+```
+
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 6:
+```{r}
+topico_doc%>%
+  filter(topico==6)%>%
+  head(10)%>%
+  formattable()
+```
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 7:
+```{r}
+topico_doc%>%
+  filter(topico==7)%>%
+  head(10)%>%
+  formattable()
+```
+
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 8:
+```{r}
+topico_doc%>%
+  filter(topico==8)%>%
+  head(10)%>%
+  formattable()
+```
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 9:
+```{r}
+topico_doc%>%
+  filter(topico==9)%>%
+  head(10)%>%
+  formattable()
+```
+
+Apresenta dos 10 primeiros titulos relacionados ao tópico 10:
+```{r}
+topico_doc%>%
+  filter(topico==10)%>%
+  head(10)%>%
+  formattable()
+```

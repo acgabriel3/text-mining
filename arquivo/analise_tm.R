@@ -15,16 +15,57 @@ dados<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/dossies"
 #leitura de todos os dados do diretorio para um dataframe
 txtdf<-readtext::readtext(dados, encoding = "latin1")
 
+#tentativa de extração de informações sobre o documento
+for (i in 1:length(txtdf$text)){
+tx<-strsplit(x=txtdf[i,2], "\n")[[1]][2]
+titulo[i]<-tx
+}
+txtdf$titulo<-titulo
+tx<-tx[[1]]
+i_titulo<-grep("Título",tx)
+tx[i_titulo+1]
+i_assunto<-grep("Assunto",tx)
+tx[i_assunto+1]
+i_resumo<-grep("Resumo", tx)
+tx[i_resumo+1]
+i_pchave<-grep("Palavras chave",tx)
+tx[i_pchave+1]
+
+titulo<-regmatches( txtdf[59,2], gregexpr("DOSSIÊ TÉCNICO.*.\n", txtdf[59,2], perl = F ) )
+titulo
+
+tes<-strsplit(tx, "Título ")
+tes<-unlist(tes)
+
+titulo<-regmatches( txtdf[358,2], gregexpr("(?<=Título ).*(?=Assunto)", txtdf[358,2], perl = TRUE ) )
+titulo
+assunto<-regmatches( txtdf[358,2], gregexpr("(?<=Assunto ).*(?= Resumo)", txtdf[358,2], perl = TRUE ) )
+assunto
+pchave<-regmatches( txtdf[358,2], gregexpr("(?<=Palavras-chave ).*(?=Conteúdo)", txtdf[358,2], perl = TRUE ) )
+pchave
+
+titulo<-regmatches( txtdf[38,2], gregexpr("(?=\nTítulo)", txtdf[358,2], perl = TRUE ) )
+titulo
+assunto<-regmatches( txtdf[38,2], gregexpr("(?<=Assunto ).*(?= Resumo)", txtdf[358,2], perl = TRUE ) )
+assunto
+pchave<-regmatches( txtdf[38,2], gregexpr("(?<=Palavras chave).*(?=Conteúdo)", txtdf[358,2], perl = TRUE ) )
+pchave
+
 #limpeza dos dados
 txtdf$text<-sub('.*\nConteúdo',"",txtdf$text)
 txtdf$text<-sub('.*\nCONTEÚDO',"",txtdf$text)
-txtdf$text<-sub('.*\nTítulo',"",txtdf$text)
+#txtdf$text<-sub('.*\nTítulo',"",txtdf$text)
+txtdf$text<-sub('.*(?=\nTítulo)',"",txtdf$text,perl=T)
 txtdf$text<-gsub('[1-9][0-9]* Copyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.sbrt.ibict.br',"",txtdf$text)
 txtdf$text<-gsub('[1-9][0-9]* Copyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.respostatecnica.org.br',"", txtdf$text)
 txtdf$text<-gsub('[1-9][0-9]*\nCopyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.respostatecnica.org.br',"", txtdf$text)
 txtdf$text<-gsub('\nCopyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.sbrt.ibict.br\n\n[1-9][0-9]*',"", txtdf$text)
 txtdf$text<-gsub('Disponível em: ',"",txtdf$text)
 #txtdf$text<-gsub('<ht.*.>',"",txtdf$text)
+
+
+
+
 txtdf$text<-str_replace_all(txtdf$text, "[^[:alnum:].:,?!;]", " ")
 txtdf$text<-gsub("\\s+", " ", str_trim(txtdf$text))
 txtdf$text<-gsub('Copyright Serviço Brasileiro de Respostas Técnicas SBRT http: www.respostatecnica.org.br [1-9][0-9]*',"",txtdf$text)
@@ -36,7 +77,7 @@ txtdf$text<- iconv(txtdf$text, from = "UTF-8", to = "ASCII//TRANSLIT")
 
 # stopwords da lingua portuguesa sem acento
 sw_pt_tm <- tm::stopwords("pt") %>% iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
-sbrt_sw <- c("http", "senai", "deve","acesso", "brasil", "devem", "pode", "ser","norma","iso", "kg", "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
+sbrt_sw <- c("http", "senai", "sbrt", "deve","acesso", "brasil", "devem", "pode", "ser","norma","iso", "kg", "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
 sw_pt <- c(sbrt_sw, sw_pt_tm)
 
 
@@ -53,14 +94,10 @@ df_palavra %>%
   head(50) %>% 
   formattable()
 
-#construção de stop words
-sbrt_sw <- c("http", "senai", "deve","acesso", "brasil", "devem", "pode",
-             "ser","norma","iso", "kg", "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
-sw_pt <- c(sbrt_sw, sw_pt_tm)
 
 #faz o processamento do texto
 proc <- stm::textProcessor(txtdf$text, metadata = txtdf, language = "portuguese",
-                           customstopwords = sw_pt)
+                           customstopwords = sw_pt_tm)
 
 out <- stm::prepDocuments(proc$documents, proc$vocab, proc$meta,
                           lower.thresh = 10)
@@ -110,15 +147,16 @@ df_topico %>%
        title = "Quantidade de documentos por tópico") +
   coord_flip()
 
-#dataframe com nome do arquivo e tópico
+#dataframe com nome do arquivo, titulo e tópico
 topico_doc<-df_topico %>% 
-  group_by(topico) %>% 
-  #filter(maior_prob == max(maior_prob)) %>% 
-  select(doc_id, topico, maior_prob)
+  group_by(topico)%>%
+  arrange(desc(maior_prob))%>%
+  #filter(topico == 1)%>% 
+  select(titulo,doc_id, topico, maior_prob)
 
-#con <- paste0(dados, "/","100.txt")
-#first_line <- read_file(con)
-#close(con)
+
+
+
 
 #########################
 
