@@ -8,7 +8,7 @@ mpl.use('webAgg')  # abre um navegador pra visualizar o gráfico gerado
 # totalmente baseado em: https://www.tensorflow.org/tutorials/keras/text_classification
 
 
-def plotGrafico(history):
+def plot_grafico(history):
     history_dict = history.history
     acc = history_dict['accuracy']
     val_acc = history_dict['val_accuracy']
@@ -53,7 +53,7 @@ def decode_review(word_index, text):
 # função que adiciona 0's ao final das strings para que todas tenham o mesmo tamanho
 
 
-def padStringsOf(data, maxlen):
+def pad_strings_of(data, maxlen):
     return keras.preprocessing.sequence.pad_sequences(
         data,
         value=word_index["<PAD>"],
@@ -79,8 +79,8 @@ if __name__ == "__main__":
     # As avaliações dos filmes têm diferentes tamanhos. Sabendo que o número
     # de entradas da rede neural tem que ser de mesmo tamanho, então faz-se
     # necessário adicionar valores ao fim da string a fim de igualá-las
-    x_train = padStringsOf(x_train, 256)
-    x_test = padStringsOf(x_test, 256)
+    x_train = pad_strings_of(x_train, 256)
+    x_test = pad_strings_of(x_test, 256)
 
     vocab_size = 10000
 
@@ -117,4 +117,4 @@ if __name__ == "__main__":
     results = model.evaluate(x_test, y_test)
     print(results)
 
-    # plotGrafico(history)
+    plot_grafico(history)

@@ -1,0 +1,1 @@
+- [Guia Classificação de Textos](https://developers.google.com/machine-learning/guides/text-classification?hl=pt_br)
