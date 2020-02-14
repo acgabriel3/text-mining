@@ -72,6 +72,9 @@ dossiesStem = dossies
 dossiesStem['texto'] = dossiesStem['texto'].apply(lambda x : stemmerPalavras(x))
 
 
+#Para realizar o POS TAG eh necessario treinar o algoritmo, o nlkt fornece alguns bancos de dados 
+#para realizar o treinamento dos algoritmos, e exemplos, como no endereco: http://www.nltk.org/howto/portuguese_en.html
+
 
 
 
