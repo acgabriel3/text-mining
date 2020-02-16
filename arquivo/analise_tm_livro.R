@@ -23,13 +23,6 @@ txtdf$text<- iconv(txtdf$text, from = "UTF-8", to = "ASCII//TRANSLIT")
 
 txtdf$ID<-seq(1:nrow(txtdf))
 
-tryTolower <- function(x){
-  y = NA
-  try_error = tryCatch(tolower(x), error = function(e) e)
-  if (!inherits(try_error, 'error'))
-    y = tolower(x)
-return(y)
-}
 
 
 
@@ -39,17 +32,26 @@ sbrt_sw <- c("http", "senai", "deve","durante","acesso", "brasil", "devem", "pod
 sw_pt <- c(sbrt_sw, sw_pt_tm)
 
 
-clean.corpus<-function(corpus){
-  corpus <- tm_map(corpus,content_transformer(tryTolower))
-  corpus <- tm_map(corpus, removeWords,sbrt_stw)
-  corpus <-tm_map(corpus, removePunctuation)
-  corpus <-tm_map(corpus, stripWhitespace)
-  corpus <- tm_map(corpus, removeNumbers)
-  return(corpus)
-}
+
+    tryTolower <- function(x){
+      y = NA
+      try_error = tryCatch(tolower(x), error = function(e) e)
+      if (!inherits(try_error, 'error'))
+        y = tolower(x)
+      return(y)
+    }
+    
+    clean.corpus<-function(corpus){
+      corpus <- tm_map(corpus,content_transformer(tryTolower))
+      corpus <- tm_map(corpus, removeWords,sw_pt)
+      corpus <-tm_map(corpus, removePunctuation)
+      corpus <-tm_map(corpus, stripWhitespace)
+      corpus <- tm_map(corpus, removeNumbers)
+      return(corpus)
+    }
 
 corpus<-VCorpus(DataframeSource(txtdf))
-corpus<-clean.corpus(corpus)
+    corpus<-clean.corpus(corpus)
 
 tdm<-TermDocumentMatrix(corpus, control = list(weighting= weightTf))
 tdm.docs.m<-as.matrix(tdm)

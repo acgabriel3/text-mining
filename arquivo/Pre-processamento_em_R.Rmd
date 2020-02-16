@@ -24,7 +24,7 @@ Mais que um software que realiza análises estatísticas, R é um ambiente e uma
 
 ## Mineração de textos em R
 
-Além das tarefas já citadas anteriormente, a linguagem R pode ser utilizada para mineração de textos. Mineração de textos pode ser definida como uma metodologia para extração de informações a partir de dados textuais, que tem como base o uso de técnicas de processamento de linguagem natural, recuperação de informação e aprendizado de maquina para tratar os dados a fim de filtar apenas os dados que possam ser úteis para o usuário final.  
+  Além das tarefas já citadas anteriormente, a linguagem R pode ser utilizada para mineração de textos. Mineração de textos pode ser definida como uma metodologia para extração de informações a partir de dados textuais, que tem como base o uso de técnicas de processamento de linguagem natural, recuperação de informação e aprendizado de maquina para tratar os dados a fim de filtar apenas os dados que possam ser úteis para o usuário final.  
 
 O processo de mineração de textos pode ser resumido em quatro etapas fundamentais:
 
@@ -57,13 +57,12 @@ options(scipen = 999)
 library(stringr)
 library(tm)
 library(SnowballC)
-library(lexiconPT)
+#library(lexiconPT)
 library(tidytext)
 library(tidyverse)
-library(magrittr)
 library(stm)
 library(ggridges)
-library(formattable)
+#library(formattable)
 ```
 
 
@@ -110,12 +109,12 @@ txtdf$text<- iconv(txtdf$text, from = "UTF-8", to = "ASCII//TRANSLIT")
 Palavras que serão removidas dos arquivos de texto:
 
 ```{r}
-sw_pt_tm <- tm::stopwords("pt") %>% iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
-sbrt_sw <- c("http", "senai", "deve","acesso", "brasil", "devem","www.sbrt.ibict.br", 
-             "serviço", "brasileiro", "respostas", "técnicas", "técnico",
-             "www.respostatecnica.org.br", "pode", "ser","norma","iso", "kg", 
-             "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
-sw_pt_tm <- c(sbrt_sw, sw_pt_tm)
+  sw_pt_tm <- tm::stopwords("pt") %>% iconv(from = "UTF-8", to = "ASCII//TRANSLIT")
+  sbrt_sw <- c("http", "senai", "deve","acesso", "brasil", "devem","www.sbrt.ibict.br", 
+               "serviço", "brasileiro", "respostas", "técnicas", "técnico",
+               "www.respostatecnica.org.br", "pode", "ser","norma","iso", "kg", 
+               "fig", "fonte", "sbrt", "abnt", "nbr", "tecnica")
+  sw_pt_tm <- c(sbrt_sw, sw_pt_tm)
 ```
 
 
@@ -126,19 +125,20 @@ df_palavra <- txtdf %>%
   unnest_tokens(palavra, text) %>% 
   filter(!palavra %in% sw_pt_tm)
 
+#verificação visual da remoção das stop words
 df_palavra %>% 
   count(palavra) %>% 
   arrange(desc(n)) %>% 
-  head(50) %>% 
-  formattable()
+  head(50) #%>% 
+  #formattable()
 ```
 
 
 Faz o processamento do texto:
 
 ```{r}
-proc <- stm::textProcessor(txtdf$text, metadata = txtdf, language = "portuguese",
-                           customstopwords = sw_pt_tm)
+    proc <- stm::textProcessor(txtdf$text, metadata = txtdf, language = "portuguese",
+                               customstopwords = sw_pt_tm)
 
 out <- stm::prepDocuments(proc$documents, proc$vocab, proc$meta,
                           lower.thresh = 10)
@@ -148,11 +148,11 @@ out <- stm::prepDocuments(proc$documents, proc$vocab, proc$meta,
 Faz a modelagem de tópicos (10 tópicos):
 
 ```{r}
-fit <- stm(
-  documents = out$documents, vocab = out$vocab, data = out$meta,  K = 10,
-  max.em.its = 75, init.type = "Spectral", verbose = FALSE
-)
-plot(fit, "summary")
+    fit <- stm(
+      documents = out$documents, vocab = out$vocab, data = out$meta,  K = 10,
+      max.em.its = 75, init.type = "Spectral", verbose = FALSE
+    )
+    plot(fit, "summary")
 
 ```
 
@@ -189,10 +189,10 @@ Cria dataframe com nome do arquivo, titulo e tópico:
 
 ```{r}
 
-topico_doc<-df_topico %>% 
-  group_by(topico)%>%
-  arrange(desc(maior_prob))%>%
-  select(titulo,doc_id, topico, maior_prob)
+        topico_doc<-df_topico %>% 
+          group_by(topico)%>%
+          arrange(desc(maior_prob))%>%
+          select(titulo,doc_id, topico, maior_prob)
 ```
 
 
