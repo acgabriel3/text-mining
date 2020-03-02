@@ -3,6 +3,7 @@ import nltk
 import pandas as pd
 import string
 
+
 # %%
 df = pd.DataFrame(data=[
     ['Chegada do coronavírus desafia o sistema brasileiro de saúde', 'saude publica'],
@@ -17,6 +18,26 @@ df = pd.DataFrame(data=[
 ], columns=['text', 'tipo_noticia'])
 
 df
+
+
+# %%
+def create_vocabulary(words):
+    d = {}
+    counter = 1
+
+    def update_dict(d, w, c):
+        d[w] = counter
+        return d
+
+    def f(w, counter, d=d): return d if w in d else update_dict(d, w, counter)
+
+    for w in words:
+        f(w, counter)
+        counter = counter + 1
+
+    return d
+
+
 # %%
 stop_words = nltk.corpus.stopwords.words('portuguese')
 stemmer = nltk.stem.RSLPStemmer()
