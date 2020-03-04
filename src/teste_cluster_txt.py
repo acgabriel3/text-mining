@@ -3,16 +3,10 @@
 # %%
 import pandas as pd
 from nltk.corpus import stopwords
-import string
 import numpy as np
 
-# Perform the necessary imports to build ML model
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.model_selection import train_test_split
-# tokenize and remove punctuation/stopwords
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.cluster import KMeans
-from sklearn import metrics
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import AgglomerativeClustering
 
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
@@ -20,125 +14,46 @@ from adjustText import adjust_text
 
 
 # %%
-X = [
-    'Bolsonaro é alfinetado em desfile de escolas de samba no Rio',  # carnaval
-    'Gripe matou 37 pessoas no Distrito Federal em 2019',  # saude
-    'Coronavírus: estados estudam suspender cirurgias e tratamentos',  # saude
-    'Megablocos concentram público e patrocínio e encarecem carnaval de SP',  # carnaval
-    'Com superlotação, Hospital de Santa Maria restringe atendimentos',  # saude
-    'Fantasias indígenas e com referências à África levantam debate no Carnaval',  # carnaval
-    'Brasileiros sequenciam genoma do coronavírus em 48 horas',  # saude
-    'Brasil confirma segundo caso de coronavírus, também em São Paulo',  # saude
-    'Não vai pular Carnaval? Estes serão ótimos dias para procurar emprego',  # carnaval
-    'Brasil tem 252 casos suspeitos de coronavírus e dois confirmados',  # saude
-    'Mundo se mobiliza por uma vacina contra o Covid-19, o novo coronavírus',  # saude
-    'Coronavírus: Segundo caso do Brasil é confirmado em São Paulo',  # saude
-    'Este desafio de inglês será fácil para quem entende de Carnaval',  # carnaval
-    'Monobloco desfila neste domingo de pós-carnaval no Rio; veja lista completa',  # carnaval
-    # saude
-    'Paciente com suspeita de coronavírus morre em Nova Friburgo (RJ)',
-    'Quarto suspeito de matar homem após festa de carnaval em União é preso',  # carnaval
-    '“Não há chá milagroso”, avisa infectologista sobre coronavírus',  # saude
-    'É fake! Loló e cocaína não curam coronavírus',  # saude
-    'Apaixonado por carnaval, passista de quase 80 anos busca o samba todos os sábados no Centro de Florianópolis',  # carnaval
-    'Anitta, a sensação deste Carnaval, desfilará em seu bloco no centro do Rio',  # carnaval
-    'Coronavírus: OMS reclassifica ameaça global para “muito elevada”',  # saude
-    '"TUDO OK": veja o passo a passo da coreografia do hit do carnaval',  # carnaval
-    'Blocos líricos se reúnem para desfile de despedida do carnaval em Olinda',  # carnaval
-    'Multidão no Irã ateia fogo em hospital que atende pacientes com coronavírus',  # saude
-    'Chegada do coronavírus desafia o sistema brasileiro de saúde',  # saude
-    'Acabou o Carnaval: 10 frases para voltar ao trabalho depois do feriado',  # carnaval
-    'Coronavírus: Itália registra 29 mortes e 1.049 casos confirmados',  # saude
-    'Estas são as dicas para uma folia de Carnaval sem erros, segundo professor'  # carnaval
-]
+corpus = np.array([
+    'Os coronavírus são um grupo de vírus de genoma de RNA simples de sentido positivo (serve diretamente para a síntese proteica), conhecidos desde meados dos anos 1960. Pertencem à subfamília taxonómica Orthocoronavirinae da família Coronaviridae, da ordem Nidovirales. A maioria das pessoas se infecta com os coronavírus comuns ao longo da vida. Eles são uma causa comum de infecções respiratórias brandas a moderadas de curta duração. Entre os coronavírus encontra-se também o vírus causador da forma de pneumonia atípica grave conhecida por SARS.',
+    'O Carnaval é um período de festas populares realizadas durante o dia e à noite. As comemorações ocorrem todos os anos, nos meses de fevereiro ou março, começando no sábado e estendendo-se até a Terça-feira de Carnaval. As celebrações carnavalescas terminam na Quarta-feira de Cinzas, dia que marca o início da Quaresma — período de 40 dias que segue até a Sexta-feira Santa, dois dias antes da Páscoa. As festas de Carnaval são adaptadas de acordo com a história e a cultura local. Em geral, as pessoas dançam, comem e bebem alegremente em festas, bailes de máscaras, bailes de fantasias, desfiles de blocos, escolas de samba, trios elétricos e até na própria rua.',
+    'Os coronavírus (CoV) são uma grande família viral, conhecidos desde meados dos anos 1960, que causam infecções respiratórias em seres humanos e em animais. Geralmente, infecções por coronavírus causam doenças respiratórias leves a moderada, semelhantes a um resfriado comum. A maioria das pessoas se infecta com os coronavírus comuns ao longo da vida, sendo as crianças pequenas mais propensas a se infectarem. Os coronavírus comuns que infectam humanos são alpha coronavírus 229E e NL63 e beta coronavírus OC43, HKU1. Alguns coronavírus podem causar síndromes respiratórias graves, como a síndrome respiratória aguda grave que ficou conhecida pela sigla SARS da síndrome em inglês “Severe Acute Respiratory Syndrome”. SARS é causada pelo coronavírus associado à SARS (SARS-CoV), sendo os primeiros relatos na China em 2002. O SARS-CoV se disseminou rapidamente para mais de doze países na América do Norte, América do Sul, Europa e Asia, infectando mais de 8.000 pessoas e causando entorno de 800 mortes, antes da epidemia global de SARS ser controlada em 2003. Desde 2004, nenhum caso de SARS tem sido relatado mundialmente.',
+    'O Carnaval começou a ser comemorado há muitos anos, em especial na região Sul da Europa, entre membros do Catolicismo, como festa pagã, ou seja, que contrariava os preceitos propagados pela religião. Estudos indicam que a palavra Carnaval tem como origem os termos latinos carne levare ou “para retirar a carne”. Esse significado tem relação com o período de Quaresma, no qual os católicos abrem mão de algumas comidas e bebidas e de parte de prazeres tidos como mundanos. Desse modo, segundo pesquisas, um dia antes da Quarta-feira de Cinzas, alguns católicos realizavam festas e aproveitavam para comer bastante carne, pois sabiam que, a partir do dia seguinte, não poderiam degustá-la até o final do período de Quaresma.Conforme a história do Carnaval, essa celebração pode estar relacionada a algumas festas de origem greco-romana dedicadas ao deus do vinho, Baco (ou Dionísio, para os gregos). Nos eventos, as pessoas costumavam embriagar-se, comer muito e entregar-se aos prazeres da carne.',
+    'Os cientistas chineses posteriormente isolaram um novo coronavírus, o SARS-CoV-2, que foi encontrado ser pelo menos 70%% semelhante na sequência genética à SARS-CoV, e posteriormente mapeou e disponibilizou sua sequência genética. No entanto, o vírus não mostrou a mesma gravidade do SARS. As questões levantadas incluem se o vírus está circulando há mais tempo do que se pensava anteriormente, se Wuhan é realmente o centro do surto ou simplesmente o local em que foi identificado pela primeira vez com a vigilância e os testes em andamento, e se poderia haver uma possibilidade de que Wuhan seja um evento de super dispersão. Em 28 de janeiro de 2020, o Ministério da Saúde do Brasil confirmou três casos suspeitos de coronavírus, localizados em Belo Horizonte, Porto Alegre e Curitiba. O Ministério não deu detalhes sobre os pacientes de Porto Alegre e Curitiba e tampouco informou sobre o estado de saúde de ambos. Entretanto, sabe-se que a paciente de Minas Gerais apresentou sintomas compatíveis com o protocolo de prevenção, sendo que ela esteve na cidade de Wuhan, o epicentro do surto do vírus. A paciente encontra-se estável e em isolamento.',
+    'O Carnaval é uma celebração de data móvel obrigatoriamente comemorada numa terça-feira. O Carnaval 2020 cai no dia 25 de fevereiro. Apesar de tradicionalmente esse ser um dia de folga, o Carnaval não é um feriado nacional. No Rio de Janeiro, sim, é feriado estadual, conforme Lei nº 5246, de 14 de maio de 2008. A festa de Carnaval, dependendo da região, dura de três a sete dias, e sua data varia a cada ano, uma vez que ocorre sempre 47 dias antes da Páscoa.',
+    'Carnaval é um festival do cristianismo ocidental que ocorre antes da estação litúrgica da Quaresma. Os principais eventos ocorrem tipicamente durante fevereiro ou início de março, durante o período historicamente conhecido como Tempo da Septuagésima (ou pré-quaresma). O Carnaval normalmente envolve uma festa pública e/ou desfile combinando alguns elementos circenses, máscaras e uma festa de rua pública. As pessoas usam trajes durante muitas dessas celebrações, permitindo-lhes perder a sua individualidade cotidiana e experimentar um sentido elevado de unidade social. O consumo excessivo de álcool, de carne e outros alimentos proscritos durante a Quaresma é extremamente comum. Outras características comuns do carnaval incluem batalhas simuladas, como lutas de alimentos; sátira social e zombaria das autoridades e uma inversão geral das regras e normas do dia-a-dia.',
+    'O termo Carnaval é tradicionalmente usado em áreas com uma grande presença católica. No entanto, as Filipinas, um país predominantemente católico romano, não comemora mais o Carnaval desde a dissolução da festa de Manila em 1939, o último carnaval no país.',
+    'Carnaval No Parque 2020',
+    'Pessoas com doenças cardiovasculares e idosos são mais propensos a desenvolver complicações da Covid-19, a doença provocada pelo novo coronavírus.',
+    'Os autores relatam que engravidar não é um fator de risco para contrair a dengue. Por outro lado, essa fase da vida demanda cuidados específicos em caso de contato com o vírus.',
+    'O novo coronavírus (que agora recebeu o nome de covid-19) acabou de ser descoberto e já criaram dezenas de fake news sobre ele. De uma origem em laboratório orquestrada pelo empresário Bill Gates para lucrar com vacinas a estratégias simples e milagrosas para tratar e evitar a infecção, sobram informações inverídicas'
+])
 
-X
-
-# %%
-stop_words = stopwords.words('portuguese')
+corpus
 
 
 # %%
-count_vect = CountVectorizer(stop_words=stop_words)
-X_train_counts = count_vect.fit_transform(X)
-X_train_counts.shape
-
-# %%
-tfidf_transformer = TfidfTransformer()
-X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
-X_train_tfidf.shape
-
-# %%
-clf = KMeans(n_clusters=2).fit(X_train_tfidf)
+vectorizer = TfidfVectorizer(stop_words=stopwords.words('portuguese'))
+X = vectorizer.fit_transform(corpus)
+X.shape
 
 
 # %%
-def get_prediction_for(model, docs):
-    X_counts = count_vect.transform(docs)
-    X_tfidf = tfidf_transformer.transform(X_counts)
+pca = PCA()
 
-    return model.predict(X_tfidf)
+for k in [2,3,4,5,6]:
+    model = AgglomerativeClustering(n_clusters=k).fit(X.toarray())
+    scatter_plot_points = pca.fit_transform(X.toarray())
 
+    xs = [o[0] for o in scatter_plot_points]
+    ys = [o[1] for o in scatter_plot_points]
+    fig, ax = plt.subplots()
 
-# %%
-y_pred = get_prediction_for(clf, X)
-y_real = [
-    'carnaval',
-    'saude',
-    'saude',
-    'carnaval',
-    'saude',
-    'carnaval',
-    'saude',
-    'saude',
-    'carnaval',
-    'saude',
-    'saude',
-    'saude',
-    'carnaval',
-    'carnaval',
-    'saude',
-    'carnaval',
-    'saude',
-    'saude',
-    'carnaval',
-    'carnaval',
-    'saude',
-    'carnaval',
-    'carnaval',
-    'saude',
-    'saude',
-    'carnaval',
-    'saude',
-    'saude'
-]
+    ax.title(f'Clustering with {k} clusters')
+    ax.scatter(xs, ys, c=model.labels_)
 
-# %%
-df_res = pd.DataFrame(data={'text': X, 'labels': y_real, 'predicted': y_pred},
-                      columns=['text', 'labels', 'predicted'])
-
-
-# %%
-pd.crosstab(df_res.predicted, df_res.labels)
-
-
-# %%
-pca = PCA(n_components=2)
-scatter_plot_points = pca.fit_transform(X_train_counts.toarray())
-
-colors = ["r", "b", "c", "y", "m"]
-
-
-x_axis = [o[0] for o in scatter_plot_points]
-y_axis = [o[1] for o in scatter_plot_points]
-fig, ax = plt.subplots(figsize=(20, 10))
-
-ax.scatter(x_axis, y_axis, c=[colors[d] for d in y_pred])
-
-texts = [plt.text(x_axis[i], y_axis[i], X[i]) for i in range(len(x_axis))]
-
-texts
-adjust_text(texts)
+    texts = [plt.text(xs[i], ys[i], f'{i, model.labels_[i]}') for i in range(len(xs))]
+    adjust_text(texts, arrowprops=dict(arrowstyle='->', color='red'))
 
 
 # %%
