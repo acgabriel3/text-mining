@@ -13,5 +13,13 @@
     ```
     Então, para executar algum dos programas, execute:
     ```
-    $ python3 src/<FILE>.py
+    $ python3 scripts/<FILE>.py
     ```
+
+## Objetivos deste projeto
+
+Os objetivos a serem cumpridos encontram-se em:
+
+- [Produto 4](./docs/produto4.md)
+
+- [Produto 5](./docs/produto5.md)
