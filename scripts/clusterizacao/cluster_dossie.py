@@ -25,6 +25,7 @@ corpus = dossies.text
 
 dossies.info()
 
+
 # %%
 vectorizer = TfidfVectorizer(stop_words=stopwords.words('portuguese'))
 X = vectorizer.fit_transform(corpus)
@@ -32,8 +33,13 @@ X.shape
 
 
 # %%
-model = AgglomerativeClustering()
-sbrt.plot_SVD_clusters(model, X)
+model = AgglomerativeClustering(distance_threshold=0, n_clusters=None)
+
+model = model.fit(X.toarray())
+# plot the top three levels of the dendrogram
+sbrt.plot_dendrogram(model, truncate_mode='level', p=3)
+
+sbrt.plot_SVD_clusters(model, X, 5)
 
 
 # %%

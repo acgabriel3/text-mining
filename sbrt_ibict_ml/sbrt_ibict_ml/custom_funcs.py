@@ -5,6 +5,16 @@ import re
 import PyPDF2
 from sklearn.decomposition import TruncatedSVD
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy.cluster.hierarchy import dendrogram
+from adjustText import adjust_text
+
+
+# %%
+# se o nltk der problema para rodar descomente essa parte
+# nltk.download('stopwords')
+# nltk.download('rslp')
+# nltk.download('rslp')
 
 
 # %%
@@ -54,9 +64,14 @@ def get_pdf_content(file):
 
 
 # %%
-def plot_SVD_clusters(model, X):
+def plot_SVD_clusters(model, X, max_range=20, plot_index_labels=False):
     pca = TruncatedSVD()
-    for k in range(2, 20):
+
+    # para permitir settar o n_clusters
+    if model.distance_threshold is not None:
+        model.distance_threshold = None
+
+    for k in range(2, max_range):
         model.n_clusters = k
         model.fit(X.toarray())
         scatter_plot_points = pca.fit_transform(X.toarray())
@@ -67,3 +82,53 @@ def plot_SVD_clusters(model, X):
 
         ax.set_title(f'Clustering with {k} clusters')
         ax.scatter(xs, ys, c=model.labels_, alpha=.7)
+
+        if plot_index_labels:
+            texts = [
+                plt.text(xs[i], ys[i], f'{i, model.labels_[i]}') for i in range(len(xs))]
+            adjust_text(texts, arrowprops=dict(arrowstyle='->', color='red'))
+
+
+# %%
+# Create linkage matrix and then plot the dendrogram
+def plot_dendrogram(model, **kwargs):
+    # create the counts of samples under each node
+    counts = np.zeros(model.children_.shape[0])
+    n_samples = len(model.labels_)
+    for i, merge in enumerate(model.children_):
+        current_count = 0
+        for child_idx in merge:
+            if child_idx < n_samples:
+                current_count += 1  # leaf node
+            else:
+                current_count += counts[child_idx - n_samples]
+        counts[i] = current_count
+
+    linkage_matrix = np.column_stack([model.children_, model.distances_,
+                                      counts]).astype(float)
+
+    # Plot the corresponding dendrogram
+    dendrogram(linkage_matrix, **kwargs)
+
+    plt.title('Hierarchical Clustering Dendrogram')
+    plt.xlabel("Number of points in node (or index of point if no parenthesis).")
+    plt.show()
+
+
+# %%
+def plot_KMeans_inertia(model, X, max_range=15):
+    ks = range(1, max_range)
+    inertias = []
+    for k in ks:
+        model.n_clusters = k
+        model.fit(X)
+        # Append the inertia to the list of inertias
+        inertias.append(model.inertia_)
+
+    # Plot ks vs inertias
+    plt.plot(ks, inertias, '-o')
+    plt.xlabel('number of clusters, k')
+    plt.ylabel('inertia')
+    plt.xticks(ks)
+    plt.show()
+
