@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.cluster.hierarchy import dendrogram
 from adjustText import adjust_text
-
+from collections import Counter
+# from .data import get_vocabulario_controlado
 
 # %%
 # se o nltk der problema para rodar descomente essa parte
@@ -49,8 +50,14 @@ def basic_pre_processing(text):
 
     tokens = nltk.word_tokenize(text, language='portuguese')
 
-    no_stop_words_txt = " ".join(
-        [word for word in tokens if word not in [stop_words, 'copyright', '©', 'sbrt', 'httpwwwsbrtibictbr', "˙˘˙"]])
+    dict_stop_words = Counter(stop_words)
+
+    no_stop_words_txt = " ".join([
+            word for word in tokens if word not in dict_stop_words
+        ])
+    
+    # vocab = Counter(get_vocabulario_controlado())
+    # match_vocab = [word for word in no_stop_words_txt if word in vocab]
 
     return "".join([stemmer.stem(word) for word in no_stop_words_txt])
 

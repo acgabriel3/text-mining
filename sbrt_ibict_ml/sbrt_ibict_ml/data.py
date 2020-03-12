@@ -1,6 +1,6 @@
 # %%
 from sbrt_ibict_ml.sbrt_ibict_ml.custom_funcs import basic_pre_processing
-from sbrt_ibict_ml.sbrt_ibict_ml.config import dossies_path, respostas_path, data_dir
+from sbrt_ibict_ml.sbrt_ibict_ml.config import dossies_path, respostas_path, dossies_metadados_path, respostas_metadados_path
 from os import listdir
 from os.path import isfile, join
 import pandas as pd
@@ -56,7 +56,7 @@ def get_dossies_metadados_df(arquivos):
                       for f in arquivos]]
     nomes = np.vectorize(lambda fn: fn[:-len(ext)])(nomes)
     metadados = json.loads(
-        " ".join(open(data_dir / 'dossies_metadados.json').readlines()))
+        " ".join(open(dossies_metadados_path).readlines()))
     df = pd.DataFrame()
     for fn in nomes:
         row = pd.DataFrame(
@@ -74,7 +74,7 @@ def get_respostas_metadados_df(arquivos):
                       for f in arquivos]]
     nomes = np.vectorize(lambda fn: fn[:-len(ext)])(nomes)
     metadados = json.loads(
-        " ".join(open(data_dir / 'respostas_metadados.json').readlines()))
+        " ".join(open(respostas_metadados_path).readlines()))
     df = pd.DataFrame()
     for fn in nomes:
         data = []
@@ -85,9 +85,14 @@ def get_respostas_metadados_df(arquivos):
                 [metadados[fn]['titulo'], metadados[fn]['palavras_chave']]
             ]
         except KeyError as ke:
-            data = ['null', []]
+            data = [
+                ['null', []]
+            ]
 
         row = pd.DataFrame(data=data, columns=['titulo', 'palavras_chave'])
         df = df.append(row, ignore_index=True)
     return df
 
+# %%
+def get_vocabulario_controlado():
+    return ['teste']
