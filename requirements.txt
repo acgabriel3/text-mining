@@ -16,3 +16,4 @@ wordcloud>=1.6.0
 adjustText>=0.7.3
 scipy>=1.4.1
 PyPDF2>=1.26.0
+seaborn>=0.10.0

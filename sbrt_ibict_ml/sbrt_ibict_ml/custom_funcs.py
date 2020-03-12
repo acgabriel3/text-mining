@@ -64,10 +64,10 @@ def get_pdf_content(file):
 
 
 # %%
-def plot_SVD_clusters(model, X, max_range=20, plot_index_labels=False):
+def plot_SVD_clusters(model, X, max_range=19, plot_index_labels=False):
     svd = TruncatedSVD()
 
-    for k in range(2, max_range):
+    for k in range(2, max_range + 1):
         model.n_clusters = k
         model.fit(X.toarray())
         scatter_plot_points = svd.fit_transform(X.toarray())
@@ -112,8 +112,8 @@ def plot_dendrogram(model, **kwargs):
 
 
 # %%
-def plot_KMeans_inertia(model, X, max_range=15):
-    ks = range(2, max_range)
+def plot_KMeans_inertia(model, X, max_range=14):
+    ks = range(2, max_range + 1)
     inertias = []
     for k in ks:
         model.n_clusters = k

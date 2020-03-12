@@ -77,10 +77,17 @@ def get_respostas_metadados_df(arquivos):
         " ".join(open(data_dir / 'respostas_metadados.json').readlines()))
     df = pd.DataFrame()
     for fn in nomes:
-        row = pd.DataFrame(
-            data=[
+        data = []
+        
+        try:
+            metadados[fn]
+            data = [
                 [metadados[fn]['titulo'], metadados[fn]['palavras_chave']]
-            ], columns=['titulo', 'palavras_chave'])
+            ]
+        except KeyError as ke:
+            data = ['null', []]
+
+        row = pd.DataFrame(data=data, columns=['titulo', 'palavras_chave'])
         df = df.append(row, ignore_index=True)
     return df
 

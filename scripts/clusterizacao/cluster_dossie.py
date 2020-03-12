@@ -70,20 +70,3 @@ sbrt.plot_KMeans_inertia(kmeans, X, 20)
 sbrt.plot_SVD_clusters(kmeans, X, 10)
 kmeans_labels = kmeans.labels_
 
-
-# %%
-# dendrogram vs agglomerative
-np.sum(dend_labels != aggl_labels)
-
-
-# %%
-# dendrogram vs kmeans
-np.sum(dend_labels != kmeans_labels)
-
-
-# %%
-# agglomerative vs kmeans
-np.sum(aggl_labels != kmeans_labels)
-
-
-# %%
