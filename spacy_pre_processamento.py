@@ -38,6 +38,8 @@ def retira_stop_words(texto):
     texto_sem_stop_words = ''.join(lemma for lemma in lemmas if lemma.isalpha() and lemma not in stop_words)
     return texto_sem_stop_words
 
+dossies['teto_sem_stop'] = dossies['texto'].apply(lambda x: retira_stop_words(x))
+
 #displacy.render(teste, style='dep', jupyter=False, options={'distance': 70}) #trocar ide, nao hah como utilizar no spyder
 
 

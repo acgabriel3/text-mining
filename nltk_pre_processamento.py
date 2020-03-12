@@ -9,6 +9,7 @@ from nltk.stem import RSLPStemmer
 from os import listdir
 from os.path import isfile, join
 from collections import Counter
+import re
 
 
 path = "D:/curso_ciencia_da_computacao/pesquisa com Prof.Ricardo/text-mining/dados/sbrt_txts/dossies"
@@ -17,7 +18,7 @@ files = [ f for f in listdir(path) if isfile(join(path,f)) ]
 dossies = pd.DataFrame(data = None, columns = ['dossie', 'texto'])
 
 for file in files:
-    with open(file) as f:
+    with open('dados/sbrt_txts/dossies/' + file) as f:
         global text
         text = f.readlines()
         aux = pd.DataFrame(data = [[file, text]], columns = ['dossie', 'texto'])
