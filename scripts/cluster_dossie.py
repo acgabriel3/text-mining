@@ -1,6 +1,15 @@
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
 # %%
+import numpy as np
+import matplotlib.pyplot as plt
+import sbrt_ibict_ml.sbrt_ibict_ml as sbrt
+import pandas as pd
+from nltk.corpus import stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import AgglomerativeClustering, KMeans
+import os
+import sys
 from IPython import get_ipython
 
 # %%
@@ -9,21 +18,9 @@ get_ipython().run_line_magic('autoreload', '2')
 
 
 # %%
-import sys
-import os
 module_path = os.path.abspath(os.path.join('..'))
 if module_path not in sys.path:
     sys.path.append(module_path)
-
-
-# %%
-from sklearn.cluster import AgglomerativeClustering, KMeans
-from sklearn.feature_extraction.text import TfidfVectorizer
-from nltk.corpus import stopwords
-import pandas as pd
-import sbrt_ibict_ml.sbrt_ibict_ml as sbrt
-import matplotlib.pyplot as plt
-import numpy as np
 
 
 # %%
@@ -44,7 +41,8 @@ X.shape
 
 
 # %%
-agglomerative = AgglomerativeClustering(distance_threshold=0, n_clusters=None, linkage='complete')
+agglomerative = AgglomerativeClustering(
+    distance_threshold=0, n_clusters=None, linkage='complete')
 agglomerative = agglomerative.fit(X.toarray())
 agglomerative
 
@@ -56,7 +54,7 @@ dend_labels = agglomerative.labels_
 
 # %%
 agglomerative.distance_threshold = None
-sbrt.plot_SVD_clusters(agglomerative, X, 10)
+sbrt.plot_N_clusters(agglomerative, X, 10)
 aggl_labels = agglomerative.labels_
 
 
@@ -67,6 +65,5 @@ sbrt.plot_KMeans_inertia(kmeans, X, 20)
 
 
 # %%
-sbrt.plot_SVD_clusters(kmeans, X, 10)
+sbrt.plot_N_clusters(kmeans, X, 10)
 kmeans_labels = kmeans.labels_
-
