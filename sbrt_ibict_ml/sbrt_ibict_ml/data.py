@@ -18,6 +18,10 @@ import nltk
 
 
 # %%
+stop_words = nltk.corpus.stopwords.words('portuguese')
+
+
+# %%
 def get_files(path, seed):
     files = np.array([f for f in listdir(path)
                       if isfile(join(path, f))])
@@ -47,7 +51,21 @@ vocab = get_vocabulario_controlado()
 
 # %%
 def get_termos_vocabulario_controlado():
-    return [t[1] for t in vocab[1:]]
+    termos = np.array([t[1] for t in vocab[1:]])
+    tokens = np.array([
+        nltk.word_tokenize(termo, language='portuguese') for termo in termos
+    ])
+    no_stop_word_termos = np.array([
+        np.array([
+            word for word in t if word not in stop_words
+        ]) for t in tokens
+    ])
+
+    ret = np.array([])
+    for a in no_stop_word_termos:
+        ret = np.append(ret, [re.sub(r'\d+', '', v) for v in a])
+
+    return ret
 
 
 termos_vocab = get_termos_vocabulario_controlado()
@@ -55,9 +73,6 @@ termos_vocab = get_termos_vocabulario_controlado()
 
 # %%
 def basic_pre_processing(text):
-    stop_words = nltk.corpus.stopwords.words('portuguese')
-    stemmer = nltk.stem.RSLPStemmer()
-
     # remove pontuação da forma mais eficiente possivel
     text = text.translate(str.maketrans('', '', string.punctuation)).lower()
 
@@ -73,8 +88,9 @@ def basic_pre_processing(text):
         ]
     ]
 
-    return " ".join(np.unique([word for word in no_stop_word_tokens if word in termos_vocab]))
-    # return "".join([stemmer.stem(word) for word in no_stop_words_txt])
+    return " ".join(
+        [word for word in no_stop_word_tokens if word in termos_vocab]
+    )
 
 
 # %%
@@ -110,20 +126,28 @@ def get_respostas_df(size=None, seed=None) -> pd.DataFrame:
 
 
 # %%
-def get_dossies_metadados_df(arquivos):
+def get_dossies_metadados_df(arquivos, metadados):
     ext = '.txt'
     nomes = arquivos[[(lambda fn: False if fn.find(ext) < 0 else True)(f)
                       for f in arquivos]]
     nomes = np.vectorize(lambda fn: fn[:-len(ext)])(nomes)
-    metadados = json.loads(
+    json_metadados = json.loads(
         " ".join(open(dossies_metadados_path).readlines()))
     df = pd.DataFrame()
     for fn in nomes:
-        row = pd.DataFrame(
-            data=[
-                [metadados[fn]['titulo'], metadados[fn]
-                    ['palavras_chave'], metadados[fn]['categoria']]
-            ], columns=['titulo', 'palavras_chave', 'categoria'])
+        data = []
+
+        try:
+            json_metadados[fn]
+            data = [
+                [json_metadados[fn][metadado] for metadado in metadados]
+            ]
+        except KeyError as ke:
+            data = [
+                ['null', []]
+            ]
+
+        row = pd.DataFrame(data=data, columns=metadados)
         df = df.append(row, ignore_index=True)
     return df
 
@@ -153,3 +177,5 @@ def get_respostas_metadados_df(arquivos):
         row = pd.DataFrame(data=data, columns=['titulo', 'palavras_chave'])
         df = df.append(row, ignore_index=True)
     return df
+
+# %%

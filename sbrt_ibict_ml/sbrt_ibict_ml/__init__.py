@@ -13,13 +13,13 @@ from .data import (
     get_respostas_df,
     get_dossies_metadados_df,
     get_respostas_metadados_df,
-    get_vocabulario_controlado,
-    get_termos_vocabulario_controlado
+    vocab as vocabulario_controlado,
+    termos_vocab as termos_vocabulario_controlado
 )
 
 from .custom_funcs import (
     create_vocabulary,
-    plot_SVD_clusters,
+    plot_N_clusters,
     plot_dendrogram,
     plot_KMeans_inertia
 )

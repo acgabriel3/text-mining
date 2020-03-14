@@ -26,12 +26,11 @@ def create_vocabulary(words):
 
 
 # %%
-def plot_SVD_clusters(model, X_test, max_range=19, plot_index_labels=False):
+def plot_N_clusters(model, X_test, max_range=19, plot_index_labels=False):
     svd = TruncatedSVD()
-    inner_model = model
     for k in range(2, max_range + 1):
-        inner_model.n_clusters = k
-        inner_model.fit(X_test.toarray())
+        model.n_clusters = k
+        model.fit(X_test.toarray())
         scatter_plot_points = svd.fit_transform(X_test.toarray())
 
         xs = [o[0] for o in scatter_plot_points]
@@ -39,11 +38,11 @@ def plot_SVD_clusters(model, X_test, max_range=19, plot_index_labels=False):
         fig, ax = plt.subplots()
 
         ax.set_title(f'Clustering with {k} clusters')
-        ax.scatter(xs, ys, c=inner_model.labels_, alpha=.7)
+        ax.scatter(xs, ys, c=model.labels_, alpha=.7)
 
         if plot_index_labels:
             texts = [
-                plt.text(xs[i], ys[i], f'{i, inner_model.labels_[i]}') for i in range(len(xs))
+                plt.text(xs[i], ys[i], f'{i, model.labels_[i]}') for i in range(len(xs))
             ]
             adjust_text(texts, arrowprops=dict(arrowstyle='->', color='red'))
 
