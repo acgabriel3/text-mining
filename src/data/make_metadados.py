@@ -86,7 +86,7 @@ def load_respostas_metadados_df(arquivos):
             ]
         except KeyError as ke:
             data = [
-                ['null', []]
+                ['null' for m in metadados]
             ]
 
         row = pd.DataFrame(data=data, columns=['titulo', 'palavras_chave'])
