@@ -23,12 +23,12 @@ def kmeans(model, sparse_X_test):
 
 def Z_labels(Z, **kwargs):
     """
-    retorna os indexes dos clusters para os dados
+    retorna os indexes dos clusters baseado na matriz Z
 
     Parameters
     ----------
     Z : `Z`
-        classe do sklearn.cluster
+        linkage matrix
 
     **kwargs:
         lista de parametros para serem passados para a função
