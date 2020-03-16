@@ -14,30 +14,35 @@ def show():
 
 
 def plot_dendrogram_Agglomerative(model, **kwargs):
-    # Children of hierarchical clustering
-    children = model.children_
-
-    # Distances between each pair of children
-    # Since we don't have this information, we can use a uniform one for plotting
-    distance = np.arange(children.shape[0])
-
-    # The number of observations contained in each cluster level
-    no_of_observations = np.arange(2, children.shape[0]+2)
-
     # Create linkage matrix and then plot the dendrogram
-    Z = np.column_stack(
-        [children, distance, no_of_observations]).astype(float)
+
+    # create the counts of samples under each node
+    counts = np.zeros(model.children_.shape[0])
+    n_samples = len(model.labels_)
+    for i, merge in enumerate(model.children_):
+        current_count = 0
+        for child_idx in merge:
+            if child_idx < n_samples:
+                current_count += 1  # leaf node
+            else:
+                current_count += counts[child_idx - n_samples]
+        counts[i] = current_count
+
+    linkage_matrix = np.column_stack([model.children_, model.distances_,
+                                      counts]).astype(float)
 
     # Plot the corresponding dendrogram
     plt.figure()
-    plt.title(
-        'Hierarchical Clustering Dendrogram with Agglomerative Clustering')
-    dendrogram(Z, **kwargs)
+    plt.title('Hierarchical Clustering Dendrogram with agglomerative')
+    # plot the top three levels of the dendrogram
+    plt.xlabel("Number of points in node (or index of point if no parenthesis).")
+    dendrogram(linkage_matrix, **kwargs)
 
 
 def plot_dendrogram(Z, **kwargs):
     plt.figure()
     plt.title('Hierarchical Clustering Dendrogram with linkage')
+    plt.xlabel("Number of points in node (or index of point if no parenthesis).")
     dendrogram(Z, **kwargs)
 
 
