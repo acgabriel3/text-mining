@@ -5,7 +5,7 @@ Aprimoramento da recuperação de informação para o site http://sbrt.ibict.br/
 
 ## Como executar
 
-- primeiramente deve-se instalar as dependencias, para isso execute `make requirements` 
+- primeiramente deve-se instalar as dependencias, para isso execute `make data DATA={dossies, respostas}` para salvar os textos pre-processados, este processo leva em torno de 3 a 4 horas para terminar.
 - para executar o que está na main execute `python3 src/main.py`
 
 
