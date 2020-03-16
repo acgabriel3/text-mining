@@ -7,6 +7,9 @@ from adjustText import adjust_text
 
 
 def show():
+    """
+    deve ser chamado apenas uma vez ao final do programa
+    """
     plt.show()
 
 
@@ -22,21 +25,20 @@ def plot_dendrogram_Agglomerative(model, **kwargs):
     no_of_observations = np.arange(2, children.shape[0]+2)
 
     # Create linkage matrix and then plot the dendrogram
-    linkage_matrix = np.column_stack(
+    Z = np.column_stack(
         [children, distance, no_of_observations]).astype(float)
 
     # Plot the corresponding dendrogram
     plt.figure()
     plt.title(
         'Hierarchical Clustering Dendrogram with Agglomerative Clustering')
-    dendrogram(linkage_matrix, **kwargs)
+    dendrogram(Z, **kwargs)
 
 
-def plot_dendrogram(sparse_X_test, method='ward', metric='euclidean', **kwargs):
+def plot_dendrogram(Z, **kwargs):
     plt.figure()
     plt.title('Hierarchical Clustering Dendrogram with linkage')
-    dendrogram(linkage(sparse_X_test.toarray(),
-                       method=method, metric=metric), **kwargs)
+    dendrogram(Z, **kwargs)
 
 
 def plot_N_clusters_KMeans(sparse_X_test, max_range=10, plot_index_labels=False):
