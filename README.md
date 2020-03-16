@@ -5,8 +5,28 @@ Aprimoramento da recuperação de informação para o site http://sbrt.ibict.br/
 
 ## Como executar
 
-- primeiramente deve-se instalar as dependencias, para isso execute `make data DATA={dossies, respostas}` para salvar os textos pre-processados, este processo leva em torno de 3 a 4 horas para terminar.
-- para executar o que está na main execute `python3 src/main.py`
+- esse guia parte do pressuposto que há acesso aos arquivos de texto originais dispostos da forma:
+------------
+
+    ├── data
+        └── raw
+            ├── dossies/...txt
+            └── respostas/ ...txt
+
+------------
+
+- primeiramente deve-se instalar as dependencias e salvar os textos pre-processados,
+este processo leva em torno de 3 a 4 horas para terminar. Para isto execute:
+
+```
+$ make requirements
+$ make data DATA=dossies
+$ make data DATA=respostas
+```
+
+- após o pré-processamento, é necessário baixar os metadados dos dossiês e respostas, além do vocabulário controlado na pasta data/processed
+
+- por fim, para executar o que está na main execute `python3 src/main.py`
 
 
 Objetivos deste projeto
