@@ -94,6 +94,7 @@ def main(data):
     data_path, out_path = (raw_respostas_path, interim_respostas_path) if data == 'respostas' else (
         raw_dossies_path, interim_dossies_path)
 
+    _download_nltk_dependencies()
     arquivos = _load_files(data_path)
 
     if not os.path.exists(out_path):
