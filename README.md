@@ -15,16 +15,28 @@ Aprimoramento da recuperação de informação para o site http://sbrt.ibict.br/
 
 ------------
 
-- primeiramente deve-se instalar as dependencias e salvar os textos pre-processados,
-este processo leva em torno de 3 a 4 horas para terminar. Para isto execute:
+- É necessário uma versão do python >= 3.6.9 de 64-bit para executar o programa
+
+- primeiramente é necessário baixar os metadados dos dossiês e respostas, além do vocabulário controlado na pasta data/processed de forma que fiquem
+------------
+
+    ├── data
+        └── processed
+            ├── dossies_metadados.josn
+            ├── respostas_metadados.josn
+            └── vocabulario_controlado_geral.xlsx
+
+------------
+
+
+- após o download dos metadados, deve-se instalar as dependencias e salvar os textos pre-processados,
+este processo leva em torno de 3 a 4 horas para terminar dependendo da máquina. Para isto execute:
 
 ```
 $ make requirements
 $ make data DATA=dossies
 $ make data DATA=respostas
 ```
-
-- após o pré-processamento, é necessário baixar os metadados dos dossiês e respostas, além do vocabulário controlado na pasta data/processed
 
 - por fim, para executar o que está na main execute `python3 src/main.py`
 
