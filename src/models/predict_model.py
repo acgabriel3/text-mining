@@ -1,6 +1,7 @@
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from scipy.cluster.hierarchy import fcluster
 
+
 def kmeans(model, sparse_X_test):
     """
     prediz as labels utilizando o algoritmo KMeans

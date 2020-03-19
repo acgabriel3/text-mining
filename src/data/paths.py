@@ -14,4 +14,4 @@ interim_respostas_path = _data_dir / 'interim' / 'respostas'
 dossies_metadados_path = _data_dir / 'processed' / 'dossies_metadados.json'
 respostas_metadados_path = _data_dir / 'processed' / 'respostas_metadados.json'
 vocabulario_controlado_path = _data_dir / \
-    'processed' / 'vocabulario_controlado.html'
+    'processed' / 'vocabulario_controlado_geral.xlsx'

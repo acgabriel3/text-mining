@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from os.path import join
 import pandas as pd
 import numpy as np
@@ -17,31 +16,14 @@ def load_vocabulario_controlado():
     Carrega os dados do vocabulario controlado.
 
     Este vocabulário controlado foi disponibilizado pelo sbrt e deve estar na
-    pasta 'data/processed/vocabulario_controlado.html'
-
-    Os termos possuem o formato: (
-        ID, TERMO, NOTA, USADO_PARA, USE, USE_COM, VER_TAMBÉM, ESPECIFICADOR,
-        INCLUSÃO, ATUALIZAÇÃO, STATUS, RT, APROVADOR, SUGERIDO_POR,
-        INSTITUIÇÃO
-    )
+    pasta 'data/processed/vocabulario_controlado_geral.xlsx'
 
     Returns
     -------
-    `list` of `Termo`:
-        Uma lista de tuplas contendo informações sobre todos os termos relevantes 
+    `pd.DataFrame`:
+        contendo informações sobre todos os termos disponiveis
     """
-    content = "".join(open(vocabulario_controlado_path,
-                           encoding='cp1252').readlines())
-    soup = BeautifulSoup(content, 'html.parser')
-    values = soup.find_all('span', class_='style6')
-    vocabs = []
-    offset = 15
-    for i in range(0, len(values) - offset, offset):
-        vocabs.append(
-            tuple(re.sub(r'\s{2,}', '', v.text).lower().strip()
-                  for v in values[i:i+offset])
-        )
-    return vocabs
+    return pd.read_excel(open(vocabulario_controlado_path, mode='rb'), header=1)
 
 
 def load_termos_vocabulario_controlado():
@@ -54,12 +36,20 @@ def load_termos_vocabulario_controlado():
     Returns
     -------
     `np.array`:
-        contendo o nome de todos os termos do vocabulario controlado tokenizados
+        contendo o nome de todas as palavras encontrados no nome dos termos
     """
-    termos = np.array([t[1] for t in vocab[1:]])
+    termos = vocab.voc_termo.loc[
+        np.where(vocab.voc_termo.isnull() == False)
+    ]
+
     tokens = np.array([
-        nltk.word_tokenize(termo, language='portuguese') for termo in termos
+        nltk.word_tokenize(
+            re.sub(r'[\W+]', ' ', termo_str).lower(),
+            language='portuguese'
+        )
+        for termo_str in termos
     ])
+
     no_stop_word_termos = np.array([
         np.array([
             word for word in t if word
@@ -67,11 +57,17 @@ def load_termos_vocabulario_controlado():
         ]) for t in tokens
     ])
 
+    def aplicar_filtro(termo_str):
+        termo_filtrado = re.sub(r'\d+', '', termo_str)
+        termo_filtrado = re.sub(r'\s{2,}', ' ', termo_filtrado).strip()
+        return termo_filtrado if len(termo_filtrado) > 1 else np.nan
+
     ret = np.array([])
     for a in no_stop_word_termos:
-        ret = np.append(ret, [re.sub(r'\d+', '', v) for v in a])
+        ret = np.append(ret, [aplicar_filtro(v) for v in a])
 
-    return np.unique(ret)
+    ret = np.sort(np.unique(ret))
+    return ret[np.where(ret != 'nan')]
 
 
 def load_dossies_metadados_df(arquivos, metadados) -> pd.DataFrame:
@@ -117,7 +113,7 @@ def load_dossies_metadados_df(arquivos, metadados) -> pd.DataFrame:
                 ['null' for m in metadados]
             ]
 
-        row = pd.DataFrame(data=data, columns=metadados)
+        row = pd.DataFrame(data=np.array(data), columns=metadados)
         df = df.append(row, ignore_index=True)
     return df
 
@@ -165,7 +161,7 @@ def load_respostas_metadados_df(arquivos, metadados) -> pd.DataFrame:
                 ['null' for m in metadados]
             ]
 
-        row = pd.DataFrame(data=data, columns=metadados)
+        row = pd.DataFrame(data=np.array(data), columns=metadados)
         df = df.append(row, ignore_index=True)
     return df
 
