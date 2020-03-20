@@ -70,7 +70,7 @@ def load_termos_vocabulario_controlado():
     return ret[np.where(ret != 'nan')]
 
 
-def load_dossies_metadados_df(arquivos, metadados) -> pd.DataFrame:
+def load_dossies_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
     """
     Carrega os metadados dos dossies em uma estrutura de DataFrame.
 
@@ -82,7 +82,7 @@ def load_dossies_metadados_df(arquivos, metadados) -> pd.DataFrame:
     arquivos : `list` of : `str`
         contendo o nome dos arquivos
 
-    metadados : `list` of : `str` 
+    metadados : `list` of : `str`
         contendo o nome dos metadados que devem ser extraídos do json.
         Possíveis valores: ['cnae_asunto', 'categoria', 'palavras_chave',
         'resumo', 'data', 'instituicao_responsavel', 'assunto', 'titulo',
@@ -91,34 +91,24 @@ def load_dossies_metadados_df(arquivos, metadados) -> pd.DataFrame:
     Returns
     -------
     `pandas.DataFrame`:
-        um DataFrame que contém o nome do arquivo e o texto pré-processado
+        contendo os metadados de cada dossie
     """
-    ext = '.txt'
-    nomes = arquivos[[(lambda fn: False if fn.find(ext) < 0 else True)(f)
-                      for f in arquivos]]
-    nomes = np.vectorize(lambda fn: fn[:-len(ext)])(nomes)
+    nomes = _get_files(arquivos)
     json_metadados = json.loads(
         " ".join(open(dossies_metadados_path).readlines()))
     df = pd.DataFrame()
     for fn in nomes:
-        data = []
-
-        try:
-            json_metadados[fn]
-            data = [
-                [json_metadados[fn][metadado] for metadado in metadados]
-            ]
-        except KeyError as ke:
-            data = [
-                ['null' for m in metadados]
-            ]
-
-        row = pd.DataFrame(data=np.array(data), columns=metadados)
+        meta_src = extrair_chaves_json(json_metadados, metadados, fn)
+        data = [
+            [json_metadados[fn][metadado_key]
+                for metadado_key in meta_src]
+        ]
+        row = pd.DataFrame(data=np.array(data), columns=meta_src)
         df = df.append(row, ignore_index=True)
     return df
 
 
-def load_respostas_metadados_df(arquivos, metadados) -> pd.DataFrame:
+def load_respostas_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
     """
     Carrega os metadados das respostas em uma estrutura de DataFrame.
 
@@ -139,31 +129,35 @@ def load_respostas_metadados_df(arquivos, metadados) -> pd.DataFrame:
     Returns
     -------
     `pandas.DataFrame`:
-        um DataFrame que contém o nome do arquivo e o texto pré-processado
+        contendo os metadados de cada resposta técnica
     """
-    ext = '.txt'
-    nomes = arquivos[[(lambda fn: False if fn.find(ext) < 0 else True)(f)
-                      for f in arquivos]]
-    nomes = np.vectorize(lambda fn: fn[:-len(ext)])(nomes)
+    nomes = _get_files(arquivos)
     json_metadados = json.loads(
         " ".join(open(respostas_metadados_path).readlines()))
     df = pd.DataFrame()
     for fn in nomes:
-        data = []
-
-        try:
-            json_metadados[fn]
-            data = [
-                [json_metadados[fn][metadado] for metadado in metadados]
-            ]
-        except KeyError as ke:
-            data = [
-                ['null' for m in metadados]
-            ]
-
-        row = pd.DataFrame(data=np.array(data), columns=metadados)
+        meta_src = extrair_chaves_json(json_metadados, metadados, fn)
+        data = [
+            [json_metadados[fn][metadado_key]
+                for metadado_key in meta_src]
+        ]
+        row = pd.DataFrame(data=np.array(data), columns=meta_src)
         df = df.append(row, ignore_index=True)
     return df
+
+
+def extrair_chaves_json(json, metadados, file_name):
+    try:
+        return metadados if metadados is not None else json[file_name].keys()
+    except KeyError as ke:
+        return []
+
+
+def _get_files(arquivos):
+    ext = '.txt'
+    nomes = arquivos[[(lambda fn: False if fn.find(ext) < 0 else True)(f)
+                      for f in arquivos]]
+    return np.vectorize(lambda fn: fn[:-len(ext)])(nomes)
 
 
 vocab = load_vocabulario_controlado()
