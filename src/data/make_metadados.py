@@ -99,9 +99,9 @@ def load_dossies_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
     df = pd.DataFrame()
     for fn in nomes:
         meta_src = extrair_chaves_json(json_metadados, metadados, fn)
-        data = [
+        data = [] if meta_src == None else [
             [json_metadados[fn][metadado_key]
-                for metadado_key in meta_src]
+             for metadado_key in meta_src]
         ]
         row = pd.DataFrame(data=np.array(data), columns=meta_src)
         df = df.append(row, ignore_index=True)
@@ -137,7 +137,7 @@ def load_respostas_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
     df = pd.DataFrame()
     for fn in nomes:
         meta_src = extrair_chaves_json(json_metadados, metadados, fn)
-        data = [
+        data = [] if meta_src == None else [
             [json_metadados[fn][metadado_key]
                 for metadado_key in meta_src]
         ]
@@ -150,7 +150,7 @@ def extrair_chaves_json(json, metadados, file_name):
     try:
         return metadados if metadados is not None else json[file_name].keys()
     except KeyError as ke:
-        return []
+        return None
 
 
 def _get_files(arquivos):
