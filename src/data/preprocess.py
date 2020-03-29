@@ -28,7 +28,7 @@ def _load_files(path, seed=None):
 def _download_nltk_dependencies():
     nltk.download('stopwords')
     nltk.download('rslp')
-    nltk.download('rslp')
+    nltk.download('punkt')
 
 
 def basic_pre_process(text):
