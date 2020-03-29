@@ -34,6 +34,11 @@ este processo leva em torno de 3 a 4 horas para terminar dependendo da máquina.
 
 ```
 $ make requirements
+$ python(>=3.6)  // execute o interpretador Python com versão superior a 3.6:
+    >>> import nltk
+    >>> nltk.download('stopwords')
+    >>> nltk.download('rslp')
+    >>> nltk.download('punkt')
 $ make data DATA=dossies
 $ make data DATA=respostas
 ```
