@@ -148,6 +148,7 @@ def load_respostas_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
 
 def extrair_chaves_json(json, metadados, file_name):
     try:
+        json[file_name]
         return metadados if metadados is not None else json[file_name].keys()
     except KeyError as ke:
         return None

@@ -54,3 +54,29 @@ def checar_substring(df, coluna, substring):
         a substring existe na coluna passada
     """
     return df[df[coluna].str.contains(substring, case=False)]
+
+
+def print_top_words(model, feature_names, n_top_words):
+    """
+    imprime as top words para cada tópico do model.
+
+    Parameters
+    ----------
+    model : `sklearn.decomposition.NMF` | `sklearn.decomposition.LDA`
+
+    feature_names : `list` of `str`
+        vocabulário do TfidfVectorizer para o NMF ou do CountVectorizer para o LDA
+
+    n_top_words : `int`
+        quantidade de palavras para cada tópico
+
+    Returns
+    -------
+    `void`
+    """
+    for topic_idx, topic in enumerate(model.components_):
+        message = f'Topic #{topic_idx}: '
+        message += ' '.join([feature_names[i]
+                             for i in topic.argsort()[:-n_top_words - 1:-1]])
+        print(message)
+    print()
