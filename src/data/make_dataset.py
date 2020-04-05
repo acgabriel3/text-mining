@@ -66,5 +66,5 @@ def _popular_df(df, nome_arquivo, path) -> pd.DataFrame:
     row = pd.DataFrame(
         data=[
             [nome_arquivo, " ".join(doc.readlines())]
-        ], columns=['file', 'text'])
+        ], columns=['nome_do_arquivo', 'conteudo'])
     return df.append(row, ignore_index=True)

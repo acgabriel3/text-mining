@@ -18,30 +18,29 @@ def main():
     dossies = load_dossies_df()
     logger([
         {
-            'name': 'len_dossies',
+            'name': 'len dossies',
             'value': len(dossies)
         },
         {
-            'name': 'dossies_head',
+            'name': 'dossies head',
             'value': dossies.head()
         }
     ])
 
-    dossies_metadados = load_dossies_metadados_df(
-        dossies.file, ['titulo', 'palavras_chave', 'categoria'])
+    dossies_metadados = load_dossies_metadados_df(dossies.nome_do_arquivo)
     logger([
         {
-            'name': 'len_dossies',
+            'name': 'len metadados dos dossies',
             'value': len(dossies_metadados)
         },
         {
-            'name': 'dossies_head',
+            'name': 'metadados dos dossies head',
             'value': dossies_metadados.head()
         }
     ])
 
-    tfidf_X, tfidf_feature_names = get_tfidf_features(dossies.text)
-    tf_X, tf_feature_names = get_tf_features(dossies.text)
+    tfidf_X, tfidf_feature_names = get_tfidf_features(dossies.conteudo)
+    tf_X, tf_feature_names = get_tf_features(dossies.conteudo)
     logger([
         {
             'name': 'Tf idf sparse matrix shape',
@@ -62,7 +61,7 @@ def main():
         },
     ])
 
-    n_topics = 100
+    n_topics = 5
     n_top_words = 10
     print(f'top {n_top_words} words for {n_topics} topics using LDA')
     validate_model.print_top_words(
@@ -107,39 +106,53 @@ def main():
         }
     ])
 
+    dossies_com_metadados = dossies.join(
+        dossies_metadados.set_index('nome_do_arquivo'),
+        on='nome_do_arquivo'
+    ).dropna()
+
+    logger([
+        {
+            'name': 'len dossies que possuem metadados',
+            'value': len(dossies_com_metadados)
+        },
+        {
+            'name': 'dossies que possuem metadados head',
+            'value': dossies_com_metadados.head()
+        }
+    ])
+
     # Com os resultados dessa célula pode-se presumir que documentos com a
     # label 2 está fortemente relacionado à questões de agricultura e com
     # vários registros sobre cultivo
-    cluster_2 = validate_model.checar_categoria(dossies_metadados, labels, 2)
+    cluster_2 = validate_model.checar_categoria(
+        dossies_com_metadados, labels, 2)
+    print('documentos pertencentes ao grupo 2 - info')
+    cluster_2.info()
     logger([
         {
-            'name': 'documents with label 2 - info',
-            'value': cluster_2.info()
-        },
-        {
-            'name': 'documents with label 2 - head',
+            'name': 'documentos pertencentes ao grupo 2 - head',
             'value': cluster_2.head()
         },
         {
-            'name': 'documents that have the word "cultivo" in title',
+            'name': 'documentos que possuem a palavra "cultivo" no titulo',
             'value': validate_model.checar_substring(cluster_2, 'titulo', 'cultivo')
         }
     ])
 
     # Com os resultados dessa célula pode-se presumir que documentos com a
     # label 1 está fortemente relacionado à questões de agricultura e cogumelos
-    cluster_1 = validate_model.checar_categoria(dossies_metadados, labels, 1)
+    cluster_1 = validate_model.checar_categoria(
+        dossies_com_metadados, labels, 1)
+    print('documentos pertencentes ao grupo 1 - info')
+    cluster_1.info()
     logger([
         {
-            'name': 'documents with label 1 - info',
-            'value': cluster_1.info()
-        },
-        {
-            'name': 'documents with label 1 - head',
+            'name': 'documentos pertencentes ao grupo 1 - head',
             'value': cluster_1.head()
         },
         {
-            'name': 'documents that have the word "cultivo" in title',
+            'name': 'documentos que possuem a palavra "cogumelo" ou "cogumelos" no titulo',
             'value': validate_model.checar_substring(cluster_1, 'titulo', r'cogumelos?')
         }
     ])

@@ -98,13 +98,16 @@ def load_dossies_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
         " ".join(open(dossies_metadados_path).readlines()))
     df = pd.DataFrame()
     for fn in nomes:
-        meta_src = extrair_chaves_json(json_metadados, metadados, fn)
-        data = [] if meta_src == None else [
-            [json_metadados[fn][metadado_key]
-             for metadado_key in meta_src]
-        ]
-        row = pd.DataFrame(data=np.array(data), columns=meta_src)
-        df = df.append(row, ignore_index=True)
+        meta_src = _extrair_chaves_json(json_metadados, metadados, fn)
+        if meta_src != None:
+            data = [
+                [*[json_metadados[fn][metadado_key]
+                    for metadado_key in meta_src], f'{fn}.txt']
+            ]
+            row = pd.DataFrame(data=np.array(data), columns=[*meta_src, 'nome_do_arquivo'])
+            df = df.append(row, ignore_index=True)
+        else:
+            print(f'nao ha metadados para o arquivo {fn}.txt')
     return df
 
 
@@ -136,20 +139,23 @@ def load_respostas_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
         " ".join(open(respostas_metadados_path).readlines()))
     df = pd.DataFrame()
     for fn in nomes:
-        meta_src = extrair_chaves_json(json_metadados, metadados, fn)
-        data = [] if meta_src == None else [
-            [json_metadados[fn][metadado_key]
-                for metadado_key in meta_src]
-        ]
-        row = pd.DataFrame(data=np.array(data), columns=meta_src)
-        df = df.append(row, ignore_index=True)
+        meta_src = _extrair_chaves_json(json_metadados, metadados, fn)
+        if meta_src != None:
+            data = [
+                [*[json_metadados[fn][metadado_key]
+                    for metadado_key in meta_src], f'{fn}.txt']
+            ]
+            row = pd.DataFrame(data=np.array(data), columns=[*meta_src, 'nome_do_arquivo'])
+            df = df.append(row, ignore_index=True)
+        else:
+            print(f'nao ha metadados para o arquivo {fn}.txt')
     return df
 
 
-def extrair_chaves_json(json, metadados, file_name):
+def _extrair_chaves_json(json, metadados, nome_do_arquivo):
     try:
-        json[file_name]
-        return metadados if metadados is not None else json[file_name].keys()
+        json[nome_do_arquivo]
+        return metadados if metadados is not None else json[nome_do_arquivo].keys()
     except KeyError as ke:
         return None
 

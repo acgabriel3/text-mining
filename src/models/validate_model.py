@@ -28,7 +28,7 @@ def checar_categoria(metadados, labels, cluster_alvo):
         documento pertencente ao cluster alvo
     """
     return pd.DataFrame(data=metadados.loc[
-        np.where(labels == cluster_alvo)][['titulo', 'categoria']]
+        np.where(labels == cluster_alvo)][['titulo', 'categoria', 'nome_do_arquivo']]
     )
 
 

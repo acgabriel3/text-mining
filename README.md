@@ -43,7 +43,7 @@ $ make data DATA=dossies
 $ make data DATA=respostas
 ```
 
-- por fim, para executar o que está na main execute `python3 src/main.py`
+- por fim, para executar o que está na main execute `python3 src/main_(dossies|respostas).py`
 
 
 Objetivos deste projeto
