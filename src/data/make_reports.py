@@ -23,7 +23,7 @@ def export_df_to_json(df, nome_do_arquivo, parent_path=None, **kwargs):
     -------
     `void`
     """
-    out_path = _beforeExport(parent_path, nome_do_arquivo, '.json')
+    out_path = _beforeExport(parent_path, nome_do_arquivo, 'json')
     with open(out_path, 'w', errors='replace', encoding='utf-8') as file:
         df.to_json(file, force_ascii=False, **kwargs)
 
@@ -48,7 +48,7 @@ def export_df_to_csv(df, nome_do_arquivo, parent_path=None, **kwargs):
     -------
     `void`
     """
-    out_path = _beforeExport(parent_path, nome_do_arquivo, '.csv')
+    out_path = _beforeExport(parent_path, nome_do_arquivo, 'csv')
     df.to_csv(out_path, **kwargs)
 
 

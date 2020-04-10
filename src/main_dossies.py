@@ -124,7 +124,7 @@ def main():
             parent_path='topicos_por_cluster_e_documento',
             index=False
         )
-        validate_model.print_topics_by_doc(cluster_n, n_top_topics=1)
+        validate_model.print_topics_by_doc(cluster_n, n_top_topics=4)
 
     # para que as imagens sejam plotadas
     show()
