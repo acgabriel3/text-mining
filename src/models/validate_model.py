@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+from src.features.build_features import get_tf_features
+from src.models import train_model
 
 
 def checar_categoria(metadados, labels, cluster_alvo):
@@ -28,8 +30,8 @@ def checar_categoria(metadados, labels, cluster_alvo):
         documento pertencente ao cluster alvo
     """
     return pd.DataFrame(data=metadados.loc[
-        np.where(labels == cluster_alvo)][['titulo', 'categoria', 'nome_do_arquivo']]
-    )
+        metadados.index.intersection(np.where(labels == cluster_alvo)[0])
+    ])
 
 
 def checar_substring(df, coluna, substring):
@@ -80,3 +82,91 @@ def print_top_words(model, feature_names, n_top_words):
                              for i in topic.argsort()[:-n_top_words - 1:-1]])
         print(message)
     print()
+
+
+def print_topics_by_doc(df, n_top_words=10, n_topics=100, n_top_topics=3, **kwargs):
+    """
+    imprime as top words para cada tópico de cada documento presente no df.
+
+    Parameters
+    ----------
+    df : `pd.DataFrame`
+
+    n_top_words : `int`
+        quantidade de palavras para cada tópico
+
+    n_topics : `int`
+        quantidade de tópicos a serem buscados
+
+    n_top_topics : `int`
+        quantidade de top tópicos para imprimir as top_n_words
+
+    **kwargs:
+        lista de parametros para serem passados para o construtor do lda
+    Returns
+    -------
+    `void`
+    """
+    X, feature_names = get_tf_features(df.conteudo)
+    lda = train_model.lda(X, n_topics, **kwargs)
+    doc_topic = lda.transform(X)
+
+    for n in range(doc_topic.shape[0]):
+        top_n_topics_indexes = doc_topic[n].argsort()[:-n_top_topics - 1:-1]
+        print(f"doc: {df.nome_do_arquivo.iloc[n]}")
+        print(
+            f"\ttop {n_top_topics} topics indexes: {top_n_topics_indexes}")
+        top_n_topics = lda.components_[top_n_topics_indexes]
+        for topic_idx, topic in enumerate(top_n_topics):
+            text = f'\t\tTopic #{top_n_topics_indexes[topic_idx]}: '
+            text += ' '.join([feature_names[i]
+                              for i in topic.argsort()[:-n_top_words - 1:-1]])
+            print(text)
+
+
+def get_topics_by_doc(df, n_top_words=10, n_topics=200, n_top_topics=3, **kwargs):
+    """
+    retorna um dataframe com os topicos para cada documento
+
+    Parameters
+    ----------
+    df : `pd.DataFrame`
+
+    n_top_words : `int`
+        quantidade de palavras para cada tópico
+
+    n_topics : `int`
+        quantidade de tópicos a serem buscados
+
+    n_top_topics : `int`
+        quantidade de top tópicos para imprimir as top_n_words
+
+    **kwargs:
+        lista de parametros para serem passados para o construtor do lda
+    Returns
+    -------
+    `pd.DataFrame`
+    """
+    X, feature_names = get_tf_features(df.conteudo)
+    lda = train_model.lda(X, n_topics, **kwargs)
+    doc_topic = lda.transform(X)
+
+    data = []
+    for n in range(doc_topic.shape[0]):
+        top_n_topics_indexes = doc_topic[n].argsort()[:-n_top_topics - 1:-1]
+        top_n_topics = lda.components_[top_n_topics_indexes]
+
+        data.append([
+            df.nome_do_arquivo.iloc[n],
+            [
+                ' '.join(
+                    [feature_names[i]
+                        for i in topic.argsort()[:-n_top_words - 1:-1]]
+                ) for topic in top_n_topics
+            ]
+        ])
+
+    return pd.DataFrame(
+        data=data,
+        columns=['documento', 'topicos_provaveis']
+    )

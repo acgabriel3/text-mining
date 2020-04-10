@@ -1,0 +1,1620 @@
+**************************************************
+len dossies:
+464
+
+dossies head:
+  nome_do_arquivo                                           conteudo
+0          10.txt  produção limpa produção limpa construção civil...
+1         100.txt  técnico curtimento rede tecnologia bahia abril...
+2         101.txt  técnico instalação pomar rede tecnologia bahia...
+3         102.txt  técnico produção carvalho rede tecnologia bahi...
+4         103.txt  técnico viveiro rede tecnologia bahia abril té...
+
+**************************************************
+nao ha metadados para o arquivo 250.txt
+**************************************************
+len metadados dos dossies:
+463
+
+metadados dos dossies head:
+  cnae_asunto  ... nome_do_arquivo
+0        3811  ...          10.txt
+1        1510  ...         100.txt
+2        0121  ...         101.txt
+3        1111  ...         102.txt
+4        0311  ...         103.txt
+
+[5 rows x 10 columns]
+
+**************************************************
+**************************************************
+Tf idf sparse matrix shape:
+(464, 6361)
+
+Tf sparse matrix shape:
+(464, 6361)
+
+**************************************************
+**************************************************
+Aglomerattive clustering object:
+AgglomerativeClustering(affinity='euclidean', compute_full_tree='auto',
+                        connectivity=None, distance_threshold=0, linkage='ward',
+                        memory=None, n_clusters=None)
+
+**************************************************
+**************************************************
+labels of documents using linkage method:
+[3 5 2 5 2 5 2 4 5 4 5 2 4 5 2 2 5 5 5 2 4 4 5 2 4 4 5 5 2 5 5 2 4 2 5 5 2
+ 5 5 2 2 5 5 5 5 4 5 4 4 4 2 5 5 1 1 5 2 5 2 2 5 5 5 5 5 5 5 5 3 5 2 5 5 5
+ 5 4 5 5 5 4 5 5 5 5 5 2 5 5 5 2 5 5 2 4 5 5 2 5 2 5 5 4 5 5 2 4 5 5 4 5 5
+ 5 5 4 5 2 5 5 5 5 5 2 4 4 2 5 5 2 4 2 4 5 4 5 5 5 1 5 5 2 5 4 2 2 2 4 2 4
+ 2 5 2 5 5 5 3 5 3 3 5 3 2 4 5 4 5 2 2 2 5 2 5 5 5 4 2 5 5 4 5 5 5 5 5 5 5
+ 5 5 3 3 5 5 4 4 5 5 5 4 4 5 5 5 2 5 4 5 2 5 2 5 5 5 5 2 5 2 4 2 5 5 5 5 5
+ 5 5 5 5 5 5 5 4 4 5 5 5 2 5 4 4 5 4 5 5 5 5 5 4 4 4 4 5 4 4 5 3 5 4 2 4 3
+ 2 5 2 4 5 5 5 5 5 5 5 2 5 4 2 5 4 5 4 4 4 5 2 2 2 2 2 4 5 1 4 5 4 5 3 5 2
+ 5 2 2 5 5 5 3 5 3 5 5 5 4 2 5 4 5 4 4 5 3 2 4 5 5 4 5 4 5 5 5 4 5 5 1 5 5
+ 5 5 4 5 4 2 5 2 5 4 5 5 5 2 5 2 5 5 4 5 2 2 4 5 5 5 5 2 2 5 5 5 2 5 5 2 2
+ 5 5 5 5 4 4 4 2 2 5 5 5 5 2 5 4 5 5 5 5 5 5 5 5 2 2 4 5 5 4 2 4 5 5 5 3 5
+ 5 4 5 5 4 4 2 5 4 4 5 4 4 2 5 5 4 5 5 5 5 5 5 5 5 4 5 4 4 2 5 4 5 5 1 2 2
+ 5 1 5 4 1 2 5 5 2 5 2 5 2 2 5 5 4 2 5 5]
+
+**************************************************
+**************************************************
+len dossies que possuem metadados:
+463
+
+dossies que possuem metadados head:
+  nome_do_arquivo  ... cnae_dossie
+0          10.txt  ...          38
+1         100.txt  ...          15
+2         101.txt  ...          01
+3         102.txt  ...          11
+4         103.txt  ...          03
+
+[5 rows x 11 columns]
+
+**************************************************
+documentos pertencentes ao grupo 1 - info
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 8 entries, 53 to 448
+Data columns (total 11 columns):
+ #   Column                   Non-Null Count  Dtype 
+---  ------                   --------------  ----- 
+ 0   nome_do_arquivo          8 non-null      object
+ 1   conteudo                 8 non-null      object
+ 2   cnae_asunto              8 non-null      object
+ 3   categoria                8 non-null      object
+ 4   palavras_chave           8 non-null      object
+ 5   resumo                   8 non-null      object
+ 6   data                     8 non-null      object
+ 7   instituicao_responsavel  8 non-null      object
+ 8   assunto                  8 non-null      object
+ 9   titulo                   8 non-null      object
+ 10  cnae_dossie              8 non-null      object
+dtypes: object(11)
+memory usage: 768.0+ bytes
+**************************************************
+documentos pertencentes ao grupo 1 - head:
+    nome_do_arquivo  ... cnae_dossie
+53          148.txt  ...          01
+54          149.txt  ...          01
+136         226.txt  ...          21
+288          35.txt  ...          01
+330        5650.txt  ...          01
+
+[5 rows x 11 columns]
+
+**************************************************
+doc: 148.txt
+	top 1 topics indexes: [72]
+		Topic #72: cultivo cogumelo composto sol produção água agaricus colheita medicinais forma
+doc: 149.txt
+	top 1 topics indexes: [85]
+		Topic #85: cultivo composto câmara controle desinfecção estufa cogumelo fonte água horas
+doc: 226.txt
+	top 1 topics indexes: [72]
+		Topic #72: cultivo cogumelo composto sol produção água agaricus colheita medicinais forma
+doc: 35.txt
+	top 1 topics indexes: [72]
+		Topic #72: cultivo cogumelo composto sol produção água agaricus colheita medicinais forma
+doc: 5650.txt
+	top 1 topics indexes: [85]
+		Topic #85: cultivo composto câmara controle desinfecção estufa cogumelo fonte água horas
+doc: 81.txt
+	top 1 topics indexes: [72]
+		Topic #72: cultivo cogumelo composto sol produção água agaricus colheita medicinais forma
+doc: 85.txt
+	top 1 topics indexes: [72]
+		Topic #72: cultivo cogumelo composto sol produção água agaricus colheita medicinais forma
+doc: 88.txt
+	top 1 topics indexes: [72]
+		Topic #72: cultivo cogumelo composto sol produção água agaricus colheita medicinais forma
+documentos pertencentes ao grupo 2 - info
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 93 entries, 2 to 461
+Data columns (total 11 columns):
+ #   Column                   Non-Null Count  Dtype 
+---  ------                   --------------  ----- 
+ 0   nome_do_arquivo          93 non-null     object
+ 1   conteudo                 93 non-null     object
+ 2   cnae_asunto              93 non-null     object
+ 3   categoria                93 non-null     object
+ 4   palavras_chave           93 non-null     object
+ 5   resumo                   93 non-null     object
+ 6   data                     93 non-null     object
+ 7   instituicao_responsavel  93 non-null     object
+ 8   assunto                  93 non-null     object
+ 9   titulo                   93 non-null     object
+ 10  cnae_dossie              93 non-null     object
+dtypes: object(11)
+memory usage: 8.7+ KB
+**************************************************
+documentos pertencentes ao grupo 2 - head:
+   nome_do_arquivo  ... cnae_dossie
+2          101.txt  ...          01
+4          103.txt  ...          03
+6          105.txt  ...          01
+11         108.txt  ...          01
+14         110.txt  ...          01
+
+[5 rows x 11 columns]
+
+**************************************************
+doc: 101.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 103.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 105.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 108.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 110.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 111.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 115.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 119.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 124.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 127.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 129.txt
+	top 1 topics indexes: [81]
+		Topic #81: café banana produção água produto solo processo fruta qualidade planta
+doc: 131.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 135.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 136.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 145.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 150.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 152.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 153.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 163.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 177.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 181.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 184.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 188.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 19.txt
+	top 1 topics indexes: [81]
+		Topic #81: café banana produção água produto solo processo fruta qualidade planta
+doc: 196.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 206.txt
+	top 1 topics indexes: [81]
+		Topic #81: café banana produção água produto solo processo fruta qualidade planta
+doc: 211.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 214.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 217.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 219.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 229.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 231.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 232.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 233.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 236.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 238.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 24.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 249.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 254.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 255.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 256.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 258.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 262.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 27659.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 27663.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 27665.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 27670.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 27672.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 27674.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 27693.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 294.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 297.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 299.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 307.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 31.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 323.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 324.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 325.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 326.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 327.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 45.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 4587.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 4589.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5431.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5439.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5658.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5660.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5666.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5668.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5673.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5674.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5680.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5681.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5685.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5688.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5689.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5697.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5698.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5702.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5713.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5714.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 5719.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 6111.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 6118.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 77.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 82.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 83.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 89.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 9056.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 9058.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 91.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 92.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+doc: 96.txt
+	top 1 topics indexes: [24]
+		Topic #24: solo água controle planta plantio produção técnicas fonte al brasileiro
+documentos pertencentes ao grupo 3 - info
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 15 entries, 0 to 405
+Data columns (total 11 columns):
+ #   Column                   Non-Null Count  Dtype 
+---  ------                   --------------  ----- 
+ 0   nome_do_arquivo          15 non-null     object
+ 1   conteudo                 15 non-null     object
+ 2   cnae_asunto              15 non-null     object
+ 3   categoria                15 non-null     object
+ 4   palavras_chave           15 non-null     object
+ 5   resumo                   15 non-null     object
+ 6   data                     15 non-null     object
+ 7   instituicao_responsavel  15 non-null     object
+ 8   assunto                  15 non-null     object
+ 9   titulo                   15 non-null     object
+ 10  cnae_dossie              15 non-null     object
+dtypes: object(11)
+memory usage: 1.4+ KB
+**************************************************
+documentos pertencentes ao grupo 3 - head:
+    nome_do_arquivo  ... cnae_dossie
+0            10.txt  ...          38
+68          161.txt  ...          15
+154         243.txt  ...          31
+156         245.txt  ...          32
+157         246.txt  ...          22
+
+[5 rows x 11 columns]
+
+**************************************************
+doc: 10.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 161.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 243.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 245.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 246.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 248.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 274.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 275.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 291.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 296.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 43.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 49.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 50.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 5438.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+doc: 61.txt
+	top 1 topics indexes: [59]
+		Topic #59: resíduos processo produção limpa água redução ambiental técnicas empresa fonte
+documentos pertencentes ao grupo 4 - info
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 93 entries, 7 to 460
+Data columns (total 11 columns):
+ #   Column                   Non-Null Count  Dtype 
+---  ------                   --------------  ----- 
+ 0   nome_do_arquivo          93 non-null     object
+ 1   conteudo                 93 non-null     object
+ 2   cnae_asunto              93 non-null     object
+ 3   categoria                93 non-null     object
+ 4   palavras_chave           93 non-null     object
+ 5   resumo                   93 non-null     object
+ 6   data                     93 non-null     object
+ 7   instituicao_responsavel  93 non-null     object
+ 8   assunto                  93 non-null     object
+ 9   titulo                   93 non-null     object
+ 10  cnae_dossie              93 non-null     object
+dtypes: object(11)
+memory usage: 8.7+ KB
+**************************************************
+documentos pertencentes ao grupo 4 - head:
+   nome_do_arquivo  ... cnae_dossie
+7          106.txt  ...          01
+9         1076.txt  ...          01
+12         109.txt  ...          10
+20         116.txt  ...          01
+21         117.txt  ...          10
+
+[5 rows x 11 columns]
+
+**************************************************
+doc: 106.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 1076.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 109.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 116.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 117.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 120.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 121.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 128.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 140.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 142.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 143.txt
+	top 1 topics indexes: [43]
+		Topic #43: chocolate sabão cacau técnicas acesso brasileiro massa água site serviço
+doc: 144.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 168.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 171.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 185.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 192.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 197.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 20.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 204.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 212.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 213.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 218.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 22.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 221.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 230.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 234.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 237.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 25.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 251.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 261.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 265.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27615.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27650.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27654.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27655.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27661.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27673.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27688.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27689.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 27695.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 277.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 279.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 284.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 285.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 286.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 287.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 289.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 29.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 293.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 295.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 30.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 309.txt
+	top 1 topics indexes: [43]
+		Topic #43: chocolate sabão cacau técnicas acesso brasileiro massa água site serviço
+doc: 311.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 32.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 320.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 321.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 33.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 37.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 41.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 54.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5433.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5435.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5436.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 55.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5641.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5643.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5647.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5655.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5657.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5662.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5671.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5675.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5694.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5695.txt
+	top 1 topics indexes: [43]
+		Topic #43: chocolate sabão cacau técnicas acesso brasileiro massa água site serviço
+doc: 5696.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5704.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5715.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 5718.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 58.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 6105.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 6109.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 6110.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 6113.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 6114.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 6116.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 6117.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 63.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 71.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 74.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 75.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 79.txt
+	top 1 topics indexes: [43]
+		Topic #43: chocolate sabão cacau técnicas acesso brasileiro massa água site serviço
+doc: 87.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+doc: 95.txt
+	top 1 topics indexes: [80]
+		Topic #80: produtos produto alimentos água produção acesso técnicas brasileiro serviço leite
+documentos pertencentes ao grupo 5 - info
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 254 entries, 1 to 463
+Data columns (total 11 columns):
+ #   Column                   Non-Null Count  Dtype 
+---  ------                   --------------  ----- 
+ 0   nome_do_arquivo          254 non-null    object
+ 1   conteudo                 254 non-null    object
+ 2   cnae_asunto              254 non-null    object
+ 3   categoria                254 non-null    object
+ 4   palavras_chave           254 non-null    object
+ 5   resumo                   254 non-null    object
+ 6   data                     254 non-null    object
+ 7   instituicao_responsavel  254 non-null    object
+ 8   assunto                  254 non-null    object
+ 9   titulo                   254 non-null    object
+ 10  cnae_dossie              254 non-null    object
+dtypes: object(11)
+memory usage: 23.8+ KB
+**************************************************
+documentos pertencentes ao grupo 5 - head:
+   nome_do_arquivo  ... cnae_dossie
+1          100.txt  ...          15
+3          102.txt  ...          11
+5          104.txt  ...          10
+8          107.txt  ...          23
+10        1077.txt  ...          43
+
+[5 rows x 11 columns]
+
+**************************************************
+doc: 100.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 102.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 104.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 107.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 1077.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 11.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 112.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 113.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 114.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 118.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 122.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 123.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 125.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 126.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 13.txt
+	top 1 topics indexes: [1]
+		Topic #1: soldagem solda arco metal junta processo fusão eletrodo cordão elétrico
+doc: 130.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 132.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 134.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 137.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 138.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 139.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 14.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 141.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 146.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 147.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 15.txt
+	top 1 topics indexes: [30]
+		Topic #30: bolsa couro fonte tecido educação profissional forro desenho alça modelo
+doc: 151.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 154.txt
+	top 1 topics indexes: [30]
+		Topic #30: bolsa couro fonte tecido educação profissional forro desenho alça modelo
+doc: 155.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 156.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 157.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 158.txt
+	top 1 topics indexes: [6]
+		Topic #6: trabalho programa memória linguagem clp entrada fonte programação microcontrolador pic
+doc: 159.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 16.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 160.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 162.txt
+	top 1 topics indexes: [28]
+		Topic #28: fôrma calçado ponto pé sistema salto modelo cad modelagem palmilha
+doc: 164.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 165.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 166.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 167.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 169.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 17.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 170.txt
+	top 1 topics indexes: [94]
+		Topic #94: tecido costura malha têxtil malharia máquina vestuário agulha linha algodão
+doc: 172.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 173.txt
+	top 1 topics indexes: [6]
+		Topic #6: trabalho programa memória linguagem clp entrada fonte programação microcontrolador pic
+doc: 174.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 175.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 176.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 178.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 179.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 18.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 182.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 183.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 186.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 187.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 189.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 190.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 191.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 193.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 195.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 198.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 199.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 200.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 201.txt
+	top 1 topics indexes: [1]
+		Topic #1: soldagem solda arco metal junta processo fusão eletrodo cordão elétrico
+doc: 202.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 203.txt
+	top 1 topics indexes: [80]
+		Topic #80: rede ip voz internet voip endereço comunicação telefonia transmissão reologia
+doc: 205.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 207.txt
+	top 1 topics indexes: [80]
+		Topic #80: rede ip voz internet voip endereço comunicação telefonia transmissão reologia
+doc: 208.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 209.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 21.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 210.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 215.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 216.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 220.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 223.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 224.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 225.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 227.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 228.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 23.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 239.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 240.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 241.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 242.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 244.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 247.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 252.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 257.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 259.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 26.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 260.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 263.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 264.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 266.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 267.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 268.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 269.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 270.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 271.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 272.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 273.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27544.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 276.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27651.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27652.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27653.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27656.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27657.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27658.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27660.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27662.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27664.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27666.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27667.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27668.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27669.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27671.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27675.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27676.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27677.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27678.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27679.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27680.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27681.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27682.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27683.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27685.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27686.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 27687.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 27690.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27691.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27692.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 27694.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 278.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 28.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 280.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 281.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 282.txt
+	top 1 topics indexes: [1]
+		Topic #1: soldagem solda arco metal junta processo fusão eletrodo cordão elétrico
+doc: 283.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 288.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 290.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 292.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 298.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 300.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 301.txt
+	top 1 topics indexes: [28]
+		Topic #28: fôrma calçado ponto pé sistema salto modelo cad modelagem palmilha
+doc: 302.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 303.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 304.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 305.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 306.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 308.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 310.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 312.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 322.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 34.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 40.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 42.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 44.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 4586.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 46.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 47.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 48.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 51.txt
+	top 1 topics indexes: [6]
+		Topic #6: trabalho programa memória linguagem clp entrada fonte programação microcontrolador pic
+doc: 52.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 53.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5432.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5434.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5437.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 56.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5640.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5642.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5644.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5645.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5646.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5648.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5649.txt
+	top 1 topics indexes: [30]
+		Topic #30: bolsa couro fonte tecido educação profissional forro desenho alça modelo
+doc: 5651.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5652.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5653.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5654.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5656.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5659.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5661.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5663.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5664.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5665.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5667.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 5669.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5670.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5672.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5676.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5677.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5678.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5679.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5682.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5683.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5684.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5686.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5687.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5690.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5691.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5692.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5693.txt
+	top 1 topics indexes: [77]
+		Topic #77: pintura corrosão superfície tinta zinco revestimento oxidação borracha cura fase
+doc: 5699.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 57.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 5700.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5701.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5703.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5705.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5706.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5707.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5708.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5709.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5710.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5711.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5712.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5716.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 5717.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 59.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 6.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 60.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 6103.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 6104.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 6107.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 6108.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 6112.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 6115.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 6119.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 6120.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 64.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 65.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 66.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 67.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 68.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 69.txt
+	top 1 topics indexes: [94]
+		Topic #94: tecido costura malha têxtil malharia máquina vestuário agulha linha algodão
+doc: 7.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 70.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 72.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 78.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 8.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 80.txt
+	top 1 topics indexes: [6]
+		Topic #6: trabalho programa memória linguagem clp entrada fonte programação microcontrolador pic
+doc: 84.txt
+	top 1 topics indexes: [6]
+		Topic #6: trabalho programa memória linguagem clp entrada fonte programação microcontrolador pic
+doc: 86.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 9.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 90.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 9057.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 9059.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 9376.txt
+	top 1 topics indexes: [95]
+		Topic #95: técnicas brasileiro serviço água acesso produção fonte processo brasil sistema
+doc: 94.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 97.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos
+doc: 99.txt
+	top 1 topics indexes: [11]
+		Topic #11: processo técnicas produção água fonte serviço brasileiro produto fabricação produtos

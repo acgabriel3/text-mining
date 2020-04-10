@@ -3,6 +3,7 @@ from src.data.make_metadados import load_dossies_metadados_df
 from src.features.build_features import get_tfidf_features, get_tf_features
 from src.models import train_model, predict_model, validate_model
 from src.visualization.visualize import plot_dendrogram_Agglomerative, plot_dendrogram, show
+from src.data.make_reports import export_df_to_json, export_df_to_csv
 
 
 def logger(infos):
@@ -61,21 +62,6 @@ def main():
         },
     ])
 
-    n_topics = 5
-    n_top_words = 10
-    print(f'top {n_top_words} words for {n_topics} topics using LDA')
-    validate_model.print_top_words(
-        train_model.lda(tf_X, n_topics),
-        tf_feature_names,
-        n_top_words=n_top_words
-    )
-    print(f'top {n_top_words} words for {n_topics} topics using NMF')
-    validate_model.print_top_words(
-        train_model.nmf(tfidf_X, n_topics),
-        tfidf_feature_names,
-        n_top_words=n_top_words
-    )
-
     plot_dendrogram_Agglomerative(
         aggl_clustering,
         truncate_mode='lastp',  # show only the last p merged clusters
@@ -89,7 +75,7 @@ def main():
     plot_dendrogram(
         Z,
         truncate_mode='level',
-        p=5,
+        p=10,
         leaf_rotation=90,
         # leaf_font_size=12.,
         show_contracted=True
@@ -110,7 +96,6 @@ def main():
         dossies_metadados.set_index('nome_do_arquivo'),
         on='nome_do_arquivo'
     ).dropna()
-
     logger([
         {
             'name': 'len dossies que possuem metadados',
@@ -122,42 +107,26 @@ def main():
         }
     ])
 
-    # Com os resultados dessa célula pode-se presumir que documentos com a
-    # label 2 está fortemente relacionado à questões de agricultura e com
-    # vários registros sobre cultivo
-    cluster_2 = validate_model.checar_categoria(
-        dossies_com_metadados, labels, 2)
-    print('documentos pertencentes ao grupo 2 - info')
-    cluster_2.info()
-    logger([
-        {
-            'name': 'documentos pertencentes ao grupo 2 - head',
-            'value': cluster_2.head()
-        },
-        {
-            'name': 'documentos que possuem a palavra "cultivo" no titulo',
-            'value': validate_model.checar_substring(cluster_2, 'titulo', 'cultivo')
-        }
-    ])
+    for cluster_index in range(1, n_clusters + 1):
+        cluster_n = validate_model.checar_categoria(
+            dossies_com_metadados, labels, cluster_index)
+        print(f'documentos pertencentes ao grupo {cluster_index} - info')
+        cluster_n.info()
+        logger([
+            {
+                'name': f'documentos pertencentes ao grupo {cluster_index} - head',
+                'value': cluster_n.head()
+            },
+        ])
+        doc_topics_cluster_n = validate_model.get_topics_by_doc(cluster_n)
+        export_df_to_csv(
+            doc_topics_cluster_n, f'cluster_{cluster_index}',
+            parent_path='topicos_por_cluster_e_documento',
+            index=False
+        )
+        validate_model.print_topics_by_doc(cluster_n, n_top_topics=1)
 
-    # Com os resultados dessa célula pode-se presumir que documentos com a
-    # label 1 está fortemente relacionado à questões de agricultura e cogumelos
-    cluster_1 = validate_model.checar_categoria(
-        dossies_com_metadados, labels, 1)
-    print('documentos pertencentes ao grupo 1 - info')
-    cluster_1.info()
-    logger([
-        {
-            'name': 'documentos pertencentes ao grupo 1 - head',
-            'value': cluster_1.head()
-        },
-        {
-            'name': 'documentos que possuem a palavra "cogumelo" ou "cogumelos" no titulo',
-            'value': validate_model.checar_substring(cluster_1, 'titulo', r'cogumelos?')
-        }
-    ])
-
-    # # para que as imagens sejam plotadas
+    # para que as imagens sejam plotadas
     show()
 
 
