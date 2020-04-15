@@ -2,7 +2,7 @@
 #gera todos as informações necessárias para as visualizações
 #e exporta um arquivo .RData para ser importado no dashboard
 
-setwd("/home/micael/R_envs/text-mining/")
+setwd("/home/micael/repositorios/github/textmining-sbrt/")
 source("scripts/respostas/get_funs.R")
 options(java.parameters="-Xmx6g")
 library(dfrtopics)
@@ -13,8 +13,9 @@ library(dendextend)
 library(readr)
 
 #Diretórios dos arquivos necessários
-respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
-metadados_dir<-"dados/metadados_RT.csv"
+respostas_dir<-"dados/sbrt_txts/respostas_txt"
+#respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
+metadados_dir<-"dados/sbrt_respostas_solicitacao_metadados.csv"
 stop_words_sbrt<-"dados/stop_words_sbrt.txt"
 
 #Leitura das stopwords.

@@ -46,8 +46,8 @@ get_txt <- function(dados) {
   #df_metadados <- data.frame(matrix(unlist(metadados), nrow=length(metadados), byrow=T))
   #names(df_metadados)<-names(metadados[[1]])
   #df_metadados$doc_id<-df_metadados$dossie
-  #txtdf$doc_id<-sub('.txt',"",txtdf$doc_id)
-  txtdf<-merge(txtdf,df_metadados, by="doc_id")
+  txtdf$doc_id<-sub('.txt',"",txtdf$doc_id)
+  #txtdf<-merge(txtdf,df_metadados, by="doc_id")
   txtdf$id<-txtdf$doc_id
   
   ## limpeza

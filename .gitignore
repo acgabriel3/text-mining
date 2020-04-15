@@ -6,3 +6,4 @@ dados/*
 *.rda
 *.RData
 *.dcf
+.Rproj.user
