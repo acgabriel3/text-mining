@@ -1,0 +1,162 @@
+---
+title: "SBRT Respostas"
+author: ''
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+library(tidytext)
+library(dplyr)
+library(dendextend)
+
+#library(biclust)
+load("sbrt_vis_40.RData")
+set.seed(1)
+
+#Seleção dos 100 dossiês mais relevantes por tópico.
+respostas_topic<-respostas_topic %>%
+  group_by(topic) %>% slice(1:100)
+
+names(respostas_topic)<-c("Resposta", "Título", "Categoria atual do SBRT", "Assunto", "topic", "Gamma")
+
+#Seleção dos 1000 termos mais relevantes por tópico.
+terms_sbrt<-terms_sbrt%>%
+  group_by(topic) %>% slice(1:1000)%>%
+  ungroup()
+names(terms_sbrt)<-c("topic", "Termo", "Beta")
+
+
+```
+
+Inputs {.sidebar}
+====================================================================================
+
+
+
+```{r}
+ selectInput("topicnum", label = h3("Selecione um tópico"), 
+    choices=seq(1:best_topic),
+    #choices=list("1"=1,"2"=2),
+
+    selected = 1)
+```
+
+
+```{r}
+checkboxGroupInput("icons", "Choose icons:",
+    choiceNames =
+      list(icon("calendar"), icon("bed"),
+           icon("cog"), icon("bug")),
+    choiceValues =
+      list("calendar", "bed", "cog", "bug")
+  ,
+  textOutput("txt"))
+```
+
+Visualização interativa dos documentos e termos por tópico.
+
+Clique [aqui](https://micaelfilipee.github.io/sbrt_topics/respostas/40/index.html) para visualizar o modelo LDA utilizado para identtificação dos tópicos. 
+
+
+Documentos
+====================================================================================
+
+Row
+-----------------------------------------------------------------------
+
+### Dendograma
+    
+```{r}
+num <- reactive(as.integer(input$topicnum))
+
+renderPlot({
+par(mar = c(0,0,0,0))
+dendrograma_docs %>% 
+  set("branches_k_color", k = best_topic)%>% 
+  set("labels_cex", 1) %>%
+  set("leaves_cex",0.2)%>%
+  set("hang_leaves",0.2)%>%
+  set("branches_lwd", 2)%>%
+  plot(horiz=T, axes=F)
+
+  
+})
+
+```
+
+
+
+
+
+
+Row {.tabset}
+-----------------------------------------------------------------------
+
+### Top 100 Dossiês do tópico
+
+```{r}
+# only display table for values in cluster 4
+#n.topic<-num()
+renderTable(
+respostas_topic%>%
+  filter(topic==num())%>%
+  ungroup()%>%
+  select(-topic),digits=3
+)
+```
+
+
+
+
+
+Termos
+====================================================================================
+
+
+Row
+-----------------------------------------------------------------------
+
+### Dendograma
+    
+```{r}
+num <- reactive(as.integer(input$topicnum))
+
+renderPlot({
+par(mar = c(0,0,0,0))
+dendrograma_terms %>% 
+  set("branches_k_color", k = best_topic)%>% 
+  set("labels_cex", 1) %>%
+  set("leaves_cex",0.2)%>%
+  set("hang_leaves",0.1)%>%
+  set("branches_lwd", 2)%>%
+  plot(horiz=T, axes=F)
+})
+
+```
+
+
+
+
+
+
+Row {.tabset}
+-----------------------------------------------------------------------
+
+
+
+### Hierarquia dos termos
+    
+```{r}
+renderTable(
+terms_sbrt%>%
+  filter(topic==num())%>%
+  select(-topic), digits=6
+)
+```
+
+
+

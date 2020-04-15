@@ -1,2 +1,8 @@
 
 dados/*
+*.udpipe
+*.Rproj
+*.rds
+*.rda
+*.RData
+*.dcf
