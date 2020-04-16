@@ -1,5 +1,5 @@
-
-dados/*
+dados/sbrt_txts/*
+testes/*
 *.udpipe
 *.Rproj
 *.rds
@@ -7,3 +7,4 @@ dados/*
 *.RData
 *.dcf
 .Rproj.user
+

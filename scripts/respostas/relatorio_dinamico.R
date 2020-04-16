@@ -4,7 +4,7 @@
 
 setwd("/home/micael/repositorios/github/textmining-sbrt/")
 source("scripts/respostas/get_funs.R")
-options(java.parameters="-Xmx6g")
+options(java.parameters="-Xmx2g")
 library(dfrtopics)
 library(tidytext)
 library(tidyverse)
@@ -13,9 +13,9 @@ library(dendextend)
 library(readr)
 
 #Diretórios dos arquivos necessários
-respostas_dir<-"dados/sbrt_txts/respostas_txt"
+respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
 #respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
-metadados_dir<-"dados/sbrt_respostas_solicitacao_metadados.csv"
+metadados_dir<-"dados/metadados_RT.csv"
 stop_words_sbrt<-"dados/stop_words_sbrt.txt"
 
 #Leitura das stopwords.
@@ -35,7 +35,7 @@ instance_mallet<-make_instances(txtdf, stoplist_file = stop_words_sbrt)
 
 #Busca pelo número de tópicos adequado para geração do modelo LDA.
 #De acordo com a quantidade de documentos foi definido 60 como numero máximo de tópicos.
-best_topic<-find_n_topics(txtdf,instance_mallet,stop_words= sw,metadados, 70)
+best_topic<-find_n_topics(txtdf,instance_mallet,stop_words= sw,metadados, 140)
 
 #Criação do modelo LDA de acordo com o número de tópicos encontrado no processo anterior.
 best_model<-train_model(instance_mallet,n_topics = best_topic, metadata = metadados, seed = 12345)
@@ -50,7 +50,7 @@ documents_sbrt<-tidy(best_model$model, matrix = "gamma")%>%
 
 #Insere os metadados no dataframe gerado no passo anterior e  seleciona os 100 documentos mais relevantes.
 respostas_topic<-metadados %>%
-  dplyr::select(id, titulo, categoria, assunto)%>%
+  #dplyr::select(id, titulo, categoria, assunto)%>%
   mutate(document=id)%>%
   merge(documents_sbrt)%>%
   select(-id)%>%

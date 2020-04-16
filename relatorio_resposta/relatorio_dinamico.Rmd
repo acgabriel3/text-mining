@@ -12,16 +12,22 @@ runtime: shiny
 library(tidytext)
 library(dplyr)
 library(dendextend)
+library(shinyWidgets)
+library(dplyr)
+library(stringr)
+
+
 
 #library(biclust)
-load("sbrt_vis_40.RData")
+load("/home/micael/repositorios/github/textmining-sbrt/relatorio_resposta/base/sbrt_vis_10.RData")
 set.seed(1)
 
 #Seleção dos 100 dossiês mais relevantes por tópico.
 respostas_topic<-respostas_topic %>%
   group_by(topic) %>% slice(1:100)
-
-names(respostas_topic)<-c("Resposta", "Título", "Categoria atual do SBRT", "Assunto", "topic", "Gamma")
+respostas_topic$periodo<-gsub(regex("(\\d+/\\d+/)", dotall = TRUE),"",respostas_topic$DATA_CRIACAO)%>%
+as.numeric()
+#names(respostas_topic)<-c("Resposta", "Título", "Categoria atual do SBRT", "Assunto", "topic", "Gamma")
 
 #Seleção dos 1000 termos mais relevantes por tópico.
 terms_sbrt<-terms_sbrt%>%
@@ -30,15 +36,123 @@ terms_sbrt<-terms_sbrt%>%
 names(terms_sbrt)<-c("topic", "Termo", "Beta")
 
 
+periodo<- respostas_topic$periodo%>%unique()%>%sort()
+
 ```
 
 Inputs {.sidebar}
 ====================================================================================
 
 
+```{r include=FALSE}
+dropdownButton <- function(label = "", status = c("default", "primary", "success", "info", "warning", "danger"), ..., width = NULL) {
+
+  status <- match.arg(status)
+  # dropdown button content
+  html_ul <- list(
+    class = "dropdown-menu",
+    style = if (!is.null(width)) 
+      paste0("width: ", validateCssUnit(width), ";"),
+    lapply(X = list(...), FUN = tags$li, style = "margin-left: 10px; margin-right: 10px;")
+  )
+  # dropdown button apparence
+  html_button <- list(
+    class = paste0("btn btn-", status," dropdown-toggle"),
+    type = "button", 
+    `data-toggle` = "dropdown"
+  )
+  html_button <- c(html_button, list(label))
+  html_button <- c(html_button, list(tags$span(class = "caret")))
+  # final result
+  tags$div(
+    class = "dropdown",
+    do.call(tags$button, html_button),
+    do.call(tags$ul, html_ul),
+    tags$script(
+      "$('.dropdown-menu').click(function(e) {
+      e.stopPropagation();
+});")
+  )
+  }
+```
+
+
+
+```{r include=FALSE}
+#obervers para o checkbox dos estados
+  #output$res1 <- renderPrint({
+  #  input$check1
+  #})
+
+  # Sorting asc
+  observeEvent(input$a2z, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check2", choices = unique(respostas_topic$UF_ORIG), selected = input$check2
+    )
+  })
+  # Sorting desc
+  observeEvent(input$z2a, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check2", choices = rev(unique(respostas_topic$UF_ORIG)), selected = input$check2
+    )
+  })
+  output$res2 <- renderPrint({
+    input$check2
+  })
+  # Select all / Unselect all
+  observeEvent(input$all, {
+    if (is.null(input$check2)) {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check2", selected = unique(respostas_topic$UF_ORIG)
+      )
+    } else {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check2", selected = ""
+      )
+    }
+  })
+```
+
+
+
+```{r include=FALSE}
+#obervers para o checkbox das instituicoes
+  #output$res1 <- renderPrint({
+  #  input$check1
+  #})
+
+  # Sorting asc
+  observeEvent(input$a2z, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check3", choices = unique(respostas_topic$INST), selected = input$check3
+    )
+  })
+  # Sorting desc
+  observeEvent(input$z2a, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check3", choices = rev(unique(respostas_topic$INST)), selected = input$check3
+    )
+  })
+  output$res2 <- renderPrint({
+    input$check3
+  })
+  # Select all / Unselect all
+  observeEvent(input$all_inst, {
+    if (is.null(input$check3)) {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check3", selected = unique(respostas_topic$INST)
+      )
+    } else {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check3", selected = ""
+      )
+    }
+  })
+```
+
 
 ```{r}
- selectInput("topicnum", label = h3("Selecione um tópico"), 
+ selectInput("topicnum", label = "Selecione um ou mais tópicos", 
     choices=seq(1:best_topic),
     #choices=list("1"=1,"2"=2),
 
@@ -46,16 +160,80 @@ Inputs {.sidebar}
 ```
 
 
-```{r}
-checkboxGroupInput("icons", "Choose icons:",
-    choiceNames =
-      list(icon("calendar"), icon("bed"),
-           icon("cog"), icon("bug")),
-    choiceValues =
-      list("calendar", "bed", "cog", "bug")
-  ,
-  textOutput("txt"))
+
+```{r eval=FALSE, include=FALSE}
+selectInput("categ", label = h3("Selecione uma ou mais categorias"), 
+    choices = levels(respostas_topic$`Categoria atual do SBRT`),
+    multiple = TRUE)
 ```
+
+
+```{r}
+fluidPage(
+  tags$h5("Selecione uma ou mais UFs"),
+  #br(),
+  fluidRow(
+    column(
+      width = 6,
+      dropdownButton(
+        label = "Estados", status = "default", width = 80,
+        actionButton(inputId = "a2z", label = "A - Z", icon = icon("sort-alpha-asc")),
+        actionButton(inputId = "z2a", label = "Z - A", icon = icon("sort-alpha-desc")),
+        br(),
+        actionButton(inputId = "all", label ="Todos/Nenhum"),
+        checkboxGroupInput(inputId = "check2", label = "Selecione", choices =unique(respostas_topic$UF_ORIG), selected = unique(respostas_topic$UF_ORIG)
+      )#,
+      #verbatimTextOutput(outputId = "res2")
+    )
+  )
+)
+)
+```
+
+
+
+```{r}
+fluidPage(
+  tags$h5("Selecione uma ou mais instituicao"),
+  #br(),
+  fluidRow(
+    column(
+      width = 6,
+      dropdownButton(
+        label = "Instituicoes", status = "default", width = 80,
+        actionButton(inputId = "a2z", label = "A - Z", icon = icon("sort-alpha-asc")),
+        actionButton(inputId = "z2a", label = "Z - A", icon = icon("sort-alpha-desc")),
+        br(),
+        actionButton(inputId = "all_inst", label = "Todos/Nenhum"),
+        checkboxGroupInput(inputId = "check3", label = "Selecione", choices =unique(respostas_topic$INST), selected = unique(respostas_topic$INST)
+      )#,
+      #verbatimTextOutput(outputId = "res2")
+    )
+  )
+)
+)
+```
+
+
+```{r}
+basicPage(sliderInput("ano", "Ano",min = min(periodo), max = max(periodo), value = c(min(periodo),max(periodo)),sep=""),textOutput("SliderText2"))
+
+my_range2 <- reactive({
+    cbind(input$ano[1],input$ano[2])
+})
+output$SliderText2 <- renderText({my_range2()})
+```
+
+```{r}
+
+basicPage(sliderInput("range", "Age:",min = 0, max = 100, value = c(0,100)),textOutput("SliderText"))
+  my_range <- reactive({
+    cbind(input$range[1],input$range[2])
+})
+output$SliderText <- renderText({my_range()})
+
+```
+
 
 Visualização interativa dos documentos e termos por tópico.
 
@@ -65,25 +243,25 @@ Clique [aqui](https://micaelfilipee.github.io/sbrt_topics/respostas/40/index.htm
 Documentos
 ====================================================================================
 
-Row
------------------------------------------------------------------------
+#Row
+#-----------------------------------------------------------------------
 
-### Dendograma
-    
-```{r}
+```{r include=FALSE}
+#inputs
 num <- reactive(as.integer(input$topicnum))
+uf<-reactive(input$check2)
+insti<-reactive(input$check3)
+ano_inicio<-reactive(as.numeric(input$ano[1]))
+ano_fim<-reactive(as.numeric(input$ano[2]))
+categoria<-reactive(input$categ)
+```
 
-renderPlot({
-par(mar = c(0,0,0,0))
-dendrograma_docs %>% 
-  set("branches_k_color", k = best_topic)%>% 
-  set("labels_cex", 1) %>%
-  set("leaves_cex",0.2)%>%
-  set("hang_leaves",0.2)%>%
-  set("branches_lwd", 2)%>%
-  plot(horiz=T, axes=F)
-
+#Dendograma
   
+```{r eval=FALSE, include=FALSE}
+num <- reactive(as.integer(input$topicnum))
+categoria<-reactive(input$p1)
+
 })
 
 ```
@@ -91,12 +269,10 @@ dendrograma_docs %>%
 
 
 
-
-
 Row {.tabset}
 -----------------------------------------------------------------------
 
-### Top 100 Dossiês do tópico
+### Top 100 Respostas do tópico
 
 ```{r}
 # only display table for values in cluster 4
@@ -104,8 +280,15 @@ Row {.tabset}
 renderTable(
 respostas_topic%>%
   filter(topic==num())%>%
+  filter(UF_ORIG %in% uf())%>%
+  filter(INST %in% insti())%>%
+  #filter(periodo>=ano_inicio()|periodo<=ano_fim())%>%
+  filter(periodo>=ano_inicio())%>%
+  filter(periodo<=ano_fim())%>%
+  #filter(str_detect(DATA_CRIACAO, regex("(\\d+/\\d+/2008)", dotall = TRUE)))%>%
+  #filter(`Categoria atual do SBRT` %in% categoria() )%>%
   ungroup()%>%
-  select(-topic),digits=3
+  select(-topic, -AUTOR_QT,-COD_QT,-CNAE_SUB_RT)#,digits=3
 )
 ```
 
@@ -154,7 +337,7 @@ Row {.tabset}
 renderTable(
 terms_sbrt%>%
   filter(topic==num())%>%
-  select(-topic), digits=6
+  select(-topic)#, digits=6
 )
 ```
 

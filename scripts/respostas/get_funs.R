@@ -162,7 +162,7 @@ txt_resposta_pdf<-function(resposta){
 require(dfrtopics)
 require(mallet)
 require(ggplot2)
-options(java.parameters="-Xmx6g")
+options(java.parameters="-Xmx4g")
 
 #Função necessária para busca do modelo LDA mais adquado.
 #Recebe como entrada o dataframe com um documento por linha e seu respectivo identificador,
@@ -172,7 +172,10 @@ options(java.parameters="-Xmx6g")
 #Retorna um gráffico demonstrando a pontuação de coerencia para cada modelo e o número de tópcios adequado.
 
 find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
+  limites<-10
   
+  cat(c("Tokenizando","\n"))
+  gc()
   tokens <- txtdf %>%
     tidytext::unnest_tokens(word, text)
   
@@ -186,19 +189,23 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
   coherence<-vector()
   n_topics<-vector()
   
-  for (i in seq(2,max_topics,2)){
-    
+  for (i in seq(limites,max_topics,limites)){
+    cat(c("Inicialiazando treinamento do modelo","\n"))
+    gc()
     m<-train_model(instance_mallet,n_topics = i, metadata = metadata, seed = 12345)
     m$doc_ids<-doc_ids(m)
+    gc()
     
     
     term_counts <- rename(word_counts, term = word, document = id)
     term_document_sbrt<-augment(m$model, term_counts)
+    gc()
     
     
     x <- udpipe::document_term_frequencies(term_document_sbrt[, c("document", "term")])
     dtm <- udpipe::document_term_matrix(x)
     rm(x)
+    gc()
     
     phi <- mallet.topic.words(m$model)
     theta <- mallet.doc.topics(m$model)
@@ -208,6 +215,7 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
     
     coherence.model<-textmineR::CalcProbCoherence(phi = phi, dtm = dtm, M = 5)%>%mean()
     n_topics.model<-m$model$model$numTopics
+    gc()
     
     n_topics[i]<-n_topics.model
     cat(c("Number of topics of the model:",n_topics.model,"\n"))
@@ -227,7 +235,7 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
     geom_point() +
     ggtitle("Melhor Tópico pela Coerência") + 
     theme_minimal() +
-    scale_x_continuous(breaks = seq(2,max_topics,2)) + 
+    scale_x_continuous(breaks = seq(limites,max_topics,limites)) + 
     ylab("Coerência")+
     xlab("Tópico")
   best.model.k<-coherence_mat[which.max(coherence_mat$coherence),1]
