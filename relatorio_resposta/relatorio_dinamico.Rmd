@@ -15,6 +15,8 @@ library(dendextend)
 library(shinyWidgets)
 library(dplyr)
 library(stringr)
+library(flexdashboard)
+library(shiny)
 
 
 
@@ -24,7 +26,7 @@ set.seed(1)
 
 #Seleção dos 100 dossiês mais relevantes por tópico.
 respostas_topic<-respostas_topic %>%
-  group_by(topic) %>% slice(1:100)
+  group_by(topic) #%>% slice(1:100)
 respostas_topic$periodo<-gsub(regex("(\\d+/\\d+/)", dotall = TRUE),"",respostas_topic$DATA_CRIACAO)%>%
 as.numeric()
 #names(respostas_topic)<-c("Resposta", "Título", "Categoria atual do SBRT", "Assunto", "topic", "Gamma")
@@ -161,13 +163,6 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
 
 
 
-```{r eval=FALSE, include=FALSE}
-selectInput("categ", label = h3("Selecione uma ou mais categorias"), 
-    choices = levels(respostas_topic$`Categoria atual do SBRT`),
-    multiple = TRUE)
-```
-
-
 ```{r}
 fluidPage(
   tags$h5("Selecione uma ou mais UFs"),
@@ -216,23 +211,12 @@ fluidPage(
 
 
 ```{r}
-basicPage(sliderInput("ano", "Ano",min = min(periodo), max = max(periodo), value = c(min(periodo),max(periodo)),sep=""),textOutput("SliderText2"))
+basicPage(sliderInput("ano", "Ano",min = min(periodo), max = max(periodo), value = c(min(periodo),max(periodo)),sep=""))
 
-my_range2 <- reactive({
-    cbind(input$ano[1],input$ano[2])
-})
-output$SliderText2 <- renderText({my_range2()})
-```
-
-```{r}
-
-basicPage(sliderInput("range", "Age:",min = 0, max = 100, value = c(0,100)),textOutput("SliderText"))
-  my_range <- reactive({
-    cbind(input$range[1],input$range[2])
-})
-output$SliderText <- renderText({my_range()})
 
 ```
+
+
 
 
 Visualização interativa dos documentos e termos por tópico.
@@ -243,8 +227,10 @@ Clique [aqui](https://micaelfilipee.github.io/sbrt_topics/respostas/40/index.htm
 Documentos
 ====================================================================================
 
-#Row
-#-----------------------------------------------------------------------
+Row
+-----------------------------------------------------------------------
+### Respostas Selecionadas
+
 
 ```{r include=FALSE}
 #inputs
@@ -256,15 +242,19 @@ ano_fim<-reactive(as.numeric(input$ano[2]))
 categoria<-reactive(input$categ)
 ```
 
-#Dendograma
-  
-```{r eval=FALSE, include=FALSE}
-num <- reactive(as.integer(input$topicnum))
-categoria<-reactive(input$p1)
 
-})
-
+```{r}
+renderValueBox(
+valueBox(respostas_n(), icon = "fa-pencil"))
 ```
+
+### Proporcao do total de respostas
+```{r}
+renderGauge(
+  gauge(10, min = 0, max = 100, symbol = '%')
+)
+```
+
 
 
 
@@ -275,10 +265,7 @@ Row {.tabset}
 ### Top 100 Respostas do tópico
 
 ```{r}
-# only display table for values in cluster 4
-#n.topic<-num()
-renderTable(
-respostas_topic%>%
+respostas_tbl<-reactive({respostas_topic%>%
   filter(topic==num())%>%
   filter(UF_ORIG %in% uf())%>%
   filter(INST %in% insti())%>%
@@ -288,11 +275,29 @@ respostas_topic%>%
   #filter(str_detect(DATA_CRIACAO, regex("(\\d+/\\d+/2008)", dotall = TRUE)))%>%
   #filter(`Categoria atual do SBRT` %in% categoria() )%>%
   ungroup()%>%
-  select(-topic, -AUTOR_QT,-COD_QT,-CNAE_SUB_RT)#,digits=3
+  select(-topic, -AUTOR_QT,-COD_QT,-CNAE_SUB_RT,-periodo)
+})
+```
+
+
+```{r}
+# only display table for values in cluster 4
+#n.topic<-num()
+renderTable(
+respostas_tbl(),digits=0
+
 )
 ```
 
 
+```{r include=FALSE}
+respostas_n<-reactive({
+  
+  respostas_tbl()%>%nrow()
+
+})
+
+```
 
 
 
