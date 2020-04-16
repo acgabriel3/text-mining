@@ -24,13 +24,6 @@ def _load_files(path, seed=None):
     return files
 
 
-# se o nltk der problema para rodar descomente essa parte
-def _download_nltk_dependencies():
-    nltk.download('stopwords')
-    nltk.download('rslp')
-    nltk.download('punkt')
-
-
 def basic_pre_process(text):
     """
     realiza um pré processamento básico nos textos.
@@ -54,7 +47,7 @@ def basic_pre_process(text):
     text = re.sub(r'd o s si ê t é c n i c o', '', text)
 
     # remove pontuação da forma mais eficiente possivel
-    text = text.translate(str.maketrans(' ', ' ', string.punctuation)).lower()
+    text = text.translate(str.maketrans('', '', string.punctuation)).lower()
     text = re.sub(r'\d+', '', text)
     text = re.sub(r'\s{2,}', ' ', text)
 
@@ -73,17 +66,16 @@ def basic_pre_process(text):
 
 
 @click.command()
-@click.option('--data',
+@click.option('--src',
               type=click.Choice(['dossies', 'respostas']),
-              #   case_sensitive=False,
               help='data to be preprocessed')
-def main(data):
+def main(src):
     """
     Pré-processa os documentos e salva o resultado intermediário.
 
     Executa a função `basic_pre_process` no texto de cada documento, e então,
     salva o intermediário na pasta
-    data/interim/[dossies | respostas]/arquivo_processado.txt
+    data/preprocessed/[dossies | respostas]/arquivo_processado.txt
 
     Parameters
     ----------
@@ -91,10 +83,9 @@ def main(data):
         string que representa se é para ser pré-processado os dossiês ou as
         respostas
     """
-    data_path, out_path = (raw_respostas_path, interim_respostas_path) if data == 'respostas' else (
+    data_path, out_path = (raw_respostas_path, interim_respostas_path) if src == 'respostas' else (
         raw_dossies_path, interim_dossies_path)
 
-    _download_nltk_dependencies()
     arquivos = _load_files(data_path)
 
     if not os.path.exists(out_path):

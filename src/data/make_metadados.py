@@ -104,7 +104,8 @@ def load_dossies_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
                 [*[json_metadados[fn][metadado_key]
                     for metadado_key in meta_src], f'{fn}.txt']
             ]
-            row = pd.DataFrame(data=np.array(data), columns=[*meta_src, 'nome_do_arquivo'])
+            row = pd.DataFrame(data=np.array(data), columns=[
+                               *meta_src, 'nome_do_arquivo'])
             df = df.append(row, ignore_index=True)
         else:
             print(f'nao ha metadados para o arquivo {fn}.txt')
@@ -145,7 +146,8 @@ def load_respostas_metadados_df(arquivos, metadados=None) -> pd.DataFrame:
                 [*[json_metadados[fn][metadado_key]
                     for metadado_key in meta_src], f'{fn}.txt']
             ]
-            row = pd.DataFrame(data=np.array(data), columns=[*meta_src, 'nome_do_arquivo'])
+            row = pd.DataFrame(data=np.array(data), columns=[
+                               *meta_src, 'nome_do_arquivo'])
             df = df.append(row, ignore_index=True)
         else:
             print(f'nao ha metadados para o arquivo {fn}.txt')

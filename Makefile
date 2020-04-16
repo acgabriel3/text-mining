@@ -1,106 +1,49 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+# Makefile
+SHELL := /bin/bash
 
-#################################################################################
-# GLOBALS                                                                       #
-#################################################################################
+GDRIVE_FOLDER_SHARE_ID := 19pkZi3rZbtUxVEFq7L-ttE6sZTX9zTN1
+RAW_DATA_SHARE_ID := 1RzaoH_cFHC_S0hYm5QzD2OO892rvCSP6
+DOSSIES_METADADOS_SHARE_ID := 1EJ3nBF7Cqe8N46nu8-ysS5PSl0Emz1yC
+RESPOSTAS_METADADOS_SHARE_ID :=10iHcTuHPcudqYeLLtwxk3bqnjn3B3u-a
+VOC_CONTROLADO_SHARE_ID := 1AOher12JPOHseEVop6cc0PDam2L3px2u
 
-PROJECT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-BUCKET = [OPTIONAL] your-bucket-for-syncing-data (do not include 's3://')
-PROFILE = default
-PROJECT_NAME = text-mining
-PYTHON_INTERPRETER = python3
+.PHONY: all env requirements fetch_data preprocess_data clean
 
-ifeq (,$(shell which conda))
-HAS_CONDA=False
-else
-HAS_CONDA=True
-endif
+all: requirements fetch_data
 
-#################################################################################
-# COMMANDS                                                                      #
-#################################################################################
+env:
+	@echo Creating env
+	@python3 -m venv env
 
-## Install Python Dependencies
 requirements:
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+	@echo downloading requirements for project
+	@pip install -r requirements.txt
 
-## Pre process data passed by argument DATA
-data: requirements
-	$(PYTHON_INTERPRETER) src/data/preprocess.py --data=$$DATA
+before_fetch_data:
+	@echo Fetching data
 
-## Delete all compiled Python files
+fetch_data: before_fetch_data get_raw get_metadata
+
+preprocess_data: requirements
+	@mkdir -p data/preprocessed
+	@python3 src/data/preprocess.py --src=$$SRC
+
+get_metadata:
+	@./scripts.sh gdrive_download $(DOSSIES_METADADOS_SHARE_ID) dossies_metadados.json
+	@./scripts.sh move_to dossies_metadados.json data/processed
+
+	@./scripts.sh gdrive_download $(RESPOSTAS_METADADOS_SHARE_ID) respostas_metadados.json
+	@./scripts.sh move_to respostas_metadados.json data/processed
+
+	@./scripts.sh gdrive_download $(VOC_CONTROLADO_SHARE_ID) voc_controlado.xlsx
+	@./scripts.sh move_to voc_controlado.xlsx data/processed
+
+get_raw:
+	@./scripts.sh gdrive_download $(RAW_DATA_SHARE_ID) sbrt_raw.zip
+	@./scripts.sh move_to sbrt_raw.zip data/raw
+	@unzip -P "segredo" -d data/raw data/raw/sbrt_raw.zip
+	@rm -rf data/raw/sbrt_raw.zip
+
 clean:
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
-
-## Lint using flake8
-lint:
-	flake8 src
-
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
-
-
-
-#################################################################################
-# Self Documenting Commands                                                     #
-#################################################################################
-
-.DEFAULT_GOAL := help
-
-# Inspired by <http://marmelab.com/blog/2016/02/29/auto-documented-makefile.html>
-# sed script explained:
-# /^##/:
-# 	* save line in hold space
-# 	* purge line
-# 	* Loop:
-# 		* append newline + line to hold space
-# 		* go to next line
-# 		* if line starts with doc comment, strip comment character off and loop
-# 	* remove target prerequisites
-# 	* append hold space (+ newline) to line
-# 	* replace newline plus comments by `---`
-# 	* print line
-# Separate expressions are necessary because labels cannot be delimited by
-# semicolon; see <http://stackoverflow.com/a/11799865/1968>
-.PHONY: help
-help:
-	@echo "$$(tput bold)Available rules:$$(tput sgr0)"
-	@echo
-	@sed -n -e "/^## / { \
-		h; \
-		s/.*//; \
-		:doc" \
-		-e "H; \
-		n; \
-		s/^## //; \
-		t doc" \
-		-e "s/:.*//; \
-		G; \
-		s/\\n## /---/; \
-		s/\\n/ /g; \
-		p; \
-	}" ${MAKEFILE_LIST} \
-	| LC_ALL='C' sort --ignore-case \
-	| awk -F '---' \
-		-v ncol=$$(tput cols) \
-		-v indent=19 \
-		-v col_on="$$(tput setaf 6)" \
-		-v col_off="$$(tput sgr0)" \
-	'{ \
-		printf "%s%*s%s ", col_on, -indent, $$1, col_off; \
-		n = split($$2, words, " "); \
-		line_length = ncol - indent; \
-		for (i = 1; i <= n; i++) { \
-			line_length -= length(words[i]) + 1; \
-			if (line_length <= 0) { \
-				line_length = ncol - indent - length(words[i]) - 1; \
-				printf "\n%*s ", -indent, " "; \
-			} \
-			printf "%s ", words[i]; \
-		} \
-		printf "\n"; \
-	}' \
-	| more $(shell test $(shell uname) = Darwin && echo '--no-init --raw-control-chars')
+	@find . -type f -name "*.py[co]" -delete
+	@find . -type d -name "__pycache__" -delete

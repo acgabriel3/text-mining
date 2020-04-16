@@ -1,4 +1,4 @@
-from .paths import generated_path
+from .paths import _reports_dir
 import os
 from os.path import join
 
@@ -53,10 +53,11 @@ def export_df_to_csv(df, nome_do_arquivo, parent_path=None, **kwargs):
 
 
 def _beforeExport(parent_path, nome_do_arquivo, extensao):
-    if parent_path != None and not os.path.exists(join(generated_path, parent_path)):
-        os.mkdir(join(generated_path, parent_path))
+    if parent_path != None and not os.path.exists(join(_reports_dir, parent_path)):
+        os.mkdir(join(_reports_dir, parent_path))
 
-    out_path = join(generated_path)
+    out_path = join(_reports_dir)
+
     if parent_path != None:
         out_path = join(out_path, parent_path)
 
