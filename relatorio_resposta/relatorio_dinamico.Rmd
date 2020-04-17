@@ -37,9 +37,10 @@ terms_sbrt<-terms_sbrt%>%
   ungroup()
 names(terms_sbrt)<-c("topic", "Termo", "Beta")
 
-
+respostas_total<-nrow(respostas_topic)
 periodo<- respostas_topic$periodo%>%unique()%>%sort()
-
+topics_selector<-as.list(1:length(labels_topics_selector))
+names(topics_selector)<-labels_topics_selector
 ```
 
 Inputs {.sidebar}
@@ -155,17 +156,17 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
 
 ```{r}
  selectInput("topicnum", label = "Selecione um ou mais tópicos", 
-    choices=seq(1:best_topic),
+    choices=topics_selector,
     #choices=list("1"=1,"2"=2),
 
-    selected = 1)
+    selected = topics_selector[[1]])
 ```
 
 
 
 ```{r}
 fluidPage(
-  tags$h5("Selecione uma ou mais UFs"),
+  tags$h5(""),
   #br(),
   fluidRow(
     column(
@@ -189,7 +190,7 @@ fluidPage(
 
 ```{r}
 fluidPage(
-  tags$h5("Selecione uma ou mais instituicao"),
+  tags$h5(""),
   #br(),
   fluidRow(
     column(
@@ -216,6 +217,15 @@ basicPage(sliderInput("ano", "Ano",min = min(periodo), max = max(periodo), value
 
 ```
 
+
+```{r eval=FALSE, include=FALSE}
+basicPage(
+ selectInput("numresultados", label = "Selecione o número de resultados a serem exibidos", 
+    choices=c(100,200,300),
+    #choices=list("1"=1,"2"=2),
+
+    selected = 100))
+```
 
 
 
@@ -245,16 +255,17 @@ categoria<-reactive(input$categ)
 
 ```{r}
 renderValueBox(
-valueBox(respostas_n(), icon = "fa-pencil"))
+valueBox(as.character(respostas_n()), icon = "fa-file-alt"))
 ```
 
-### Proporcao do total de respostas
+### Proporção do total de respostas do tópico
 ```{r}
+porcentagem<-reactive({round(respostas_n()/n_respostas_topico()*100,digits = 2)})
 renderGauge(
-  gauge(10, min = 0, max = 100, symbol = '%')
+  #per<-round(respostas_total/respostas_n()*100),
+  gauge(porcentagem(), min = 0, max = 100, symbol = '%')
 )
 ```
-
 
 
 
@@ -262,7 +273,7 @@ renderGauge(
 Row {.tabset}
 -----------------------------------------------------------------------
 
-### Top 100 Respostas do tópico
+### Respostas do tópico
 
 ```{r}
 respostas_tbl<-reactive({respostas_topic%>%
@@ -277,10 +288,13 @@ respostas_tbl<-reactive({respostas_topic%>%
   ungroup()%>%
   select(-topic, -AUTOR_QT,-COD_QT,-CNAE_SUB_RT,-periodo)
 })
+
+n_respostas_topico<-reactive({respostas_topic%>%
+  filter(topic==num())%>%nrow()})
 ```
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 # only display table for values in cluster 4
 #n.topic<-num()
 renderTable(
@@ -290,14 +304,46 @@ respostas_tbl(),digits=0
 ```
 
 
+```{r}
+# only display table for values in cluster 4
+#n.topic<-num()
+#library(DT)
+#options(DT.fillContainer = FALSE) 
+#options(DT.autoHideNavigation = FALSE) 
+#
+
+renderDataTable({
+DT::datatable(respostas_tbl(),
+              fillContainer = TRUE,
+              autoHideNavigation = FALSE,
+              colnames=c("ID", "Origem da solicitação","Intituição Responsável", 
+                         "CNAE subclasse descrição", "Titulo da RT", "Descrição da RT",
+                         "Data de criação", "Gamma"),
+              options = list(scrollY='400px',
+                             scrollX='400px',
+                             bPaginate = TRUE,
+                               language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'),
+                             columnDefs = list(list(className = 'dt-center', 
+                                                    targets = 1:8))))%>%
+    formatRound(columns=c("gamma"), digits=3)%>%
+  formatStyle(c("document", "UF_ORIG", "INST", "CNAE_SUB_DESCR", "TITULO_RT", "DESCR_RT", "DATA_CRIACAO", "gamma"), `text-align` = "center")
+})
+
+```
+
 ```{r include=FALSE}
 respostas_n<-reactive({
   
-  respostas_tbl()%>%nrow()
+  as.numeric(respostas_tbl()%>%ungroup()%>%nrow())
 
 })
 
 ```
+
+
+
+### Dendrograma
+
 
 
 

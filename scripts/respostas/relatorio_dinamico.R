@@ -43,6 +43,7 @@ best_model$doc_ids<-doc_ids(best_model)
 
 #Extração dos rótulos dos tópicos.
 labels_topics<-topic_labels(best_model, n=5)
+labels_topics_selector<-topic_labels(best_model, n=3)
 
 #Gera dataframe de documentos por tópico.
 documents_sbrt<-tidy(best_model$model, matrix = "gamma")%>%
@@ -55,7 +56,7 @@ respostas_topic<-metadados %>%
   merge(documents_sbrt)%>%
   select(-id)%>%
   arrange(desc(gamma))%>%
-  group_by(topic) %>% slice(1:100)
+  group_by(topic) #%>% slice(1:100)
 
 
 #Gera dataframe de termos por tópico.
@@ -94,7 +95,7 @@ dendrograma_terms %>%
   plot(horiz=T, axes=F)
 
 #Armazena os objetos necessários para a visualização no dashboard.
-save(best_topic,respostas_topic,terms_sbrt,dendrograma_docs,dendrograma_terms,metadados, file = paste0("relatorio_resposta/base/","sbrt_vis_",best_topic,".RData"))
+save(best_topic,respostas_topic,terms_sbrt,dendrograma_docs,dendrograma_terms,metadados,labels_topics_selector, file = paste0("relatorio_resposta/base/","sbrt_vis_",best_topic,".RData"))
 
 
 makeLDAvis(best_model$model,outDir = paste0("/home/micael/R_envs/text-mining/relatorio_resposta/ldavis/",best_topic))
