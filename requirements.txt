@@ -1,0 +1,13 @@
+# this package
+-e .
+
+# core
+setuptools
+wheel
+
+# dependencies
+numpy
+pandas
+chatterbot-corpus
+chatterbot
+autopep8
