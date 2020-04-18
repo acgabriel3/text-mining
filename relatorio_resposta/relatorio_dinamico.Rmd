@@ -1,5 +1,5 @@
 ---
-title: "SBRT Respostas"
+title: "SBRT"
 author: ''
 output:
   flexdashboard::flex_dashboard:
@@ -17,6 +17,8 @@ library(dplyr)
 library(stringr)
 library(flexdashboard)
 library(shiny)
+library(shinythemes)
+library(DT)
 
 
 
@@ -45,7 +47,6 @@ names(topics_selector)<-labels_topics_selector
 
 Inputs {.sidebar}
 ====================================================================================
-
 
 ```{r include=FALSE}
 dropdownButton <- function(label = "", status = c("default", "primary", "success", "info", "warning", "danger"), ..., width = NULL) {
@@ -155,24 +156,128 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
 
 
 ```{r}
- selectInput("topicnum", label = "Selecione um ou mais tópicos", 
-    choices=topics_selector,
-    #choices=list("1"=1,"2"=2),
+fluidPage(theme = shinytheme("united"),
+fluidRow(
+  #br(),
+column(width = 12, align="left",
+tags$h1("Filtros"),
 
-    selected = topics_selector[[1]])
+#selector de tópicos
+tags$h4("Tópico"),
+selectInput("topicnum",
+label = "Selecione um tópico:", 
+choices=topics_selector,
+selected = topics_selector[[1]], 
+width = "100%"),
+
+
+#selector de estado
+tags$h4("Origem da Solicitação"),
+tags$h5("Selecione um ou mais estados:"),
+dropdownButton(
+label = "Estados", 
+status = "default", 
+width = 100,
+
+actionButton(
+inputId = "a2z", 
+label = "A - Z", 
+icon = icon("sort-alpha-asc")),
+
+actionButton(
+inputId = "z2a",
+label = "Z - A",
+icon = icon("sort-alpha-desc")),
+br(),
+
+actionButton(
+inputId = "all",
+label ="Todos/Nenhum"),
+
+checkboxGroupInput(inputId = "check2",
+label = "Selecione",
+choices =unique(respostas_topic$UF_ORIG),
+selected = unique(respostas_topic$UF_ORIG)
+)
+),
+br(),
+
+#selector de instituição
+tags$h4("Instituição Responsável"),
+tags$h5("Selecione um ou mais instituições:"),
+dropdownButton(
+label = "Instituição", 
+status = "default", 
+width = 100,
+
+actionButton(
+inputId = "a2z", 
+label = "A - Z", 
+icon = icon("sort-alpha-asc")),
+
+actionButton(
+inputId = "z2a",
+label = "Z - A",
+icon = icon("sort-alpha-desc")),
+br(),
+
+actionButton(
+inputId = "all_inst",
+label ="Todos/Nenhum"),
+
+checkboxGroupInput(inputId = "check3",
+label = "Selecione",
+choices =unique(respostas_topic$INST),
+selected = unique(respostas_topic$INST)
+)
+),
+
+br(),
+
+tags$h4("Ano de Criação"),
+#selector de intervalo de anos
+sliderInput(
+"ano", "Selecione o intervalo de anos:",
+min = min(periodo),
+max = max(periodo),
+value = c(min(periodo),max(periodo)),
+sep="")
+                            
+                            
+                            
+                            
+)
+)
+)
 ```
 
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 fluidPage(
+  theme = shinytheme("united"),
+  br(),
+  tags$h4("Tópico:"),
+  #br(),
+ selectInput("topicnum", label = "", 
+    choices=topics_selector,
+    #choices=list("1"=1,"2"=2),
+
+    selected = topics_selector[[1]], width = "100%"))
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+fluidPage(
+  theme = shinytheme("united"),
   tags$h5(""),
   #br(),
   fluidRow(
     column(
       width = 6,
       dropdownButton(
-        label = "Estados", status = "default", width = 80,
+        label = "Estados", status = "default", width = 100,
         actionButton(inputId = "a2z", label = "A - Z", icon = icon("sort-alpha-asc")),
         actionButton(inputId = "z2a", label = "Z - A", icon = icon("sort-alpha-desc")),
         br(),
@@ -188,15 +293,16 @@ fluidPage(
 
 
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 fluidPage(
   tags$h5(""),
-  #br(),
+  br(),
   fluidRow(
+    align = "center",
     column(
       width = 6,
       dropdownButton(
-        label = "Instituicoes", status = "default", width = 80,
+        label = "Instituições", status = "default", width = 100,
         actionButton(inputId = "a2z", label = "A - Z", icon = icon("sort-alpha-asc")),
         actionButton(inputId = "z2a", label = "Z - A", icon = icon("sort-alpha-desc")),
         br(),
@@ -211,27 +317,16 @@ fluidPage(
 ```
 
 
-```{r}
-basicPage(sliderInput("ano", "Ano",min = min(periodo), max = max(periodo), value = c(min(periodo),max(periodo)),sep=""))
-
-
-```
-
-
 ```{r eval=FALSE, include=FALSE}
-basicPage(
- selectInput("numresultados", label = "Selecione o número de resultados a serem exibidos", 
-    choices=c(100,200,300),
-    #choices=list("1"=1,"2"=2),
+fluidPage(
+  br(),
+  sliderInput("ano", "Ano:",min = min(periodo), max = max(periodo), value = c(min(periodo),max(periodo)),sep=""))
 
-    selected = 100))
+
 ```
 
 
 
-Visualização interativa dos documentos e termos por tópico.
-
-Clique [aqui](https://micaelfilipee.github.io/sbrt_topics/respostas/40/index.html) para visualizar o modelo LDA utilizado para identtificação dos tópicos. 
 
 
 Documentos
