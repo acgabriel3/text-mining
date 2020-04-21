@@ -22,7 +22,7 @@
 
 ## Como executar
 
-Instale as seguintes dependencias no Linux
+#### Instale as seguintes dependencias no Linux
 
 ```
 $ sudo apt install python3-venv unzip
@@ -36,9 +36,22 @@ $ source env/bin/activate
 $ make
 ```
 
-Para criar os arquivos pre-processados execute:
+#### Para criar os arquivos pre-processados execute:
 
 ```
 $ make preprocess_data SRC=dossies
 $ make preprocess_data SRC=respostas
+```
+
+#### Para rodar as análises:
+
+```
+$ (text-mining) pyhton src/main_[dossies | respostas].py
+```
+
+#### Removendo o env criado:
+
+```
+$ deactivate
+$ rm -rf env
 ```
