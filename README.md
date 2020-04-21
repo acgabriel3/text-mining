@@ -20,7 +20,7 @@
 #### Instale as seguintes dependencias no Linux
 
 ```
-$ sudo apt install python3-venv && python3-dev
+$ sudo apt install python3-venv python3-dev unzip
 ```
 
 Em um terminal unix execute para baixar os dados necessários:
