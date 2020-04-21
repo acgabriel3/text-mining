@@ -34,7 +34,7 @@ $ make
 #### Para rodar o chatbot execute:
 
 ```
-python3 src/main.py
+$ (text-mining) python3 src/main.py
 ```
 
 #### Removendo o env criado:
