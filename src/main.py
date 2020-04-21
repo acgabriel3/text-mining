@@ -18,4 +18,3 @@ while True:
         print(f'{chatbot.name}: {response}')
     except:
         break
-# Now let's get a response to a greeting

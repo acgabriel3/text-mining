@@ -17,10 +17,10 @@
 
 ## Como executar
 
-Instale as seguintes dependencias no Linux
+#### Instale as seguintes dependencias no Linux
 
 ```
-$ sudo apt install python3-venv
+$ sudo apt install python3-venv && python3-dev
 ```
 
 Em um terminal unix execute para baixar os dados necessários:
@@ -31,8 +31,15 @@ $ source env/bin/activate
 $ make
 ```
 
-Para rodar o chatbot execute:
+#### Para rodar o chatbot execute:
 
 ```
 python3 src/main.py
+```
+
+#### Removendo o env criado:
+
+```
+$ deactivate
+$ rm -rf env
 ```

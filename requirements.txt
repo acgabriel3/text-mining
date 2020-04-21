@@ -11,3 +11,6 @@ pandas
 chatterbot-corpus
 chatterbot
 autopep8
+tensorflow>=2.0*
+jupyter
+xlrd
