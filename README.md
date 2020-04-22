@@ -25,14 +25,17 @@
 #### Instale as seguintes dependencias no Linux
 
 ```
-$ sudo apt install python3-venv unzip
+$ sudo apt install software-properties-common python3.7-venv python3.7-dev unzip
+$ sudo add-apt-repository ppa:deadsnakes/ppa
+$ sudo apt update
+$ sudo apt install python3.7
 ```
 
 Em um terminal unix execute para baixar os dados necessários:
 
 ```
 $ make env
-$ source env/bin/activate
+$ source .venv/bin/activate
 $ make
 ```
 
@@ -46,7 +49,7 @@ $ make preprocess_data SRC=respostas
 #### Para rodar as análises:
 
 ```
-$ (text-mining) pyhton src/main_[dossies | respostas].py
+$ (.venv) pyhton src/main_[dossies | respostas].py
 ```
 
 #### Removendo o env criado:
