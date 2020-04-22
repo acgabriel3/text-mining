@@ -2,8 +2,8 @@
 #gera todos as informações necessárias para as visualizações
 #e exporta um arquivo .RData para ser importado no dashboard
 
-setwd("/home/micael/R_envs/text-mining/")
-source("relatorio/base/get_funs.R")
+setwd("/home/sbrt/shiny/sbrt")
+source("relatorio_resposta/base/get_funs.R")
 options(java.parameters="-Xmx6g")
 library(dfrtopics)
 library(tidytext)
