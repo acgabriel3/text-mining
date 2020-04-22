@@ -10,7 +10,8 @@ def pre_process(text):
     table = str.maketrans('', '', string.punctuation)
     t = normalize('NFD', text).encode('ascii', 'ignore')
     t = t.decode('UTF-8')
-    t = re.sub('Copyright  Servico Brasileiro de Respostas Tecnicas - SBRT - http://www.sbrt.ibict.br', '', t)
+    t = re.sub(
+        'Copyright  Servico Brasileiro de Respostas Tecnicas - SBRT - http://www.sbrt.ibict.br', '', t)
     t = re.sub(r'^https?:\/\/.*[\s]*', '', t)
     t = re.sub(r'\S*@\S*\s?', '', t)
     t = t.split()

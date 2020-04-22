@@ -15,11 +15,12 @@ all: requirements fetch_data
 
 env:
 	@echo Creating env
-	@python3 -m venv env
+	@python3.7 -m venv .venv
 
 requirements:
 	@echo downloading requirements for project
-	@pip install -r requirements.txt
+	@pip install --upgrade pip
+	@pip install --upgrade -r requirements.txt
 
 before_fetch_data:
 	@mkdir -p data

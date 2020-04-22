@@ -20,21 +20,24 @@
 #### Instale as seguintes dependencias no Linux
 
 ```
-$ sudo apt install python3-venv python3-dev unzip
+$ sudo apt install software-properties-common python3.7-venv python3.7-dev unzip
+$ sudo add-apt-repository ppa:deadsnakes/ppa
+$ sudo apt update
+$ sudo apt install python3.7
 ```
 
 Em um terminal unix execute para baixar os dados necessários:
 
 ```
 $ make env
-$ source env/bin/activate
+$ source .venv/bin/activate
 $ make
 ```
 
 #### Para rodar o chatbot execute:
 
 ```
-$ (text-mining) python3 src/main.py
+$ (.venv) python3 src/main.py
 ```
 
 #### Removendo o env criado:
