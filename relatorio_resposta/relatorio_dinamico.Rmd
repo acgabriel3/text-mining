@@ -384,17 +384,11 @@ library(dendextend)
 library(readr)
 
 #Diretórios dos arquivos necessários
-<<<<<<< HEAD
 respostas_dir<-"/mnt/dados/sbrt/dados/sbrt_txts/respostas_txt/"
 #respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
 metadados_dir<-"/mnt/dados/sbrt/metadados/metadados_RT.csv"
 stop_words_sbrt<-"/mnt/dados/sbrt/dados/metadados/stop_words_sbrt.txt"
-=======
-respostas_dir<-"/dados/dados_sbrt/sbrt_txts/respostas_txt/"
-#respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
-metadados_dir<-"/dados/dados_sbrt/metadados_RT.csv"
-stop_words_sbrt<-"/dados/dados_sbrt/stop_words_sbrt.txt"
->>>>>>> 0c3e5da3600e7de9d308c4d421f04181ef4810d7
+
 
 
 
@@ -474,17 +468,11 @@ library(dendextend)
 library(readr)
 
 #Diretórios dos arquivos necessários
-<<<<<<< HEAD
 respostas_dir<-"/mnt/dados/sbrt/dados/sbrt_txts/respostas_txt/"
 #respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
 metadados_dir<-"/mnt/dados/sbrt/metadados/metadados_RT.csv"
 stop_words_sbrt<-"/mnt/dados/sbrt/metadados/stop_words_sbrt.txt"
-=======
-respostas_dir<-"/dados/dados_sbrt/sbrt_txts/respostas_txt/"
-#respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
-metadados_dir<-"/dados/dados_sbrt/metadados_RT.csv"
-stop_words_sbrt<-"/dados/dados_sbrt/stop_words_sbrt.txt"
->>>>>>> 0c3e5da3600e7de9d308c4d421f04181ef4810d7
+
 
 
 
