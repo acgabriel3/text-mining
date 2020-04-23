@@ -13,7 +13,7 @@ all: requirements fetch_data
 
 env:
 	@echo Creating env
-	@python3 -m venv env
+	@python3 -m venv .venv
 
 requirements:
 	@echo downloading requirements for project
