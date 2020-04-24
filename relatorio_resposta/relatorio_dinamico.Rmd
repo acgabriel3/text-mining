@@ -22,24 +22,34 @@ library(flexdashboard)
 library(shiny)
 library(shinythemes)
 library(DT)
+library(c3)
 #packrat::unbundle("/home/micael/repositorios/github/textmining-sbrt/pacotes.tar.gz","/home/micael/repositorios/github/textmining-sbrt")
 
 #library(biclust)
-load(paste0(dir_app,"relatorio_resposta/base/sbrt_vis_10.RData"))
+load(paste0(dir_app,"relatorio_resposta/base/sbrt_vis_010.RData"))
+load(paste0(dir_app,"relatorio_resposta/base/jsonlda10.RData"))
+
 set.seed(1)
 
 #Seleção dos 100 dossiês mais relevantes por tópico.
 respostas_topic<-respostas_topic %>%
-  group_by(topic)%>%filter(gamma>0.5)
+  group_by(topic)%>%filter(gamma>0.5)%>%
+  select(document,UF_ORIG, INST,
+              CNAE_MACRO,CNAE_SUB_DESCR, TITULO_RT,
+              DESCR_RT, DATA_CRIACAO, gamma,topic,AUTOR_QT,COD_QT,CNAE_SUB_RT)
+  
 respostas_topic$periodo<-gsub(regex("(\\d+/\\d+/)", dotall = TRUE),"",respostas_topic$DATA_CRIACAO)%>%
 as.numeric()
 #names(respostas_topic)<-c("Resposta", "Título", "Categoria atual do SBRT", "Assunto", "topic", "Gamma")
 
 #Seleção dos 1000 termos mais relevantes por tópico.
+names(terms_sbrt)<-c("topic", "term", "beta")
 terms_sbrt<-terms_sbrt%>%
-  group_by(topic) %>% slice(1:1000)%>%
+  group_by(topic) %>% 
+  #slice(1:1000)%>%
+  filter(beta>0.00015)%>%
   ungroup()
-names(terms_sbrt)<-c("topic", "Termo", "Beta")
+
 
 respostas_total<-nrow(respostas_topic)
 periodo<- respostas_topic$periodo%>%unique()%>%sort()
@@ -47,8 +57,14 @@ topics_selector<-as.list(1:length(labels_topics_selector))
 names(topics_selector)<-labels_topics_selector
 ```
 
-Inputs {.sidebar}
+
+
+Respostas Técnicas {data-navmenu="Tópicos"}
 ====================================================================================
+
+
+Inputs {.sidebar}
+-------------------------------------------------------------------------------------
 
 ```{r include=FALSE}
 dropdownButton <- function(label = "", status = c("default", "primary", "success", "info", "warning", "danger"), ..., width = NULL) {
@@ -93,13 +109,13 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
   # Sorting asc
   observeEvent(input$a2z, {
     updateCheckboxGroupInput(
-      session = session, inputId = "check2", choices = unique(respostas_topic$UF_ORIG), selected = input$check2
+      session = session, inputId = "check2", choices = sort(unique(respostas_topic$UF_ORIG)), selected = input$check2
     )
   })
   # Sorting desc
   observeEvent(input$z2a, {
     updateCheckboxGroupInput(
-      session = session, inputId = "check2", choices = rev(unique(respostas_topic$UF_ORIG)), selected = input$check2
+      session = session, inputId = "check2", choices = rev(sort(unique(respostas_topic$UF_ORIG))), selected = input$check2
     )
   })
   output$res2 <- renderPrint({
@@ -109,7 +125,7 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
   observeEvent(input$all, {
     if (is.null(input$check2)) {
       updateCheckboxGroupInput(
-        session = session, inputId = "check2", selected = unique(respostas_topic$UF_ORIG)
+        session = session, inputId = "check2", selected =  sort(unique(respostas_topic$UF_ORIG))
       )
     } else {
       updateCheckboxGroupInput(
@@ -118,6 +134,9 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
     }
   })
 ```
+
+
+
 
 
 
@@ -130,13 +149,13 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
   # Sorting asc
   observeEvent(input$a2z, {
     updateCheckboxGroupInput(
-      session = session, inputId = "check3", choices = unique(respostas_topic$INST), selected = input$check3
+      session = session, inputId = "check3", choices = sort(unique(respostas_topic$INST)), selected = input$check3
     )
   })
   # Sorting desc
   observeEvent(input$z2a, {
     updateCheckboxGroupInput(
-      session = session, inputId = "check3", choices = rev(unique(respostas_topic$INST)), selected = input$check3
+      session = session, inputId = "check3", choices = rev(sort(unique(respostas_topic$INST))), selected = input$check3
     )
   })
   output$res2 <- renderPrint({
@@ -146,11 +165,48 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
   observeEvent(input$all_inst, {
     if (is.null(input$check3)) {
       updateCheckboxGroupInput(
-        session = session, inputId = "check3", selected = unique(respostas_topic$INST)
+        session = session, inputId = "check3", selected = sort(unique(respostas_topic$INST))
       )
     } else {
       updateCheckboxGroupInput(
         session = session, inputId = "check3", selected = ""
+      )
+    }
+  })
+```
+
+
+
+```{r include=FALSE}
+#obervers para o checkbox dos estados
+  #output$res1 <- renderPrint({
+  #  input$check1
+  #})
+
+  # Sorting asc
+  observeEvent(input$a2z, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check4", choices = sort(unique(respostas_topic$CNAE_MACRO)), selected = input$check4
+    )
+  })
+  # Sorting desc
+  observeEvent(input$z2a, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check4", choices = rev(sort(unique(respostas_topic$CNAE_MACRO))), selected = input$check4
+    )
+  })
+  output$res4 <- renderPrint({
+    input$check4
+  })
+  # Select all / Unselect all
+  observeEvent(input$all_cnaemacro, {
+    if (is.null(input$check4)) {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check4", selected =  sort(unique(respostas_topic$CNAE_MACRO))
+      )
+    } else {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check4", selected = ""
       )
     }
   })
@@ -198,8 +254,8 @@ label ="Todos/Nenhum"),
 
 checkboxGroupInput(inputId = "check2",
 label = "Selecione",
-choices =unique(respostas_topic$UF_ORIG),
-selected = unique(respostas_topic$UF_ORIG)
+choices = sort(unique(respostas_topic$UF_ORIG)),
+selected =  sort(unique(respostas_topic$UF_ORIG))
 )
 ),
 #br(),
@@ -229,8 +285,39 @@ label ="Todos/Nenhum"),
 
 checkboxGroupInput(inputId = "check3",
 label = "Selecione",
-choices =unique(respostas_topic$INST),
-selected = unique(respostas_topic$INST)
+choices =sort(unique(respostas_topic$INST)),
+selected = sort(unique(respostas_topic$INST))
+)
+),
+
+
+#selector de CNAE Macro
+tags$h4("CNAE Macro"),
+tags$h5("Selecione um ou mais CNAEs:"),
+dropdownButton(
+label = "CNAE", 
+status = "default", 
+width = 100,
+
+actionButton(
+inputId = "a2z", 
+label = "A - Z", 
+icon = icon("sort-alpha-asc")),
+
+actionButton(
+inputId = "z2a",
+label = "Z - A",
+icon = icon("sort-alpha-desc")),
+#br(),
+
+actionButton(
+inputId = "all_cnaemacro",
+label ="Todos/Nenhum"),
+
+checkboxGroupInput(inputId = "check4",
+label = "Selecione",
+choices =sort(unique(respostas_topic$CNAE_MACRO)),
+selected = sort(unique(respostas_topic$CNAE_MACRO))
 )
 ),
 
@@ -255,10 +342,7 @@ sep="")
 
 
 
-Documentos
-====================================================================================
-
-Row
+Row 
 -----------------------------------------------------------------------
 ### Respostas Selecionadas
 
@@ -268,9 +352,10 @@ Row
 num <- reactive(as.integer(input$topicnum))
 uf<-reactive(input$check2)
 insti<-reactive(input$check3)
+cnaemacro<-reactive(input$check4)
 ano_inicio<-reactive(as.numeric(input$ano[1]))
 ano_fim<-reactive(as.numeric(input$ano[2]))
-categoria<-reactive(input$categ)
+
 ```
 
 
@@ -281,19 +366,24 @@ valueBox(as.character(respostas_n()), icon = "fa-file-alt"))
 
 
 ### Proporção do total de respostas do tópico
-```{r}
+```{r eval=FALSE, include=FALSE}
 porcentagem<-reactive({round(respostas_n()/n_respostas_topico()*100,digits = 2)})
 renderGauge(
-  #per<-round(respostas_total/respostas_n()*100),
   gauge(porcentagem(), min = 0, max = 100, symbol = '%')
 )
 ```
 
 
+```{r}
+porcentagem<-reactive({round(respostas_n()/n_respostas_topico()*100,digits = 2)})
+renderValueBox(
+valueBox(as.character(paste(porcentagem(), "%")), icon = "fa-chart-bar"))
+```
+
+
+
 Row {.tabset}
 -----------------------------------------------------------------------
-
-
 
 ### Respostas do Tópico
 
@@ -303,6 +393,7 @@ respostas_tbl<-reactive({respostas_topic%>%
   filter(UF_ORIG %in% uf())%>%
   filter(INST %in% insti())%>%
   #filter(periodo>=ano_inicio()|periodo<=ano_fim())%>%
+  filter(CNAE_MACRO %in% cnaemacro())%>%
   filter(periodo>=ano_inicio())%>%
   filter(periodo<=ano_fim())%>%
   #filter(str_detect(DATA_CRIACAO, regex("(\\d+/\\d+/2008)", dotall = TRUE)))%>%
@@ -310,6 +401,9 @@ respostas_tbl<-reactive({respostas_topic%>%
   ungroup()%>%
   select(-topic, -AUTOR_QT,-COD_QT,-CNAE_SUB_RT,-periodo)
 })
+
+sel_topic_respostas<-reactive({respostas_topic%>%
+  filter(topic==num())})
 
 n_respostas_topico<-reactive({respostas_topic%>%
   filter(topic==num())%>%nrow()})
@@ -328,7 +422,7 @@ fillContainer = TRUE,
 autoHideNavigation = FALSE,
 colnames=c("ID", "Origem da solicitação",
            "Intituição Responsável", 
-            "CNAE subclasse descrição",
+            "CNAE Macro","CNAE subclasse descrição",
            "Titulo da RT", "Descrição da RT",
             "Data de criação", "Gamma"),
 options = list(
@@ -340,12 +434,12 @@ url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'),
 columnDefs = list(
 list(
 className = 'dt-center', 
-argets = 1:8))))%>%
+targets = 1:9))))%>%
 formatRound(
 columns=c("gamma"),
 digits=3)%>%
 formatStyle(c("document", "UF_ORIG", "INST",
-              "CNAE_SUB_DESCR", "TITULO_RT",
+              "CNAE_SUB_DESCR","CNAE_MACRO", "TITULO_RT",
               "DESCR_RT", "DATA_CRIACAO", "gamma"),
               `text-align` = "center")
 })
@@ -364,15 +458,21 @@ respostas_n<-reactive({
 
 
 
-### Dendrograma
+
 
 
 ### Extração de Termos
 
 ```{r}
 termos<-reactive({
-
-dir_app<-"/home/sbrt/shiny/sbrt"
+  
+if(identical(sel_topic_respostas()$document,respostas_tbl()$document)){
+  terms_sbrt%>%
+    filter(topic==num())%>%
+    select(-topic)%>%
+    filter(beta>0.00015)
+}else{
+  dir_app<-"/home/sbrt/shiny/sbrt"
 setwd(dir_app)
 source("scripts/respostas/get_funs.R")
 options(java.parameters="-Xmx2g")
@@ -387,7 +487,7 @@ library(readr)
 respostas_dir<-"/mnt/dados/sbrt/dados/sbrt_txts/respostas_txt/"
 #respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
 metadados_dir<-"/mnt/dados/sbrt/metadados/metadados_RT.csv"
-stop_words_sbrt<-"/mnt/dados/sbrt/dados/metadados/stop_words_sbrt.txt"
+stop_words_sbrt<-"/mnt/dados/sbrt/metadados/stop_words_sbrt.txt"
 
 
 
@@ -416,16 +516,16 @@ best_model$doc_ids<-doc_ids(best_model)
 terms_sbrt_filtered<-tidy(best_model$model, matrix = "beta")%>%
   arrange(desc(beta))
 
-terms_sbrt_filtered%>%select(-topic)
-
+terms_sbrt_filtered%>%select(-topic)%>%
+  filter(beta>0.00015)
 }
-)
-
-
+})
 ```
 
+
+
 ```{r}
-#Tabela de respostas por tópico
+#Tabela de termos por tópico
 renderDataTable({
 DT::datatable(
 termos(),
@@ -441,7 +541,7 @@ url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'),
 columnDefs = list(
 list(
 className = 'dt-center', 
-argets = 1:2))))%>%
+targets = 1:2))))%>%
 #formatRound(
 #columns=c("beta"),
 #digits=3)%>%
@@ -451,58 +551,8 @@ formatStyle(c("term", "beta"),
 ```
 
 
-### Tokens
 
-```{r}
-renderTable({
-  
-dir_app<-"/home/sbrt/shiny/sbrt/"
-setwd(dir_app)
-source("scripts/respostas/get_funs.R")
-options(java.parameters="-Xmx2g")
-library(dfrtopics)
-library(tidytext)
-library(tidyverse)
-library(mallet)
-library(dendextend)
-library(readr)
-
-#Diretórios dos arquivos necessários
-respostas_dir<-"/mnt/dados/sbrt/dados/sbrt_txts/respostas_txt/"
-#respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
-metadados_dir<-"/mnt/dados/sbrt/metadados/metadados_RT.csv"
-stop_words_sbrt<-"/mnt/dados/sbrt/metadados/stop_words_sbrt.txt"
-
-
-
-
-docs_interesse<-paste0(respostas_dir,respostas_tbl()$document,".txt")
-
-#Leitura das stopwords.
-sw<-readr::read_lines(stop_words_sbrt)
-
-#Leitura e pré-processamento dos documentos.
-txtdf<-get_txt(docs_interesse)
-  
- tokens <- txtdf %>%
-    tidytext::unnest_tokens(word, text)
-  
-  # find document-word counts
-  word_counts <- tokens %>%
-    filter(!(nchar(word) == 1))%>% 
-    filter(!word %in% sw) %>%
-    count(id, word, sort = TRUE) %>%
-    ungroup()
-  word_counts%>%select(-id,)%>%count(word)%>%arrange(desc(n))
-  
-}
-)
-
-
-```
-
-
-
+```{r eval=FALSE, include=FALSE}
 Termos
 ====================================================================================
 
@@ -512,7 +562,7 @@ Row
 
 ### Dendograma
     
-```{r}
+
 num <- reactive(as.integer(input$topicnum))
 
 renderPlot({
@@ -531,7 +581,7 @@ dendrograma_terms %>%
 
 
 
-
+```{r eval=FALSE, include=FALSE}
 
 Row {.tabset}
 -----------------------------------------------------------------------
@@ -540,7 +590,7 @@ Row {.tabset}
 
 ### Hierarquia dos termos
     
-```{r}
+
 renderTable(
 terms_sbrt%>%
   filter(topic==num())%>%
@@ -549,4 +599,91 @@ terms_sbrt%>%
 ```
 
 
+
+Dossiês Técnicos {data-navmenu="Tópicos"}
+====================================================================================
+
+
+
+
+
+
+
+
+Respostas Técnincas {data-navmenu="Dendrogramas"}
+====================================================================================
+
+
+------------------------------------------------------------------------------------
+
+```{r}
+
+renderPlot({
+par(mar = c(0,0,0,0))
+dendrograma_docs %>% 
+  set("branches_k_color", k = best_topic)%>% 
+  set("labels_cex", 1) %>%
+  set("leaves_cex",0.2)%>%
+  set("hang_leaves",0.2)%>%
+  set("branches_lwd", 2)%>%
+  plot(horiz=T, axes=F)
+
+  
+})
+
+```
+
+
+
+
+Dossiês Técnincos {data-navmenu="Dendrogramas"}
+====================================================================================
+
+
+------------------------------------------------------------------------------------
+
+
+
+Respostas Técnincas {data-navmenu="Clusters"}
+====================================================================================
+
+
+Column {style="height:100pc;"}
+------------------------------------------------------------------------------------
+
+```{r}
+LDAvis::renderVis(jsonlda)
+```
+
+
+
+
+
+Dossiês Técnincos {data-navmenu="Clusters"}
+====================================================================================
+
+Column {style="height:100pc;"}
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Respostas Técnincas {data-navmenu="Consulta"}
+====================================================================================
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+Dossiês Técnincos {data-navmenu="Consulta"}
+====================================================================================
+
+
+------------------------------------------------------------------------------------
 
