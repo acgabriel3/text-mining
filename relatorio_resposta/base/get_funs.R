@@ -5,7 +5,7 @@
 #Recebe como entrada o diretório dos dodumentos e o o caminho dos metadados.
 #Retona um dataframe onde cada linha representa um documento e seus respectivos metadados e conteúdo.
 
-get_txt <- function(dados, metadados) {
+get_txt <- function(dados) {
   # pacote que possibilita a limpeza dos documentos.
   library(stringr)
   library(stringi)
@@ -26,36 +26,36 @@ get_txt <- function(dados, metadados) {
   
   #importacao dos dados
   #dados<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/dossies"
-  txtdf<-readtext::readtext(dados, encoding = "latin1")
+  txtdf<-readtext::readtext(dados, encoding = "utf-8")
   
   #metadados<-read_json("/home/micael/R_envs/text-mining/dados/sbrt_dossies_metadados.json")
-  metadados<-read_json(metadados)
+  #metadados<-read_json(metadados)
   
-  for(i in 1:length(metadados)){
-    metadados[[i]][["dossie"]]<-names(metadados[i])
-    categorias<-unlist(metadados[[i]][["categoria"]], use.names = F)
-    metadados[[i]][["categoria"]]<-NULL
-    metadados[[i]][["categoria"]]<-paste(categorias,collapse=",")
-    palavras<-unlist(metadados[[i]][["palavras_chave"]], use.names = F)
-    metadados[[i]][["palavras_chave"]]<-NULL
-    metadados[[i]][["palavras_chave"]]<-paste(palavras,collapse=",")
-    rm(categorias)
-    rm(palavras)
-  }
+  #for(i in 1:length(metadados)){
+  #  metadados[[i]][["dossie"]]<-names(metadados[i])
+  #  categorias<-unlist(metadados[[i]][["categoria"]], use.names = F)
+  #  metadados[[i]][["categoria"]]<-NULL
+  #  metadados[[i]][["categoria"]]<-paste(categorias,collapse=",")
+  #  palavras<-unlist(metadados[[i]][["palavras_chave"]], use.names = F)
+  #  metadados[[i]][["palavras_chave"]]<-NULL
+  #  metadados[[i]][["palavras_chave"]]<-paste(palavras,collapse=",")
+  #  rm(categorias)
+  #  rm(palavras)
+  #}
   
-  df_metadados <- data.frame(matrix(unlist(metadados), nrow=length(metadados), byrow=T))
-  names(df_metadados)<-names(metadados[[1]])
-  df_metadados$doc_id<-df_metadados$dossie
+  #df_metadados <- data.frame(matrix(unlist(metadados), nrow=length(metadados), byrow=T))
+  #names(df_metadados)<-names(metadados[[1]])
+  #df_metadados$doc_id<-df_metadados$dossie
   txtdf$doc_id<-sub('.txt',"",txtdf$doc_id)
-  txtdf<-merge(txtdf,df_metadados, by="doc_id")
+  #txtdf<-merge(txtdf,df_metadados, by="doc_id")
   txtdf$id<-txtdf$doc_id
   
   ## limpeza
-  txtdf$text<-stri_replace_all_fixed(txtdf$text,txtdf$instituicao_responsavel,"", vectorize_all = FALSE)
+  #txtdf$text<-stri_replace_all_fixed(txtdf$text,txtdf$instituicao_responsavel,"", vectorize_all = FALSE)
   #txtdf$text<-stri_replace_all_fixed(txtdf$text,txtdf$data,"", vectorize_all = FALSE)
-  txtdf$text<-sub('.*\nConteúdo',"",txtdf$text)
-  txtdf$text<-sub('.*\nCONTEÚDO',"",txtdf$text)
-  txtdf$text<-sub('.*\fDOSSIÊ TÉCNICO\nTítulo',"",txtdf$text)
+  #txtdf$text<-sub('.*\nConteúdo',"",txtdf$text)
+  #txtdf$text<-sub('.*\nCONTEÚDO',"",txtdf$text)
+  #txtdf$text<-sub('.*\fDOSSIÊ TÉCNICO\nTítulo',"",txtdf$text)
   #txtdf$text<-sub('.*\nTítulo',"",txtdf$text)
   txtdf$text<-gsub('[1-9][0-9]* Copyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.sbrt.ibict.br',"",txtdf$text)
   txtdf$text<-gsub('[1-9][0-9]* Copyright © Serviço Brasileiro de Respostas Técnicas - SBRT - http://www.respostatecnica.org.br',"", txtdf$text)
@@ -84,8 +84,77 @@ get_txt <- function(dados, metadados) {
   #stxtdf$text<-gsub("s[[:punct:]](?=\\s)|s(?=\\s)|s(?=$)","",txtdf$text, perl = T)
   #txtdf$text<-stri_replace_all_fixed(txtdf$text,sbrt_sw,"", vectorize_all = FALSE)
   
-
+  
   return(txtdf)
+}
+
+
+
+txt_resposta_pdf<-function(resposta){
+  verificar<-vector()
+  #erro_leitura<-vector()
+  tryCatch({
+    txt<-pdftools::pdf_text(resposta)},error=function(e){return("PDF corrompido")}
+  )
+  if(!exists("txt")){
+    return("erro")
+  }
+  #txt<-pdf_text(resposta)
+  txt<-do.call(paste,as.list(txt))
+  txt2<-stringi::stri_split_lines(txt)%>%
+    unlist()%>%
+    stringr::str_trim()
+  
+  inicio<-match("Solução apresentada",txt2)+1
+  
+  if(is.na(inicio)){
+    fim<-match("Palavras-chave", txt2)+1
+  }
+  if(is.na(inicio)){
+    fim<-match("Assunto", txt2)+1
+  }
+  if(is.na(inicio)){
+    fim<-match("Conclusões e recomendações", txt2)+1
+  }
+  
+  fim<-match("Fontes consultadas",txt2)-1
+  if(is.na(fim)){
+    fim<-match("Fontes de informação consultadas", txt2)-1
+  }
+  if(is.na(fim)){
+    fim<-match("Referências", txt2)-1
+  }
+  if(is.na(fim)){
+    fim<-match("Conclusões e recomendações", txt2)-1
+  }
+  if(is.na(fim)){
+    fim<-match("Conclusão e recomendações", txt2)-1
+  }
+  if(is.na(fim)){
+    fim<-match("Elaborado por", txt2)-1
+  }
+  if(is.na(fim)){
+    fim<-match("Nome do técnico responsável", txt2)-1
+  }
+  
+  if(is.na(fim)){
+    fim<-match("Nome do Técnico responsável", txt2)-1
+  }
+  if(is.na(fim)){
+    fim<-length(txt2)
+  }
+  
+  if(is.na(inicio)){
+    verificar<-c(verificar,resposta)
+    return("erro")
+  } else {
+    texto<-do.call(paste,as.list(txt2[inicio:fim]))%>%
+      stringr::str_trim()
+    
+  }
+  doc_id<-stringr::str_match(resposta,"\\d+.pdf")%>%gsub(".pdf","",.)
+  resultado<-data.frame(doc_id=doc_id, text=texto)
+  return(resultado)
 }
 
 
@@ -93,7 +162,8 @@ get_txt <- function(dados, metadados) {
 require(dfrtopics)
 require(mallet)
 require(ggplot2)
-options(java.parameters="-Xmx6g")
+#options(java.parameters=c("-XX:+UseConcMarkSweepGC","-Xmx16g"))
+
 
 #Função necessária para busca do modelo LDA mais adquado.
 #Recebe como entrada o dataframe com um documento por linha e seu respectivo identificador,
@@ -102,8 +172,11 @@ options(java.parameters="-Xmx6g")
 
 #Retorna um gráffico demonstrando a pontuação de coerencia para cada modelo e o número de tópcios adequado.
 
-find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
+find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics,limites){
+  #limites<-30
   
+  cat(c("Tokenizando","\n"))
+  gc()
   tokens <- txtdf %>%
     tidytext::unnest_tokens(word, text)
   
@@ -117,19 +190,23 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
   coherence<-vector()
   n_topics<-vector()
   
-  for (i in seq(2,max_topics,2)){
-    
-    m<-train_model(instance_mallet,n_topics = i, metadata = metadata, seed = 12345)
+  for (i in seq(limites,max_topics,limites)){
+    cat(c("Inicialiazando treinamento do modelo","\n"))
+    gc()
+    m<-train_model(instance_mallet,n_topics = i, seed = 12345,threads = 3, n_iters=200)
     m$doc_ids<-doc_ids(m)
+    gc()
     
     
     term_counts <- rename(word_counts, term = word, document = id)
     term_document_sbrt<-augment(m$model, term_counts)
+    gc()
     
     
     x <- udpipe::document_term_frequencies(term_document_sbrt[, c("document", "term")])
     dtm <- udpipe::document_term_matrix(x)
     rm(x)
+    gc()
     
     phi <- mallet.topic.words(m$model)
     theta <- mallet.doc.topics(m$model)
@@ -139,6 +216,7 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
     
     coherence.model<-textmineR::CalcProbCoherence(phi = phi, dtm = dtm, M = 5)%>%mean()
     n_topics.model<-m$model$model$numTopics
+    gc()
     
     n_topics[i]<-n_topics.model
     cat(c("Number of topics of the model:",n_topics.model,"\n"))
@@ -148,6 +226,7 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
     
     cat(c("Remaning",max_topics-i, "traing sets.","\n"))
     gc()
+    rm(m,dtm,phi,theta,term_counts,term_document_sbrt)
     
   }
   
@@ -158,7 +237,7 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
     geom_point() +
     ggtitle("Melhor Tópico pela Coerência") + 
     theme_minimal() +
-    scale_x_continuous(breaks = seq(2,max_topics,2)) + 
+    scale_x_continuous(breaks = seq(limites,max_topics,limites)) + 
     ylab("Coerência")+
     xlab("Tópico")
   best.model.k<-coherence_mat[which.max(coherence_mat$coherence),1]
@@ -176,7 +255,7 @@ find_n_topics<-function(txtdf,instance_mallet,stop_words,metadata, max_topics){
 #Opcionalmente pode-se indicar um diretório de saída para os arquivos responsáveis pela interface web da ferramenta.
 #Para isso, basta indicar o diretório da seguinte maneira (outDir="diretorio_desejado")
 
-makeLDAvis <- function(topic.model, outDir = tempfile(), openBrowser = TRUE, asGist = FALSE, ...){
+makeLDAvis <- function(topic.model, outDir = tempfile(), openBrowser = T, asGist = FALSE, ...){
   phi <- mallet::mallet.topic.words(topic.model, smoothed = T, normalized = T)
   theta <- mallet::mallet.doc.topics(topic.model, smoothed = T, normalized = T)
   doc.length <- rowSums(mallet::mallet.doc.topics(topic.model, smoothed = T, normalized = T))
@@ -186,10 +265,13 @@ makeLDAvis <- function(topic.model, outDir = tempfile(), openBrowser = TRUE, asG
     phi = phi, theta = theta, doc.length = doc.length, vocab = vocab,
     term.frequency = droplevels(word.freqs)$term.freq)
   jsonLDA <- LDAvis::createJSON(phi = json$phi, theta = json$theta, doc.length = json$doc.length,
-                                vocab = json$vocab, term.frequency = json$term.frequency,reorder.topics = F)
+                                vocab = json$vocab, term.frequency = json$term.frequency,reorder.topics = FALSE)
+  return(jsonLDA)
   library(gistr)
-  if(asGist==TRUE) library(gistr)
-  LDAvis::serVis(jsonLDA, out.dir = outDir, open.browser = openBrowser, as.gist = asGist, ... = ...)
+  if(asGist==TRUE){
+    LDAvis::serVis(jsonLDA, out.dir = outDir, open.browser = openBrowser, as.gist = asGist, ... = ...)
+  } 
+ 
 }
 
 
@@ -211,13 +293,27 @@ cluster.mallet<-function (model, balance = NULL, method=NULL, by=NULL)
   #clus<-hclust(balance * dist(topic.words) + (1 - balance) * dist(topic.docs),method,"ave")
   if (by=="doc"){
     clus<-hclust(dist(topic.docs),method)
-
+    
   }
   if (by=="term"){
     clus<-hclust(dist(topic.words),method)
-
+    
   }
   clus$labels<-topic.labels
   return(clus)
+}
+
+
+
+lemmaToDf<-function(texto){
+  texto <- subset(texto, upos %in% c("NOUN", "ADJ", "VERB","PROPN","ADV"))
+  texto$doc_id<-as.factor(texto$doc_id)
+  t<-split(texto$lemma, texto$doc_id, drop = FALSE)
+  t<-sapply(t, function(y){paste0(y,collapse=" ")})
+  t<-tibble::enframe(t)
+  names(t)<-c("doc_id","text")
+  
+  return(t)
+  
 }
 

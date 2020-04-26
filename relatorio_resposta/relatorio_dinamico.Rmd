@@ -23,38 +23,84 @@ library(shiny)
 library(shinythemes)
 library(DT)
 library(c3)
-#packrat::unbundle("/home/micael/repositorios/github/textmining-sbrt/pacotes.tar.gz","/home/micael/repositorios/github/textmining-sbrt")
 
-#library(biclust)
-load(paste0(dir_app,"relatorio_resposta/base/sbrt_vis_010.RData"))
-load(paste0(dir_app,"relatorio_resposta/base/jsonlda10.RData"))
+##################
+####Respostas#####
+##################
+
+load("/home/sbrt/dados/sbrt/dados/Rdata/sbrt_vis_final_respostas60.RData")
+#load(paste0(dir_app,"relatorio_resposta/base/jsonlda10.RData"))
 
 set.seed(1)
 
-#Seleção dos 100 dossiês mais relevantes por tópico.
-respostas_topic<-respostas_topic %>%
-  group_by(topic)%>%filter(gamma>0.5)%>%
-  select(document,UF_ORIG, INST,
-              CNAE_MACRO,CNAE_SUB_DESCR, TITULO_RT,
-              DESCR_RT, DATA_CRIACAO, gamma,topic,AUTOR_QT,COD_QT,CNAE_SUB_RT)
+#Seleção das respostas mais relevantes por tópico.
+#respostas_topic<-respostas_topic %>%
+#  group_by(topic)%>%filter(gamma>0.5)%>%
+#  select(document,UF_ORIG, INST,
+#              CNAE_MACRO,CNAE_SUB_DESCR, TITULO_RT,
+#              DESCR_RT, DATA_CRIACAO, gamma,topic,AUTOR_QT,COD_QT,CNAE_SUB_RT)
   
-respostas_topic$periodo<-gsub(regex("(\\d+/\\d+/)", dotall = TRUE),"",respostas_topic$DATA_CRIACAO)%>%
-as.numeric()
-#names(respostas_topic)<-c("Resposta", "Título", "Categoria atual do SBRT", "Assunto", "topic", "Gamma")
+#respostas_topic$periodo<-gsub(regex("(\\d+/\\d+/)", dotall = TRUE),"",respostas_topic$DATA_CRIACAO)%>%
+#as.numeric()
 
-#Seleção dos 1000 termos mais relevantes por tópico.
-names(terms_sbrt)<-c("topic", "term", "beta")
-terms_sbrt<-terms_sbrt%>%
-  group_by(topic) %>% 
+#Seleção dos termos mais relevantes por tópico.
+#names(terms_sbrt)<-c("topic", "term", "beta")
+#terms_sbrt<-terms_sbrt%>%
+#  group_by(topic) %>% 
   #slice(1:1000)%>%
-  filter(beta>0.00015)%>%
-  ungroup()
+#  filter(beta>0.00015)%>%
+#  ungroup()
 
 
-respostas_total<-nrow(respostas_topic)
-periodo<- respostas_topic$periodo%>%unique()%>%sort()
-topics_selector<-as.list(1:length(labels_topics_selector))
-names(topics_selector)<-labels_topics_selector
+#respostas_total<-nrow(respostas_topic)
+#periodo<- respostas_topic$periodo%>%unique()%>%sort()
+#topics_selector<-as.list(1:length(labels_topics_selector))
+#names(topics_selector)<-labels_topics_selector
+################################################################################
+  
+  
+  
+  
+
+##################
+####Dossiês######
+##################
+
+load("/home/sbrt/dados/sbrt/dados/Rdata/sbrt_vis_final20_dossies.RData")
+
+
+#load(paste0(dir_app,"relatorio_resposta/base/sbrt_vis_010_dossies.RData"))
+
+
+set.seed(1)
+
+#Seleção dos doissiês mais relevantes por tópico.
+#dossies_topic<-dossies_topic %>%
+#  group_by(topic)%>%filter(gamma>0.1)%>%
+#  select(document, INST,
+#              CNAE_MACRO,CNAE_DESCR, TITULO_DT,
+#              DESCR_DOSSIE, DATA_CRIACAO, gamma,topic)
+#  
+#dossies_topic$periodo<-gsub(regex("(\\d+/\\d+/)", dotall = TRUE),"",dossies_topic$DATA_CRIACAO)%>%
+#as.numeric()
+
+#Seleção dos termos mais relevantes por tópico.
+#names(terms_sbrt_dossies)<-c("topic", "term", "beta")
+#terms_sbrt_dossies<-terms_sbrt_dossies%>%
+#  group_by(topic) %>% 
+#  #slice(1:1000)%>%
+#  filter(beta>0.00015)%>%
+#  ungroup()
+#
+
+#dossies_total<-nrow(dossies_topic)
+#periodo_dossies<- dossies_topic$periodo%>%unique()%>%sort()
+#topics_selector_dossies<-as.list(1:length(labels_topics_selector_dossies))
+#names(topics_selector_dossies)<-labels_topics_selector_dossies
+
+
+
+
 ```
 
 
@@ -67,6 +113,7 @@ Inputs {.sidebar}
 -------------------------------------------------------------------------------------
 
 ```{r include=FALSE}
+#configuração dos dropdowns de filtro
 dropdownButton <- function(label = "", status = c("default", "primary", "success", "info", "warning", "danger"), ..., width = NULL) {
 
   status <- match.arg(status)
@@ -158,7 +205,7 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
       session = session, inputId = "check3", choices = rev(sort(unique(respostas_topic$INST))), selected = input$check3
     )
   })
-  output$res2 <- renderPrint({
+  output$res3 <- renderPrint({
     input$check3
   })
   # Select all / Unselect all
@@ -178,7 +225,7 @@ dropdownButton <- function(label = "", status = c("default", "primary", "success
 
 
 ```{r include=FALSE}
-#obervers para o checkbox dos estados
+#obervers para o checkbox do CNAE Macro
   #output$res1 <- renderPrint({
   #  input$check1
   #})
@@ -552,28 +599,322 @@ formatStyle(c("term", "beta"),
 
 
 
-```{r eval=FALSE, include=FALSE}
-Termos
+
+
+
+
+
+Dossiês Técnicos {data-navmenu="Tópicos"}
 ====================================================================================
 
+Inputs {.sidebar}
+-------------------------------------------------------------------------------------
 
-Row
+
+```{r include=FALSE}
+#configuração dos dropdowns de filtro
+dropdownButton <- function(label = "", status = c("default", "primary", "success", "info", "warning", "danger"), ..., width = NULL) {
+
+  status <- match.arg(status)
+  # dropdown button content
+  html_ul <- list(
+    class = "dropdown-menu",
+    style = if (!is.null(width)) 
+      paste0("width: ", validateCssUnit(width), ";"),
+    lapply(X = list(...), FUN = tags$li, style = "margin-left: 10px; margin-right: 10px;")
+  )
+  # dropdown button apparence
+  html_button <- list(
+    class = paste0("btn btn-", status," dropdown-toggle"),
+    type = "button", 
+    `data-toggle` = "dropdown"
+  )
+  html_button <- c(html_button, list(label))
+  html_button <- c(html_button, list(tags$span(class = "caret")))
+  # final result
+  tags$div(
+    class = "dropdown",
+    do.call(tags$button, html_button),
+    do.call(tags$ul, html_ul),
+    tags$script(
+      "$('.dropdown-menu').click(function(e) {
+      e.stopPropagation();
+});")
+  )
+  }
+```
+
+
+
+
+```{r include=FALSE}
+#obervers para o checkbox das instituicoes
+  #output$res1 <- renderPrint({
+  #  input$check1
+  #})
+
+  # Sorting asc
+  observeEvent(input$a2z, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check5", choices = sort(unique(dossies_topic$INST)), selected = input$check5
+    )
+  })
+  # Sorting desc
+  observeEvent(input$z2a, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check5", choices = rev(sort(unique(dossies_topic$INST))), selected = input$check5
+    )
+  })
+  output$res5 <- renderPrint({
+    input$check5
+  })
+  # Select all / Unselect all
+  observeEvent(input$all_inst_dossie, {
+    if (is.null(input$check5)) {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check5", selected = sort(unique(dossies_topic$INST))
+      )
+    } else {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check5", selected = ""
+      )
+    }
+  })
+```
+
+
+
+```{r include=FALSE}
+#obervers para o checkbox do CNAE Macro
+  #output$res1 <- renderPrint({
+  #  input$check1
+  #})
+
+  # Sorting asc
+  observeEvent(input$a2z, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check6", choices = sort(unique(dossies_topic$CNAE_MACRO)), selected = input$check6
+    )
+  })
+  # Sorting desc
+  observeEvent(input$z2a, {
+    updateCheckboxGroupInput(
+      session = session, inputId = "check6", choices = rev(sort(unique(dossies_topic$CNAE_MACRO))), selected = input$check6
+    )
+  })
+  output$res6 <- renderPrint({
+    input$check6
+  })
+  # Select all / Unselect all
+  observeEvent(input$all_cnaemacro_dossie, {
+    if (is.null(input$check6)) {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check6", selected =  sort(unique(dossies_topic$CNAE_MACRO))
+      )
+    } else {
+      updateCheckboxGroupInput(
+        session = session, inputId = "check6", selected = ""
+      )
+    }
+  })
+```
+
+
+```{r}
+fluidPage(theme = shinytheme("united"),
+fluidRow(
+  #br(),
+column(width = 12, align="left",
+tags$h1("Filtros"),
+
+#selector de tópicos
+tags$h4("Tópico"),
+selectInput("topicnum_dossies",
+label = "Selecione um tópico:", 
+choices=topics_selector_dossies,
+selected = topics_selector_dossies[[1]], 
+width = "100%"),
+
+
+
+#selector de instituição
+tags$h4("Instituição Responsável"),
+tags$h5("Selecione um ou mais instituições:"),
+dropdownButton(
+label = "Instituição", 
+status = "default", 
+width = 100,
+
+actionButton(
+inputId = "a2z", 
+label = "A - Z", 
+icon = icon("sort-alpha-asc")),
+
+actionButton(
+inputId = "z2a",
+label = "Z - A",
+icon = icon("sort-alpha-desc")),
+#br(),
+
+actionButton(
+inputId = "all_inst_dossie",
+label ="Todos/Nenhum"),
+
+checkboxGroupInput(inputId = "check5",
+label = "Selecione",
+choices =sort(unique(dossies_topic$INST)),
+selected = sort(unique(dossies_topic$INST))
+)
+),
+
+
+#selector de CNAE Macro
+tags$h4("CNAE Macro"),
+tags$h5("Selecione um ou mais CNAEs:"),
+dropdownButton(
+label = "CNAE", 
+status = "default", 
+width = 100,
+
+actionButton(
+inputId = "a2z", 
+label = "A - Z", 
+icon = icon("sort-alpha-asc")),
+
+actionButton(
+inputId = "z2a",
+label = "Z - A",
+icon = icon("sort-alpha-desc")),
+#br(),
+
+actionButton(
+inputId = "all_cnaemacro_dossie",
+label ="Todos/Nenhum"),
+
+checkboxGroupInput(inputId = "check6",
+label = "Selecione",
+choices =sort(unique(dossies_topic$CNAE_MACRO)),
+selected = sort(unique(dossies_topic$CNAE_MACRO))
+)
+),
+
+#br(),
+
+tags$h4("Ano de Criação"),
+#selector de intervalo de anos
+sliderInput(
+"ano_dossies", "Selecione o intervalo de anos:",
+min = min(periodo_dossies),
+max = max(periodo_dossies),
+value = c(min(periodo_dossies),max(periodo_dossies)),
+sep="")
+                            
+                            
+                            
+                            
+)
+)
+)
+```
+
+
+Row 
+-----------------------------------------------------------------------
+### Dossiês Selecionados
+
+
+```{r include=FALSE}
+#inputs
+num_dossies <- reactive(as.integer(input$topicnum_dossies))
+insti_dossies<-reactive(input$check5)
+cnaemacro_dossies<-reactive(input$check6)
+ano_inicio_dossies<-reactive(as.numeric(input$ano_dossies[1]))
+ano_fim_dossies<-reactive(as.numeric(input$ano_dossies[2]))
+
+```
+
+
+```{r}
+renderValueBox(
+valueBox(as.character(dossies_n()), icon = "fa-file-alt"))
+```
+
+
+### Proporção do total de dossiês do tópico
+
+```{r}
+porcentagem_dossies<-reactive({round(dossies_n()/n_dossies_topico()*100,digits = 2)})
+renderValueBox(
+valueBox(as.character(paste(porcentagem_dossies(), "%")), icon = "fa-chart-bar"))
+```
+
+
+
+Row {.tabset}
 -----------------------------------------------------------------------
 
-### Dendograma
-    
+### Dossiês do Tópico
 
-num <- reactive(as.integer(input$topicnum))
+```{r}
+dossies_tbl<-reactive({dossies_topic%>%
+  filter(topic==num_dossies())%>%
+  filter(INST %in% insti_dossies())%>%
+  filter(CNAE_MACRO %in% cnaemacro_dossies())%>%
+  filter(periodo>=ano_inicio_dossies())%>%
+  filter(periodo<=ano_fim_dossies())%>%
+  ungroup()%>%
+  select(-topic,-periodo)
+})
 
-renderPlot({
-par(mar = c(0,0,0,0))
-dendrograma_terms %>% 
-  set("branches_k_color", k = best_topic)%>% 
-  set("labels_cex", 1) %>%
-  set("leaves_cex",0.2)%>%
-  set("hang_leaves",0.1)%>%
-  set("branches_lwd", 2)%>%
-  plot(horiz=T, axes=F)
+sel_topic_dossies<-reactive({dossies_topic%>%
+  filter(topic==num_dossies())})
+
+n_dossies_topico<-reactive({dossies_topic%>%
+  filter(topic==num_dossies())%>%nrow()})
+```
+
+
+
+
+```{r}
+
+#Tabela de respostas por tópico
+renderDataTable({
+DT::datatable(
+dossies_tbl(),
+fillContainer = TRUE,
+autoHideNavigation = FALSE,
+colnames=c("ID",
+           "Intituição Responsável", 
+            "CNAE Macro","CNAE subclasse descrição",
+           "Titulo do DT", "Descrição do DT",
+            "Data de criação", "Gamma"),
+options = list(
+scrollY='400px',
+scrollX='400px',
+bPaginate = TRUE,
+language = list(
+url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'),
+columnDefs = list(
+list(
+className = 'dt-center', 
+targets = 1:8))))%>%
+formatRound(
+columns=c("gamma"),
+digits=3)%>%
+formatStyle(c("document", "INST",
+              "CNAE_MACRO","CNAE_DESCR", "TITULO_DT",
+              "DESCR_DOSSIE", "DATA_CRIACAO", "gamma"),
+              `text-align` = "center")
+})
+```
+
+```{r include=FALSE}
+#pegando o número de respostas selecionadas
+dossies_n<-reactive({
+  as.numeric(dossies_tbl()
+             %>%ungroup()
+             %>%nrow())
 })
 
 ```
@@ -581,30 +922,100 @@ dendrograma_terms %>%
 
 
 
-```{r eval=FALSE, include=FALSE}
-
-Row {.tabset}
------------------------------------------------------------------------
 
 
 
-### Hierarquia dos termos
-    
+### Extração de Termos
 
-renderTable(
-terms_sbrt%>%
-  filter(topic==num())%>%
-  select(-topic)#, digits=6
-)
+```{r include=FALSE}
+termos_dossies<-reactive({
+  
+if(identical(sel_topic_dossies()$document,dossies_tbl()$document)){
+  terms_sbrt_dossies%>%
+    filter(topic==num_dossies())%>%
+    select(-topic)%>%
+    filter(beta>0.00015)
+}else{
+  dir_app<-"/home/sbrt/shiny/sbrt/"
+setwd(dir_app)
+source("relatorio_resposta/base/get_funs.R")
+options(java.parameters="-Xmx2g")
+library(dfrtopics)
+library(tidytext)
+library(tidyverse)
+library(mallet)
+library(dendextend)
+library(readr)
+
+#Diretórios dos arquivos necessários
+dosies_dir<-"/mnt/dados/sbrt/dados/sbrt_txts/dossies_txtv1/"
+#respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
+metadados_dir<-"/mnt/dados/sbrt/metadados/metadados_DT_CNAE.csv"
+stop_words_sbrt<-"/mnt/dados/sbrt/metadados/stop_words_sbrt.txt"
+
+
+dossies_base<-data.frame(id=list.files(dosies_dir))
+dossies_selecionados<-paste0(dossies_tbl()$document,".txt")
+
+docs_interesse<-filter(dossies_base, id %in% dossies_selecionados)
+
+docs_interesse<-paste0(dosies_dir,docs_interesse$id)
+
+#Leitura das stopwords.
+sw<-readr::read_lines(stop_words_sbrt)
+
+#Leitura e pré-processamento dos documentos.
+txtdf<-get_txt(docs_interesse)
+
+#Criação de um dataframe dos metadados dos documentos.
+metadados<-readr::read_csv2(metadados_dir)
+
+#Preaparação dos documentos para criação do modelo LDA.
+instance_mallet<-make_instances(txtdf, stoplist_file = stop_words_sbrt)
+
+
+#Criação do modelo LDA de acordo com o número de tópicos encontrado no processo anterior.
+best_model<-train_model(instance_mallet,n_topics = 1, metadata = metadados, seed = 12345)
+best_model$doc_ids<-doc_ids(best_model)
+
+
+#Gera dataframe de termos por tópico.
+terms_sbrt_filtered<-tidy(best_model$model, matrix = "beta")%>%
+  arrange(desc(beta))
+
+terms_sbrt_filtered%>%select(-topic)%>%
+  filter(beta>0.00015)
+}
+})
 ```
 
 
 
-Dossiês Técnicos {data-navmenu="Tópicos"}
-====================================================================================
-
-
-
+```{r}
+#Tabela de termos por tópico
+renderDataTable({
+DT::datatable(
+termos_dossies(),
+fillContainer = TRUE,
+autoHideNavigation = FALSE,
+colnames=c("Termo", "Beta"),
+options = list(
+scrollY='400px',
+scrollX='400px',
+bPaginate = TRUE,
+language = list(
+url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'),
+columnDefs = list(
+list(
+className = 'dt-center', 
+targets = 1:2))))%>%
+#formatRound(
+#columns=c("beta"),
+#digits=3)%>%
+formatStyle(c("term", "beta"),
+              `text-align` = "center")
+})
+```
 
 
 
@@ -642,18 +1053,32 @@ Dossiês Técnincos {data-navmenu="Dendrogramas"}
 
 ------------------------------------------------------------------------------------
 
+```{r}
+renderPlot({
+par(mar = c(0,0,0,0))
+dendrograma_docs_dossies %>% 
+  set("branches_k_color", k = best_topic)%>% 
+  set("labels_cex", 1) %>%
+  set("leaves_cex",0.2)%>%
+  set("hang_leaves",0.2)%>%
+  set("branches_lwd", 2)%>%
+  plot(horiz=T, axes=F)
+
+  
+})
+
+```
+
 
 
 Respostas Técnincas {data-navmenu="Clusters"}
 ====================================================================================
 
 
-Column {style="height:100pc;"}
+Column 
 ------------------------------------------------------------------------------------
 
-```{r}
-LDAvis::renderVis(jsonlda)
-```
+<iframe width = "100%" height = "100%" frameborder="0" src="http://34.73.23.127/RT/index.html"/>
 
 
 
@@ -662,12 +1087,10 @@ LDAvis::renderVis(jsonlda)
 Dossiês Técnincos {data-navmenu="Clusters"}
 ====================================================================================
 
-Column {style="height:100pc;"}
+Column 
 ------------------------------------------------------------------------------------
 
-
-
-
+<iframe width = "100%" height = "100%" frameborder="0" src="http://34.73.23.127/DT/index.html"/>
 
 
 
