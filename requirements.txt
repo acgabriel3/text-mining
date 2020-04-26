@@ -14,3 +14,4 @@ autopep8
 tensorflow>=2.0*
 jupyter
 xlrd
+elasticsearch
