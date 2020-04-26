@@ -32,7 +32,7 @@ def train_from_elasticsearch_response(q, top_words=None):
     })
 
     if _DEV:
-        print(hit['_source']['sentenca'] for hit in res['hits']['hits'])
+        print([hit['_source']['sentenca'] for hit in res['hits']['hits']])
 
     l = []
     for hit in res['hits']['hits']:
