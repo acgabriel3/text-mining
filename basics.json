@@ -1,0 +1,72 @@
+[
+    {
+        "flag": "saudacao",
+        "question": "bom dia",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "saudacao",
+        "question": "boa tarde",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "saudacao",
+        "question": "boa noite",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "saudacao",
+        "question": "oi",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "saudacao",
+        "question": "olá",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "comprimento",
+        "question": "tudo bem?",
+        "answer": "Tudo otimo! Em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "comprimento",
+        "question": "como vai você?",
+        "answer": "Tudo otimo! Em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "agradecimento",
+        "question": "obrigado",
+        "answer": "De nada."
+    },
+    {
+        "flag": "agradecimento",
+        "question": "valeu",
+        "answer": "De nada."
+    },
+    {
+        "flag": "agradecimento",
+        "question": "muito obrigado",
+        "answer": "De nada."
+    },
+    {
+        "flag": "agradecimento",
+        "question": "vlw",
+        "answer": "De nada."
+    },
+    {
+        "flag": "nome",
+        "question": "qual seu nome?",
+        "answer": "Eu me chamo Sara, e estou aqui para te auxiliar."
+    },
+    {
+        "flag": "nome",
+        "question": "como se chama?",
+        "answer": "Eu me chamo Sara, e estou aqui para te auxiliar."
+    },
+    {
+        "flag": "nome",
+        "question": "seu nome é sara?",
+        "answer": "Sim, e estou aqui para te auxiliar."
+    }
+]

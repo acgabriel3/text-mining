@@ -5,6 +5,7 @@ from flask import Flask, render_template, request
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from elasticsearch import Elasticsearch
+from src.data.paths import dialogos_basicos_path, solicitacoes_path
 
 es = Elasticsearch()
 
@@ -27,7 +28,7 @@ def train_from_elasticsearch_response(q, top_words=None):
         "query": {
             "match": {
                 "sentenca": {
-                    "query": f'{q} {top_words}'
+                    "query": q
                 }
             }
         }
@@ -40,15 +41,12 @@ def train_from_elasticsearch_response(q, top_words=None):
         if len(hit['_source']['sentenca'].split()) > 1:
             trainer.train([q, hit['_source']['sentenca']])
 
-def train_from_builtin_data():
-    data = json.loads(open('dialogo.json', 'r').read())
+def train_from_builtin_data(path):
+    data = json.loads(open(path, 'r').read())
     train = []
-    tag = []
     for row in data:
         train.append(row['question'])
         train.append(row['answer'])
-    for row in data:
-        tag.append(row['flag'])
     trainer.train(train)
 
 @app.route("/")
@@ -59,11 +57,32 @@ def get_bot_response():
     question = request.args.get('msg')
     answer = chatbot.get_response(question.lower()) 
 
-    query = False if answer.confidence > .5 else True
-    if query:
-    # pegar as top_words?
-        train_from_elasticsearch_response(question)
-        answer = chatbot.get_response(question.lower())
+def main():
+    train_from_builtin_data(dialogos_basicos_path)
+    # train_from_builtin_data(solicitacoes_path) # tem as respostas em branco
+    while True:
+        try:
+            question = input('Usuário: ')
+            answer = chatbot.get_response(question.lower())
+
+            query = False if answer.confidence >= .5 else True
+            if query:
+                # pegar as top_words?
+                train_from_elasticsearch_response(question)
+                answer = chatbot.get_response(question.lower())
+
+            print(f'{chatbot.name}: {answer}')
+
+            # txt = str(answer)
+            # idx = math.floor(train.index(txt) / 2)
+            # for i, val in enumerate(tag):
+            #     if val == 'consulta':
+            #         query = True
+            #         break
+            #     if i == idx:
+            #         break
+        except(KeyboardInterrupt, EOFError, SystemExit):
+            break
 
     return str(answer) 
 

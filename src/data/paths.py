@@ -15,3 +15,6 @@ sentencas_respostas_path = _data_dir / 'sbrt_respostas_sentencas.tsv'
 vw_dossies_path = _data_dir / 'vw_dossies.xlsx'
 vw_respostas_path = _data_dir / 'vw_respostas.xlsx'
 solicitacoes_path = _data_dir / 'sbrt_respostas_solicitacao_metadados.csv'
+
+dialogos_basicos_path = _this_file_dir / '..' / '..' / 'basics.json'
+solicitacoes_path = _this_file_dir / '..' / '..' / 'solicitacoes.json'
