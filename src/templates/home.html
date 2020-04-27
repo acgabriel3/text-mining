@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <title>SBRT - Chatbot</title>
+    <body>
+        <center>
+            <h1>
+                <img
+                src="https://img2.gratispng.com/20180821/jvr/kisspng-chatbot-artificial-intelligence-internet-bot-smile-bobchats-facebook-chatbot-developer-5b7cd61a46b2c0.1499302415349079302896.jpg"
+                alt="Sara"
+                style="width:40px;height:40px;"
+                />
+                SBRT Chatbot
+            </h1>
+        </center>
+    <div class="box"></div>
+        <div class="boxed">
+            <div style="height: 380px;">
+            <div id="chatbox">
+                <p class="botText">
+                <span>Bem vindo!</span>
+                </p>
+                <p class="botText">
+                    <span>Sou a Sara, chatbot em desenvolvimento. </span>
+                </p>
+            </div>
+            <div id="userInput">
+                <input id="textInput" type="text" name="msg" placeholder="Mensagem" />
+            </div>
+            </div>
+        </div>
+    </body>
+    <head>
+        <link
+            'rel="shortcut icon"
+            type="image/x-icon"
+            href="https://img2.gratispng.com/20180821/jvr/kisspng-chatbot-artificial-intelligence-internet-bot-smile-bobchats-facebook-chatbot-developer-5b7cd61a46b2c0.1499302415349079302896.jpg"'
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <style>
+            body {
+                font-family: monospace;
+            }
+            h1 {
+                background-color: white;
+                display: inline-block;
+                font-size: 3em;
+                margin: 0;
+                padding: 14px;
+            }
+            h3 {
+                color: black;
+                font-size: 20px;
+                margin-top: 2px;
+                text-align: center;
+            }
+            #chatbox {
+                overflow-y: scroll; 
+                overflow-x: hidden; 
+                max-height: 380px;
+                background-color: white;
+                margin-left: auto;
+                margin-right: auto;
+                width: 65%;
+                height: 100%;
+                margin-top: 60px;
+            }
+            #userInput {
+                margin-left: auto;
+                margin-right: auto;
+                width: 63%;
+                margin-top: 15px;
+            }
+            #textInput {
+                width: 100%;
+                border: outset;
+                border-bottom: 3px solid black;
+                font-family: monospace;
+                font-size: 15px;
+            }
+            .userText {
+                color: white;
+                font-family: monospace;
+                font-size: 13px;
+                text-align: right;
+                line-height: center;
+            }
+            .userText span {
+                display: inline-block;
+                background-color: #808080;
+                padding: 10px;
+                border-radius: 10px;
+            }
+            .botText {
+                color: white;
+                font-family: monospace;
+                font-size: 13px;
+                text-align: left;
+                line-height: center;
+            }
+            .botText span {
+                display: inline-block;
+                background-color: #4169e1;
+                padding: 10px;
+                border-radius: 10px;
+            }
+            #tidbit {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 300px;
+            }
+            .boxed {
+                margin-left: auto;
+                margin-right: auto; 
+                width: 50%;
+                border: none;
+            }
+            .box {
+                border: none;
+            }
+        </style>
+    </head>
+    <script>
+        function updateScroll(){
+            var element = document.getElementById("chatbox");
+            element.scrollTop = element.scrollHeight;
+        }
+        function getBotResponse() {
+            var rawText = $("#textInput").val();
+            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+            document
+                .getElementById("userInput")
+                .scrollIntoView({ block: "start", behavior: "smooth" })
+            updateScroll();    
+            $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+            $("#chatbox").append(botHtml);
+            document
+                .getElementById("userInput")
+                .scrollIntoView({ block: "start", behavior: "smooth" });
+            updateScroll();
+            });
+        }
+        $("#textInput").keypress(function(e) {
+            if (e.which == 13) {
+                updateScroll();
+                getBotResponse();
+            }
+        });
+    </script>
+</html>

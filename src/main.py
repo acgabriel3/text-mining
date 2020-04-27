@@ -1,6 +1,7 @@
 import math
 import json
 import logging
+from flask import Flask, render_template, request
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from elasticsearch import Elasticsearch
@@ -12,13 +13,14 @@ _DEV = True
 if _DEV:
     logging.basicConfig(level=logging.INFO)
 
+app = Flask(__name__)
+
 chatbot = ChatBot(
     'Sara',
     # storage_adapter='chatterbot.storage.SQLStorageAdapter',
     # database="teste",
 )
 trainer = ListTrainer(chatbot)
-
 
 def train_from_elasticsearch_response(q, top_words=None):
     res = es.search(index="sentencas_sbrt", body={
@@ -34,13 +36,9 @@ def train_from_elasticsearch_response(q, top_words=None):
     if _DEV:
         print([hit['_source']['sentenca'] for hit in res['hits']['hits']])
 
-    l = []
     for hit in res['hits']['hits']:
-        l.append(q)
-        l.append(hit['_source']['sentenca'])
-
-    trainer.train(l)
-
+        if len(hit['_source']['sentenca'].split()) > 1:
+            trainer.train([q, hit['_source']['sentenca']])
 
 def train_from_builtin_data():
     data = json.loads(open('dialogo.json', 'r').read())
@@ -53,33 +51,22 @@ def train_from_builtin_data():
         tag.append(row['flag'])
     trainer.train(train)
 
+@app.route("/")
+def home():    
+    return render_template("home.html") 
+@app.route("/get")
+def get_bot_response():    
+    question = request.args.get('msg')
+    answer = chatbot.get_response(question.lower()) 
 
-def main():
-    train_from_builtin_data()
-    while True:
-        try:
-            question = input('Usuário: ')
-            answer = chatbot.get_response(question.lower())
-            
-            query = False if answer.confidence > .7 else True
-            if query:
-                # pegar as top_words?
-                train_from_elasticsearch_response(question)
-                answer = chatbot.get_response(question.lower())
+    query = False if answer.confidence > .5 else True
+    if query:
+    # pegar as top_words?
+        train_from_elasticsearch_response(question)
+        answer = chatbot.get_response(question.lower())
 
-            print(f'{chatbot.name}: {answer}')
-
-            # txt = str(answer)
-            # idx = math.floor(train.index(txt) / 2)
-            # for i, val in enumerate(tag):
-            #     if val == 'consulta':
-            #         query = True
-            #         break
-            #     if i == idx:
-            #         break
-        except(KeyboardInterrupt, EOFError, SystemExit):
-            break
-
+    return str(answer) 
 
 if __name__ == "__main__":
-    main()
+    train_from_builtin_data()     
+    app.run(host='0.0.0.0', port=4040)
