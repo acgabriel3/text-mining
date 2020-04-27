@@ -122,7 +122,18 @@ cat(jsonlda_dossies, file =file.path("/var/www/html/DT","lda.json"))
 
 metadados_dossies<-metadados
 #Armazena os objetos necessários para a visualização no dashboard.
-save(best_topic_dossies,dossies_topic,documents_sbrt_dossies,terms_sbrt_dossies,dendrograma_docs_dossies,dendrograma_terms_dossies,metadados_dossies,labels_topics_selector_dossies, file = paste0("relatorio_resposta/base/","sbrt_vis_final",best_topic_dossies,"_dossies",".RData"))
+save(best_topic_dossies,
+     dossies_topic,
+     documents_sbrt_dossies,
+     terms_sbrt_dossies,
+     dendrograma_docs_dossies,
+     dendrograma_terms_dossies,
+     metadados_dossies,
+     labels_topics_selector_dossies,
+     topics_selector_dossies,
+     periodo_dossies,
+     file="/home/sbrt/dados/sbrt/dados/Rdata/sbrt_vis_20_dossies.RData")
+     #file = paste0("relatorio_resposta/base/","sbrt_vis_",best_topic_dossies,"_dossies",".RData"))
 
-#save(jsonlda, file="jsonlda10.RData")
+save(best_model_dossies, file="modelo_dossies_20.RData")
 

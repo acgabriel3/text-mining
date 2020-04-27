@@ -28,8 +28,9 @@ library(c3)
 ####Respostas#####
 ##################
 
-load("/home/sbrt/dados/sbrt/dados/Rdata/sbrt_vis_final_respostas60.RData")
+load("/home/sbrt/dados/sbrt/dados/Rdata/sbrt_vis_final_respostas40.RData")
 #load(paste0(dir_app,"relatorio_resposta/base/jsonlda10.RData"))
+
 
 set.seed(1)
 
@@ -66,7 +67,7 @@ set.seed(1)
 ####Dossiês######
 ##################
 
-load("/home/sbrt/dados/sbrt/dados/Rdata/sbrt_vis_final20_dossies.RData")
+load("/home/sbrt/dados/sbrt/dados/Rdata/sbrt_vis_20_dossies.RData")
 
 
 #load(paste0(dir_app,"relatorio_resposta/base/sbrt_vis_010_dossies.RData"))
@@ -94,7 +95,7 @@ set.seed(1)
 #
 
 #dossies_total<-nrow(dossies_topic)
-#periodo_dossies<- dossies_topic$periodo%>%unique()%>%sort()
+periodo_dossies<- dossies_topic$periodo%>%unique()%>%sort()
 #topics_selector_dossies<-as.list(1:length(labels_topics_selector_dossies))
 #names(topics_selector_dossies)<-labels_topics_selector_dossies
 
@@ -532,8 +533,6 @@ library(readr)
 
 #Diretórios dos arquivos necessários
 respostas_dir<-"/mnt/dados/sbrt/dados/sbrt_txts/respostas_txt/"
-#respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
-metadados_dir<-"/mnt/dados/sbrt/metadados/metadados_RT.csv"
 stop_words_sbrt<-"/mnt/dados/sbrt/metadados/stop_words_sbrt.txt"
 
 
@@ -541,21 +540,16 @@ stop_words_sbrt<-"/mnt/dados/sbrt/metadados/stop_words_sbrt.txt"
 
 docs_interesse<-paste0(respostas_dir,respostas_tbl()$document,".txt")
 
-#Leitura das stopwords.
-sw<-readr::read_lines(stop_words_sbrt)
-
 #Leitura e pré-processamento dos documentos.
 txtdf<-get_txt(docs_interesse)
 
-#Criação de um dataframe dos metadados dos documentos.
-metadados<-readr::read_csv2(metadados_dir)
 
 #Preaparação dos documentos para criação do modelo LDA.
 instance_mallet<-make_instances(txtdf, stoplist_file = stop_words_sbrt)
 
 
 #Criação do modelo LDA de acordo com o número de tópicos encontrado no processo anterior.
-best_model<-train_model(instance_mallet,n_topics = 1, metadata = metadados, seed = 12345)
+best_model<-train_model(instance_mallet,n_topics = 1, n_iters = 1,n_max_iters = 1, seed = 12345)
 best_model$doc_ids<-doc_ids(best_model)
 
 
@@ -949,8 +943,6 @@ library(readr)
 
 #Diretórios dos arquivos necessários
 dosies_dir<-"/mnt/dados/sbrt/dados/sbrt_txts/dossies_txtv1/"
-#respostas_dir<-"/home/micael/R_envs/text-mining/dados/sbrt_txts/respostas_txt"
-metadados_dir<-"/mnt/dados/sbrt/metadados/metadados_DT_CNAE.csv"
 stop_words_sbrt<-"/mnt/dados/sbrt/metadados/stop_words_sbrt.txt"
 
 
@@ -967,15 +959,13 @@ sw<-readr::read_lines(stop_words_sbrt)
 #Leitura e pré-processamento dos documentos.
 txtdf<-get_txt(docs_interesse)
 
-#Criação de um dataframe dos metadados dos documentos.
-metadados<-readr::read_csv2(metadados_dir)
 
 #Preaparação dos documentos para criação do modelo LDA.
 instance_mallet<-make_instances(txtdf, stoplist_file = stop_words_sbrt)
 
 
 #Criação do modelo LDA de acordo com o número de tópicos encontrado no processo anterior.
-best_model<-train_model(instance_mallet,n_topics = 1, metadata = metadados, seed = 12345)
+best_model<-train_model(instance_mallet,n_topics = 1, n_iters = 1,n_max_iters = 1, seed = 12345)
 best_model$doc_ids<-doc_ids(best_model)
 
 
@@ -1024,48 +1014,52 @@ formatStyle(c("term", "beta"),
 Respostas Técnincas {data-navmenu="Dendrogramas"}
 ====================================================================================
 
-
+Column {style="height:100%;"}
 ------------------------------------------------------------------------------------
 
 ```{r}
 
 renderPlot({
-par(mar = c(0,0,0,0))
+par(mar=c(1,1,4,10))
 dendrograma_docs %>% 
   set("branches_k_color", k = best_topic)%>% 
-  set("labels_cex", 1) %>%
+  set("labels_cex", 1.5) %>%
   set("leaves_cex",0.2)%>%
-  set("hang_leaves",0.2)%>%
+  set("hang_leaves",0.05)%>%
   set("branches_lwd", 2)%>%
-  plot(horiz=T, axes=F)
+  plot(horiz=T, axes=F, main = "Respostas Técnicas")
+  
 
   
-})
+}, height = 800, width = 1350)
+
 
 ```
 
 
 
 
-Dossiês Técnincos {data-navmenu="Dendrogramas"}
+Dossiês Técnicos {data-navmenu="Dendrogramas"}
 ====================================================================================
 
-
+Column {style="height:100pc;"}
 ------------------------------------------------------------------------------------
 
 ```{r}
 renderPlot({
-par(mar = c(0,0,0,0))
+par(mar=c(1,1,4,10))
 dendrograma_docs_dossies %>% 
-  set("branches_k_color", k = best_topic)%>% 
-  set("labels_cex", 1) %>%
+  set("branches_k_color", k = best_topic_dossies)%>% 
+  set("labels_cex", 1.5) %>%
   set("leaves_cex",0.2)%>%
-  set("hang_leaves",0.2)%>%
+  set("hang_leaves",0.05)%>%
   set("branches_lwd", 2)%>%
-  plot(horiz=T, axes=F)
+  plot(horiz=T, axes=F, main = "Dossiês Técnicos")
+  
 
   
-})
+}, height = 800, width = 1340)
+  
 
 ```
 
@@ -1073,8 +1067,6 @@ dendrograma_docs_dossies %>%
 
 Respostas Técnincas {data-navmenu="Clusters"}
 ====================================================================================
-
-
 Column 
 ------------------------------------------------------------------------------------
 
@@ -1094,19 +1086,4 @@ Column
 
 
 
-
-Respostas Técnincas {data-navmenu="Consulta"}
-====================================================================================
-
-
-------------------------------------------------------------------------------------
-
-
-
-
-Dossiês Técnincos {data-navmenu="Consulta"}
-====================================================================================
-
-
-------------------------------------------------------------------------------------
 
