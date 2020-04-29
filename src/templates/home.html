@@ -124,6 +124,9 @@
         function updateScroll(){
             var element = document.getElementById("chatbox");
             element.scrollTop = element.scrollHeight;
+        };
+        function getInput() {
+            
         }
         function getBotResponse() {
             var rawText = $("#textInput").val();
@@ -135,13 +138,59 @@
                 .scrollIntoView({ block: "start", behavior: "smooth" })
             updateScroll();    
             $.get("/get", { msg: rawText }).done(function(data) {
-            var botHtml = '<p class="botText"><span>' + data + "</span></p>";
-            $("#chatbox").append(botHtml);
-            document
-                .getElementById("userInput")
-                .scrollIntoView({ block: "start", behavior: "smooth" });
-            updateScroll();
+                // const searchParams = new URLSearchParams(window.location.search)
+                // const isConsulta = searchParams.get('isConsulta')
+
+                var botResponse;
+                const isConsulta = data['isConsulta'];
+                const usrSatisfacaoStr = "A resposta foi satisfatória? (Sim ou Não)";
+
+                if (isConsulta == 'true') {
+                    // const listOfAnswers = searchParams.get('respostas');
+                    userSatResp = true;
+                    const listOfAnswers = data['respostas'];
+                    for (ans in listOfAnswers) {
+                        botResponse = '<p class="botText"><span>' + listOfAnswers[ans] + '</span></p>';
+                        $("#chatbox").append(botResponse);
+                        document
+                            .getElementById("userInput")
+                            .scrollIntoView({ block: "start", behavior: "smooth" });
+                        updateScroll();
+                        
+                        var ysHtml = '<p class="botText"><span>' + usrSatisfacaoStr + "</span></p>";
+                        $("#chatbox").append(ysHtml);
+                        document
+                            .getElementById("userInput")
+                            .scrollIntoView({ block: "start", behavior: "smooth" });
+                        updateScroll();
+                        
+                        do {
+                            rawText =  $("#textInput").val();
+                        } while (!rawText.test(/^([Ss]im)|([Nn][aã]o)$/));
+                        
+                        const loopuserHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+                        $("#chatbox").append(loopuserHtml);
+                        document
+                            .getElementById("userInput")
+                            .scrollIntoView({ block: "start", behavior: "smooth" })
+                        updateScroll();
+
+                        if(rawText.toLowerCase() == "sim") {
+                            botResponse = '<p class="botText"><span>Obrigada.</span></p>';
+                            // $.get("/train", { qtn: rawText }, { asw: x }).done() // isso tem q ser um post pro backend
+                            break;
+                        }
+                    }
+                } else {
+                    botResponse = '<p class="botText"><span>' + data['respostas'] + '</span></p>';
+                    $("#chatbox").append(botResponse);
+                    document
+                        .getElementById("userInput")
+                        .scrollIntoView({ block: "start", behavior: "smooth" });
+                    updateScroll();
+                }
             });
+
         }
         $("#textInput").keypress(function(e) {
             if (e.which == 13) {

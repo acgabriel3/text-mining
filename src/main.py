@@ -1,6 +1,7 @@
 import math
 import json
 import logging
+import time
 from flask import Flask, render_template, request
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
@@ -28,7 +29,7 @@ def train_from_elasticsearch_response(q, top_words=None):
         "query": {
             "match": {
                 "sentenca": {
-                    "query": f'{q} {top_words}'
+                    "query": f'{q}'
                 }
             }
         }
@@ -37,10 +38,13 @@ def train_from_elasticsearch_response(q, top_words=None):
     if _DEV:
         print([hit['_source']['sentenca'] for hit in res['hits']['hits']])
 
+    list = []
     for hit in res['hits']['hits']:
-        if len(hit['_source']['sentenca'].split()) > 1:
-            trainer.train([q, hit['_source']['sentenca']])
+    #    if len(hit['_source']['sentenca'].split()) > 1:
+    #        trainer.train([q, hit['_source']['sentenca']])
+        list.append([hit['_source']['sentenca']])
 
+    return list
 
 def train_from_builtin_data(path):
     data = json.loads(open(path, 'r').read())
@@ -61,10 +65,17 @@ def get_bot_response():
     query = False if answer.confidence > .5 else True
     if query:
     # pegar as top_words?
-        train_from_elasticsearch_response(question)
-        answer = chatbot.get_response(question.lower())
+        lista = train_from_elasticsearch_response(question)
+        #answer = chatbot.get_response(question.lower())
+        return {'respostas': lista, 'isConsulta': "true"}
 
-    return str(answer) 
+    return {'respostas': str(answer), 'isConsulta': "false"}
+
+@app.route("/train")
+def train_bot_with_input():
+    pergunta = request.args.get('qtn')
+    resposta = request.args.get('asw')
+    trainer.train([pergunta, resposta])
 
 if __name__ == "__main__":
     train_from_builtin_data(dialogos_basicos_path)     
