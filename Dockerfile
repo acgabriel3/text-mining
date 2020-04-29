@@ -1,16 +1,10 @@
-FROM ubuntu:latest
-RUN apt update -y && apt upgrade -y
-RUN apt install build-essential -y
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt install software-properties-common -y
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt update -y
-RUN apt install python3.7 -y
-RUN apt install python3.7-venv python3.7-dev unzip -y
-COPY . /app
+FROM python:3
+
 WORKDIR /app
-RUN apt install python3-pip -y
-RUN python3.7 -m pip install --upgrade pip
-RUN python3.7 -m pip install --upgrade -r requirements.txt
-ENTRYPOINT ["src/main.py"]
-CMD ["python3.7", "src/main.py"]
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+CMD [ "python3", "./src/main.py" ]
