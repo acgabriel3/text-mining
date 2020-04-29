@@ -6,6 +6,7 @@ setuptools
 wheel
 
 # dependencies
+autopep8
 numpy
 pandas
 chatterbot-corpus
@@ -15,3 +16,4 @@ tensorflow>=2.0*
 jupyter
 xlrd
 elasticsearch
+Flasky

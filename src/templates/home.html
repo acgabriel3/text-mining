@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <html>
-    <title>SBRT - Chatbot</title>
-    <body>
-        <center>
-            <h1>
-                <img
-                src="https://img2.gratispng.com/20180821/jvr/kisspng-chatbot-artificial-intelligence-internet-bot-smile-bobchats-facebook-chatbot-developer-5b7cd61a46b2c0.1499302415349079302896.jpg"
-                alt="Sara"
-                style="width:40px;height:40px;"
-                />
-                SBRT Chatbot
-            </h1>
-        </center>
+<title>SBRT - Chatbot</title>
+
+<body>
+    <center>
+        <h1>
+            <img src="https://img2.gratispng.com/20180821/jvr/kisspng-chatbot-artificial-intelligence-internet-bot-smile-bobchats-facebook-chatbot-developer-5b7cd61a46b2c0.1499302415349079302896.jpg"
+                alt="Sara" style="width:40px;height:40px;" />
+            SBRT Chatbot
+        </h1>
+    </center>
     <div class="box"></div>
-        <div class="boxed">
-            <div style="height: 380px;">
+    <div class="boxed">
+        <div style="height: 380px;">
             <div id="chatbox">
                 <p class="botText">
-                <span>Bem vindo!</span>
+                    <span>Bem vindo!</span>
                 </p>
                 <p class="botText">
                     <span>Sou a Sara, chatbot em desenvolvimento. </span>
@@ -26,177 +24,185 @@
             <div id="userInput">
                 <input id="textInput" type="text" name="msg" placeholder="Mensagem" />
             </div>
-            </div>
         </div>
-    </body>
-    <head>
-        <link
-            'rel="shortcut icon"
-            type="image/x-icon"
-            href="https://img2.gratispng.com/20180821/jvr/kisspng-chatbot-artificial-intelligence-internet-bot-smile-bobchats-facebook-chatbot-developer-5b7cd61a46b2c0.1499302415349079302896.jpg"'
-        />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <style>
-            body {
-                font-family: monospace;
-            }
-            h1 {
-                background-color: white;
-                display: inline-block;
-                font-size: 3em;
-                margin: 0;
-                padding: 14px;
-            }
-            h3 {
-                color: black;
-                font-size: 20px;
-                margin-top: 2px;
-                text-align: center;
-            }
-            #chatbox {
-                overflow-y: scroll; 
-                overflow-x: hidden; 
-                max-height: 380px;
-                background-color: white;
-                margin-left: auto;
-                margin-right: auto;
-                width: 65%;
-                height: 100%;
-                margin-top: 60px;
-            }
-            #userInput {
-                margin-left: auto;
-                margin-right: auto;
-                width: 63%;
-                margin-top: 15px;
-            }
-            #textInput {
-                width: 100%;
-                border: outset;
-                border-bottom: 3px solid black;
-                font-family: monospace;
-                font-size: 15px;
-            }
-            .userText {
-                color: white;
-                font-family: monospace;
-                font-size: 13px;
-                text-align: right;
-                line-height: center;
-            }
-            .userText span {
-                display: inline-block;
-                background-color: #808080;
-                padding: 10px;
-                border-radius: 10px;
-            }
-            .botText {
-                color: white;
-                font-family: monospace;
-                font-size: 13px;
-                text-align: left;
-                line-height: center;
-            }
-            .botText span {
-                display: inline-block;
-                background-color: #4169e1;
-                padding: 10px;
-                border-radius: 10px;
-            }
-            #tidbit {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                width: 300px;
-            }
-            .boxed {
-                margin-left: auto;
-                margin-right: auto; 
-                width: 50%;
-                border: none;
-            }
-            .box {
-                border: none;
-            }
-        </style>
-    </head>
-    <script>
-        function updateScroll(){
-            var element = document.getElementById("chatbox");
-            element.scrollTop = element.scrollHeight;
-        };
-        function getInput() {
-            
+    </div>
+</body>
+
+<head>
+    <link rel="shortcut icon" type="image/x-icon"
+        href="https://img2.gratispng.com/20180821/jvr/kisspng-chatbot-artificial-intelligence-internet-bot-smile-bobchats-facebook-chatbot-developer-5b7cd61a46b2c0.1499302415349079302896.jpg"' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: monospace;
         }
-        function getBotResponse() {
-            var rawText = $("#textInput").val();
-            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
-            $("#textInput").val("");
-            $("#chatbox").append(userHtml);
-            document
-                .getElementById("userInput")
-                .scrollIntoView({ block: "start", behavior: "smooth" })
-            updateScroll();    
-            $.get("/get", { msg: rawText }).done(function(data) {
-                // const searchParams = new URLSearchParams(window.location.search)
-                // const isConsulta = searchParams.get('isConsulta')
 
-                var botResponse;
-                const isConsulta = data['isConsulta'];
-                const usrSatisfacaoStr = "A resposta foi satisfatória? (Sim ou Não)";
-
-                if (isConsulta == 'true') {
-                    // const listOfAnswers = searchParams.get('respostas');
-                    userSatResp = true;
-                    const listOfAnswers = data['respostas'];
-                    for (ans in listOfAnswers) {
-                        botResponse = '<p class="botText"><span>' + listOfAnswers[ans] + '</span></p>';
-                        $("#chatbox").append(botResponse);
-                        document
-                            .getElementById("userInput")
-                            .scrollIntoView({ block: "start", behavior: "smooth" });
-                        updateScroll();
-                        
-                        var ysHtml = '<p class="botText"><span>' + usrSatisfacaoStr + "</span></p>";
-                        $("#chatbox").append(ysHtml);
-                        document
-                            .getElementById("userInput")
-                            .scrollIntoView({ block: "start", behavior: "smooth" });
-                        updateScroll();
-                        
-                        do {
-                            rawText =  $("#textInput").val();
-                        } while (!rawText.test(/^([Ss]im)|([Nn][aã]o)$/));
-                        
-                        const loopuserHtml = '<p class="userText"><span>' + rawText + "</span></p>";
-                        $("#chatbox").append(loopuserHtml);
-                        document
-                            .getElementById("userInput")
-                            .scrollIntoView({ block: "start", behavior: "smooth" })
-                        updateScroll();
-
-                        if(rawText.toLowerCase() == "sim") {
-                            botResponse = '<p class="botText"><span>Obrigada.</span></p>';
-                            // $.get("/train", { qtn: rawText }, { asw: x }).done() // isso tem q ser um post pro backend
-                            break;
-                        }
-                    }
-                } else {
-                    botResponse = '<p class="botText"><span>' + data['respostas'] + '</span></p>';
-                    $("#chatbox").append(botResponse);
-                    document
-                        .getElementById("userInput")
-                        .scrollIntoView({ block: "start", behavior: "smooth" });
-                    updateScroll();
-                }
-            });
-
+        h1 {
+            background-color: white;
+            display: inline-block;
+            font-size: 3em;
+            margin: 0;
+            padding: 14px;
         }
-        $("#textInput").keypress(function(e) {
-            if (e.which == 13) {
+
+        h3 {
+            color: black;
+            font-size: 20px;
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        a {
+            color: whitesmoke;
+        }
+
+        #chatbox {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            max-height: 380px;
+            background-color: white;
+            margin-left: auto;
+            margin-right: auto;
+            width: 65%;
+            height: 100%;
+            margin-top: 60px;
+        }
+
+        #userInput {
+            margin-left: auto;
+            margin-right: auto;
+            width: 63%;
+            margin-top: 15px;
+        }
+
+        #textInput {
+            width: 100%;
+            border: outset;
+            border-bottom: 3px solid black;
+            font-family: monospace;
+            font-size: 15px;
+        }
+
+        .userText {
+            color: white;
+            font-family: monospace;
+            font-size: 13px;
+            text-align: right;
+            line-height: center;
+        }
+
+        .userText span {
+            display: inline-block;
+            background-color: #808080;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .botText {
+            color: white;
+            font-family: monospace;
+            font-size: 13px;
+            text-align: left;
+            line-height: center;
+        }
+
+        .botText span {
+            display: inline-block;
+            background-color: #4169e1;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        #tidbit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+        }
+
+        .boxed {
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+            border: none;
+        }
+
+        .box {
+            border: none;
+        }
+    </style>
+</head>
+<script>
+    function updateScroll() {
+        document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+
+        const chatbotEl = document.getElementById("chatbox");
+        chatbotEl.scrollTop = chatbotEl.scrollHeight;
+    }
+
+    function getInput() {
+        const rawText = $("#textInput").val();
+        const userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+
+        $("#textInput").val('');
+        $("#chatbox").append(userHtml);
+
+        return rawText;
+    }
+
+    function treinarRespostasValidas(resposta) {
+        const satisfacaoStrHtml =
+            '<p class="botText"><span>A resposta foi satisfatória? (Sim ou Não)</span></p>';
+        $("#chatbox").append(satisfacaoStrHtml);
+        updateScroll();
+
+        const yesNoInput = getInput();
+        const yesNoHtml = '<p class="userText"><span>' + yesNoInput + '</span></p>';
+        $("#chatbox").append(yesNoHtml);
+        updateScroll();
+
+        if (/^[Ss]im$/.test(yesNoInput)) {
+            botResponse = '<p class="botText"><span>Obrigada.</span></p>';
+            // $.get("/train", { qtn: yesNoInput, asw: x }).done() // isso tem q ser um post pro backend
+            done = true;
+        }
+    }
+
+    function getBotResponse() {
+        var usrInput = getInput();
+        updateScroll();
+        $.get("/get", { msg: usrInput }).done(function (data) {
+            const isConsulta = data["isConsulta"];
+            const listOfAnswers = data["data"];
+            listOfAnswers.forEach(ans => {
+                const botResponse =
+                    `<p class="botText"><span>${ans['sentenca']} ${
+                    ans['doc_id'] !== null
+                        ? `<br>Link para o documento: <a target="_blank"
+                href=http://sbrt.ibict.br/acessoRT/${ans['doc_id']}>${ans['doc_id']}</a>`
+                        : ''}</span></p>`;
+
+                $("#chatbox").append(botResponse);
                 updateScroll();
-                getBotResponse();
-            }
+
+                // a ideia era o usuario fazer uma avaliação do que foi retornado, mas nao conseguimos.
+                // if (isConsulta) {
+                // treinarRespostasValidas(ans);
+                // }
+            });
         });
-    </script>
+
+    }
+
+    $("#textInput").keypress(function (e) {
+        if (e.which == 13) {
+            const chatbotEl = document.getElementById("chatbox");
+            chatbotEl.scrollTop = chatbotEl.scrollHeight;
+            getBotResponse();
+        }
+    });
+</script>
+
 </html>

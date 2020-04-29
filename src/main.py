@@ -24,6 +24,7 @@ chatbot = ChatBot(
 )
 trainer = ListTrainer(chatbot)
 
+
 def train_from_elasticsearch_response(q, top_words=None):
     res = es.search(index="sentencas_sbrt", body={
         "query": {
@@ -38,13 +39,18 @@ def train_from_elasticsearch_response(q, top_words=None):
     if _DEV:
         print([hit['_source']['sentenca'] for hit in res['hits']['hits']])
 
-    list = []
+    data = []
     for hit in res['hits']['hits']:
-    #    if len(hit['_source']['sentenca'].split()) > 1:
-    #        trainer.train([q, hit['_source']['sentenca']])
-        list.append([hit['_source']['sentenca']])
+        if len(hit['_source']['sentenca'].split()) > 1:
+            data.append(
+                {
+                    'sentenca': hit['_source']['sentenca'],
+                    'doc_id': hit['_source']['documento']
+                }
+            )
 
-    return list
+    return data
+
 
 def train_from_builtin_data(path):
     data = json.loads(open(path, 'r').read())
@@ -54,22 +60,29 @@ def train_from_builtin_data(path):
         train.append(row['answer'])
     trainer.train(train)
 
+
 @app.route("/")
-def home():    
-    return render_template("home.html") 
+def home():
+    return render_template("home.html")
+
+
 @app.route("/get")
-def get_bot_response():    
+def get_bot_response():
     question = request.args.get('msg')
-    answer = chatbot.get_response(question.lower()) 
+    answer = chatbot.get_response(question.lower())
 
     query = False if answer.confidence > .5 else True
+    data = [
+        {'sentenca': str(answer), 'doc_id': None}
+    ]
     if query:
-    # pegar as top_words?
-        lista = train_from_elasticsearch_response(question)
+        # pegar as top_words?
+        data = train_from_elasticsearch_response(question)
         #answer = chatbot.get_response(question.lower())
-        return {'respostas': lista, 'isConsulta': "true"}
+        return {'data': data, 'isConsulta': True}
 
-    return {'respostas': str(answer), 'isConsulta': "false"}
+    return {'data': data, 'isConsulta': False}
+
 
 @app.route("/train")
 def train_bot_with_input():
@@ -77,6 +90,7 @@ def train_bot_with_input():
     resposta = request.args.get('asw')
     trainer.train([pergunta, resposta])
 
+
 if __name__ == "__main__":
-    train_from_builtin_data(dialogos_basicos_path)     
+    train_from_builtin_data(dialogos_basicos_path)
     app.run(host='0.0.0.0', port=4040)
