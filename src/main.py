@@ -8,7 +8,7 @@ from chatterbot.trainers import ListTrainer
 from elasticsearch import Elasticsearch
 from src.data.paths import dialogos_basicos_path, solicitacoes_path
 
-es = Elasticsearch()
+es = Elasticsearch(hosts=['http://elasticsearch:9200'])
 
 _DEV = True
 
@@ -76,7 +76,6 @@ def get_bot_response():
         {'sentenca': str(answer), 'doc_id': None}
     ]
     if query:
-        # pegar as top_words?
         data = train_from_elasticsearch_response(question)
         #answer = chatbot.get_response(question.lower())
         return {'data': data, 'isConsulta': True}
