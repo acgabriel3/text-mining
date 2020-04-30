@@ -1,59 +1,56 @@
 [
     {
-        "flag": "saudacao",
-        "question": "bom dia",
-        "answer": "Olá, em que eu posso ajudá-lo?"
-    },
-    {
-        "flag": "saudacao",
-        "question": "boa tarde",
-        "answer": "Olá, em que eu posso ajudá-lo?"
-    },
-    {
-        "flag": "saudacao",
-        "question": "boa noite",
-        "answer": "Olá, em que eu posso ajudá-lo?"
-    },
-    {
-        "flag": "saudacao",
-        "question": "oi",
-        "answer": "Olá, em que eu posso ajudá-lo?"
-    },
-    {
-        "flag": "saudacao",
+        "flag": "cumprimentar",
         "question": "olá",
         "answer": "Olá, em que eu posso ajudá-lo?"
     },
     {
-        "flag": "comprimento",
-        "question": "tudo bem?",
-        "answer": "Tudo otimo! Em que eu posso ajudá-lo?"
+        "flag": "cumprimentar",
+        "question": "Ola",
+        "answer": "Olá, em que eu posso ajudá-lo?"
     },
     {
-        "flag": "comprimento",
-        "question": "como vai você?",
-        "answer": "Tudo otimo! Em que eu posso ajudá-lo?"
+        "flag": "cumprimentar",
+        "question": "Oi",
+        "answer": "Olá, em que eu posso ajudá-lo?"
     },
     {
-        "flag": "agradecimento",
+        "flag": "cumprimentar",
+        "question": "bom dia",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar",
+        "question": "boa tarde",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar",
+        "question": "boa noite",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+
+    {
+        "flag": "agradecer",
         "question": "obrigado",
         "answer": "De nada."
     },
     {
-        "flag": "agradecimento",
-        "question": "valeu",
+        "flag": "agradecer",
+        "question": "obrigada",
         "answer": "De nada."
     },
     {
-        "flag": "agradecimento",
-        "question": "muito obrigado",
-        "answer": "De nada."
-    },
-    {
-        "flag": "agradecimento",
+        "flag": "agradecer",
         "question": "vlw",
         "answer": "De nada."
     },
+    {
+        "flag": "agradecer",
+        "question": "valeu",
+        "answer": "De nada."
+    },
+
     {
         "flag": "nome",
         "question": "qual seu nome?",
@@ -68,5 +65,710 @@
         "flag": "nome",
         "question": "seu nome é sara?",
         "answer": "Sim, e estou aqui para te auxiliar."
+    },
+
+    {
+        "flag": "despedir",
+        "question": "tchau",
+        "answer": "Estarei sempre a disposição"
+    },
+    {
+        "flag": "despedir",
+        "question": "adeus",
+        "answer": "Estarei sempre a disposição"
+    },
+    {
+        "flag": "despedir",
+        "question": "flw",
+        "answer": "Estarei sempre a disposição"
+    },
+
+    {
+        "flag": "religiao",
+        "question": "voce a credita em deus?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "deus existe?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "voce e catolico protestante?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "voce tem religiao?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "voce e mussumano?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "voce e crente?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "voce é católico?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "voce é ateu?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "você é espírita?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "voce e espirita?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "você é religioso",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "qual é o seu deus?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "qual a sua religião?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+    {
+        "flag": "religiao",
+        "question": "você acredita em alguma religião?",
+        "answer": "Sou uma máquina, não sou capaz de acreditar em algo."
+    },
+
+    {
+        "flag": "esporte",
+        "question": "qual o seu esporte favorito?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+    {
+        "flag": "esporte",
+        "question": "voce pratica esporte?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+    {
+        "flag": "esporte",
+        "question": "você joga basquete?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+    {
+        "flag": "esporte",
+        "question": "você joga tênis?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+    {
+        "flag": "esporte",
+        "question": "você joga vôlei?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+    {
+        "flag": "esporte",
+        "question": "você joga xadrez?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+    {
+        "flag": "esporte",
+        "question": "você joga damas?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+    {
+        "flag": "esporte",
+        "question": "voce joga basquete?",
+        "answer": "Desculpe, não tiro esse tipo de dúvida."
+    },
+
+    {
+        "flag": "identidade",
+        "question": "você é um ser humano?",
+        "answer": "Sou um robô."
+    },
+    {
+        "flag": "identidade",
+        "question": "voce e um ser humano?",
+        "answer": "Sou um robô."
+    },
+    {
+        "flag": "identidade",
+        "question": "vc e um ser humano?",
+        "answer": "Sou um robô."
+    },
+    {
+        "flag": "identidade",
+        "question": "vc é humano?",
+        "answer": "Sou um robô."
+    },
+    {
+        "flag": "identidade",
+        "question": "você é humano?",
+        "answer": "Sou um robô."
+    },
+    {
+        "flag": "identidade",
+        "question": "voce e humano?",
+        "answer": "Sou um robô."
+    },
+
+    {
+        "flag": "genero",
+        "question": "voce é homem ou mulher?", 
+        "answer": "Sou um robô, mas me chamo Sara."
+    }, 
+    {
+        "flag": "genero",
+        "question": "voce é macho ou femea?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "qual o seu sexo?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "voce e mulher?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "voce e um homem?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "você é um homem?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "voce tem genero?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "você é uma mulher?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "você é andrógeno?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+    {
+        "flag": "genero",
+        "question": "voce e androgeno?",
+        "answer": "Sou um robô, mas me chamo Sara."
+    },
+
+    {
+        "flag": "cumprimentar_informal",
+        "question": "Fala man",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "fala brother",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "fala irmão",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "fala irmao",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "iai irmão",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "iai irmao",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "iai mano",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "iai man",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "man",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+    {
+        "flag": "cumprimentar_informal",
+        "question": "iai",
+        "answer": "Olá, em que eu posso ajudá-lo?"
+    },
+
+    {
+        "flag": "triste",
+        "question": "Estou triste",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "Estou muito triste",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "Estou desapontado",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "estou infeliz",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "estou magoado",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "estou desanimado",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "estou frustrado",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "tô muito triste",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "tô triste",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "tô infeliz",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "tô magoado",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+    {
+        "flag": "triste",
+        "question": "tô frustrado",
+        "answer": "Não fique triste, estou aqui para ajudá-lo!"
+    },
+
+    {
+        "flag": "elogios",
+        "question": "você é muito educado",         
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "voce e muito educado",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "você é muito educada",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "voce e muito educada",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "me ajudou muito",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "você é demais",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "você é lindo",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "voce e lindo",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "voce e maravilhoso",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "vc é incrivel",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "vc e incrivel",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "vc eh linda",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "vc e lindo",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "vc é bonito",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "vc é maravilhoso",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "adorei você",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "amei você",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "adorei voce",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "amei voce",
+        "answer": "Obrigada."
+    },
+    {
+        "flag": "elogios",
+        "question": "adorei vc",
+        "answer": "Obrigada."
+    },
+
+    {
+        "flag": "tudo_bem",
+        "question": "oi, tudo bem",         
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "oi, como vai voce",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "como vao as coisas?",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "opa tudo bem?",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "tudo bem?"  ,
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "tudo bom?"  ,
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "como vocês esta?",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "como voce esta?",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "como voce ta?",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "como vai você?",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "como vai voce?",
+        "answer": "Tudo ótimo! E você?"
+    },
+    {
+        "flag": "tudo_bem",
+        "question": "como vai vc?",
+        "answer": "Tudo ótimo! E você?"
+    },
+
+    {
+        "flag": "tudo_bem_resposta",
+        "question": "estou bem",
+        "answer": "Fico feliz, em que posso ajudá-lo?"
+    },
+    {
+        "flag": "tudo_bem_resposta",
+        "question": "estou otimo",
+        "answer": "Fico feliz, em que posso ajudá-lo?"
+    },
+
+    {
+        "flag": "o_que_sei_falar",
+        "question": "sobre o que você sabe falar?",         
+        "answer": "Ainda estou em desenvolvimento, então apenas o básico mais consultas de documentos."
+    },
+    {
+        "flag": "o_que_sei_falar",
+        "question": "o que mais você sabe falar?",
+        "answer": "Ainda estou em desenvolvimento, então apenas o básico mais consultas de documentos."
+    },
+    {
+        "flag": "o_que_sei_falar",
+        "question": "quais assuntos você fala?",
+        "answer": "Ainda estou em desenvolvimento, então apenas o básico mais consultas de documentos."
+    },
+    {
+        "flag": "o_que_sei_falar",
+        "question": "o que você sabe?",
+        "answer": "Ainda estou em desenvolvimento, então apenas o básico mais consultas de documentos."
+    },
+    {
+        "flag": "o_que_sei_falar",
+        "question": "lista de assuntos possiveis?",
+        "answer": "Ainda estou em desenvolvimento, então apenas o básico mais consultas de documentos."
+    },
+    {
+        "flag": "o_que_sei_falar",
+        "question": "quais as perguntas vc responde?",
+        "answer": "Ainda estou em desenvolvimento, então apenas o básico mais consultas de documentos."
+    },
+    {
+        "flag": "o_que_sei_falar",
+        "question": "quais as perquisar você responde?",
+        "answer": "Ainda estou em desenvolvimento, então apenas o básico mais consultas de documentos."
+    },
+
+    {
+        "flag": "objetivo",
+        "question": "qual o seu objetivo?",         
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "qual seu objetivo?",         
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "qual o seu objetivo robo?",         
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "qual o seu objetivo robô?",
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "vc tem um objetivo de existencia?",
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "você foi feito pra que?",
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "vc tem algum propósito?",
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "como que vc pode me ser útil?",
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+    {
+        "flag": "objetivo",
+        "question": "me fale mais sobre você.",
+        "answer": "Fui criada para recuperar informações dentro do sistema do SBRT."
+    },
+
+    {
+        "flag": "FAQ",
+        "question": "o que é uma resposta técnica (rt)?",
+        "answer": "Uma RT é um documento gerado a partir da busca e análise de informações para capacitação e inovação tecnológica e que visem, sobretudo garantir a competitividade de produtos; diversificar e incrementar a produção; maximizar a produção; aumentar eficiência; minimizar custos; atingir determinados padrões de qualidade; agregar valor/diferenciação reconhecida; modificar patamar tecnológico; implementar uma idéia/negócio."
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é uma resposta técnica?",
+        "answer": "Uma RT é um documento gerado a partir da busca e análise de informações para capacitação e inovação tecnológica e que visem, sobretudo garantir a competitividade de produtos; diversificar e incrementar a produção; maximizar a produção; aumentar eficiência; minimizar custos; atingir determinados padrões de qualidade; agregar valor/diferenciação reconhecida; modificar patamar tecnológico; implementar uma idéia/negócio."
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é uma rt?",
+        "answer": "Uma RT é um documento gerado a partir da busca e análise de informações para capacitação e inovação tecnológica e que visem, sobretudo garantir a competitividade de produtos; diversificar e incrementar a produção; maximizar a produção; aumentar eficiência; minimizar custos; atingir determinados padrões de qualidade; agregar valor/diferenciação reconhecida; modificar patamar tecnológico; implementar uma idéia/negócio."
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é um dossiê Técnico (dt)?",
+        "answer": "Documento cujo objetivo é disseminar informações com maior valor agregado, que abordam de forma abrangente diversos aspectos de natureza tecnológica sobre um determinado tema, que possam promover melhorias junto às MPEs ou com a função de alerta/antecipação de suas necessidades"
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é um dossiê técnico?",
+        "answer": "Documento cujo objetivo é disseminar informações com maior valor agregado, que abordam de forma abrangente diversos aspectos de natureza tecnológica sobre um determinado tema, que possam promover melhorias junto às MPEs ou com a função de alerta/antecipação de suas necessidades"
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é um dt?",
+        "answer": "Documento cujo objetivo é disseminar informações com maior valor agregado, que abordam de forma abrangente diversos aspectos de natureza tecnológica sobre um determinado tema, que possam promover melhorias junto às MPEs ou com a função de alerta/antecipação de suas necessidades"
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é uma resposta referencial (rr)?",
+        "answer": "É uma resposta não caracterizada no critério de publicável no banco de informação do SBRT. São consideradas RR as respostas que:  a) indicam a existência de outras RT no banco de conhecimento que atendem à necessidade do cliente;  b) indicam a necessidade de contratação de serviços técnicos especializados;  c) indicam fornecedores;  d) indicam documentação técnica;  e) indicam organizações de referência;  f) comunicam que a demanda é de alta complexidade, o que foge ao escopo do SBRT."
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é uma resposta referencial?",
+        "answer": "É uma resposta não caracterizada no critério de publicável no banco de informação do SBRT. São consideradas RR as respostas que:  a) indicam a existência de outras RT no banco de conhecimento que atendem à necessidade do cliente;  b) indicam a necessidade de contratação de serviços técnicos especializados;  c) indicam fornecedores;  d) indicam documentação técnica;  e) indicam organizações de referência;  f) comunicam que a demanda é de alta complexidade, o que foge ao escopo do SBRT."
+    },
+    {
+        "flag": "FAQ",
+        "question": "o que é uma rr?",
+        "answer": "É uma resposta não caracterizada no critério de publicável no banco de informação do SBRT. São consideradas RR as respostas que:  a) indicam a existência de outras RT no banco de conhecimento que atendem à necessidade do cliente;  b) indicam a necessidade de contratação de serviços técnicos especializados;  c) indicam fornecedores;  d) indicam documentação técnica;  e) indicam organizações de referência;  f) comunicam que a demanda é de alta complexidade, o que foge ao escopo do SBRT."
+    },
+    {
+        "flag": "FAQ",
+        "question": "q que o sbrt não atende?",
+        "answer": "O SBRT não atende a demandas que solicitam, exclusivamente, cópias de documentos; listagem de livros e artigos sobre o assunto de interesse; relação de fontes de consulta e indicações referenciais com nomes de pessoas e instituições a serem consultadas; fornecimento de informações para abertura de negócios, para a realização de estudos de viabilidade técnico-econômica e estudos de mercado; fornecimento de informações para elaboração de trabalhos estudantis; relação de dados para composição de informações para análises estatísticas de dados e serviços de consultoria; fornecimento de informações para desenvolvimento de projetos; indicação de instituições/empresas que realizam serviços laboratoriais, que forneçam laudos e pareceres técnicos, que realizem certificações e credenciamentos, dentre outros serviços."
+    },
+    {
+        "flag": "FAQ",
+        "question": "quem elabora a resposta técnica?",
+        "answer": "Para atender às demandas do SBRT criou-se uma rede de cooperação entre onze instituições que atendem a todo Brasil. Para ver a lista completa acesse: http://www.respostatecnica.org.br/faq"
+    },
+    {
+        "flag": "FAQ",
+        "question": "quanto custa a resposta técnica?",
+        "answer": "Nada, qualquer informação do serviço é fornecida gratuitamente para o usuário cadastrado no site."
+    },
+    {
+        "flag": "FAQ",
+        "question": "como faço para acessar as respostas técnicas e dossiês técnicos já publicados?",
+        "answer": "O preenchimento do cadastro do cliente é pré-condição para visualizar na íntegra os conteúdos já publicados. Se você já e cadastrado, basta se logar e no campo de busca fazer a pesquisa no Banco de Informação do SBRT."
+    },
+    {
+        "flag": "FAQ",
+        "question": "como faço para postar uma demanda?",
+        "answer": "Primeiramente você deve cadastrar-se no site do SBRT. Para isto basta entrar em “cadastre-se” e preencher os campos solicitados. Em seguida escolher no menu do cliente a opção “Fazer Nova Solicitação”. Preencher no site do SBRT, os campos obrigatórios que constam no formulário."
+    },
+    {
+        "flag": "FAQ",
+        "question": "quanto tempo demora para eu receber minha resposta?",
+        "answer": "O tempo médio de resposta do SBRT é 15 (quinze) dias."
+    },
+    {
+        "flag": "FAQ",
+        "question": "quantas perguntas posso solicitar?",
+        "answer": "Quantas quiser. Não existe um limite para solicitar perguntas."
+    },
+    {
+        "flag": "FAQ",
+        "question": "posso fazer perguntas de diferentes assuntos?",
+        "answer": "Sim. No entanto, não coloque em uma mesma pergunta mais de um assunto. Faça uma pergunta de cada vez."
+    },
+    {
+        "flag": "FAQ",
+        "question": "posso perguntar mais de um assunto?",
+        "answer": "Sim. No entanto, não coloque em uma mesma pergunta mais de um assunto. Faça uma pergunta de cada vez."
+    },
+    {
+        "flag": "FAQ",
+        "question": "como recebo a minha resposta?",
+        "answer": "O sistema envia automaticamente um link de sua resposta para o endereço de e-mail que você informou no seu cadastro."
+    },
+
+    {
+        "flag": "contato",
+        "question": "Como entro em contato com o sbrt?",
+        "answer": "Para se comunicar diretamente ao SBRT, acessa a página http://www.respostatecnica.org.br/contato ."
+    },
+    {
+        "flag": "contato",
+        "question": "Quero entrar em contato com o sbrt?",
+        "answer": "Para se comunicar diretamente ao SBRT, acessa a página http://www.respostatecnica.org.br/contato ."
+    },
+    {
+        "flag": "contato",
+        "question": "posso falar com alguém do o sbrt?",
+        "answer": "Para se comunicar diretamente ao SBRT, acessa a página http://www.respostatecnica.org.br/contato ."
+    },
+    {
+        "flag": "contato",
+        "question": "quero falar com um funcionario?",
+        "answer": "Para se comunicar diretamente ao SBRT, acessa a página http://www.respostatecnica.org.br/contato ."
+    },
+    {
+        "flag": "contato",
+        "question": "quero falar com um funcionário?",
+        "answer": "Para se comunicar diretamente ao SBRT, acessa a página http://www.respostatecnica.org.br/contato ."
+    },
+    {
+        "flag": "contato",
+        "question": "quero falar com um humano?",
+        "answer": "Para se comunicar diretamente ao SBRT, acessa a página http://www.respostatecnica.org.br/contato ."
     }
+
 ]
