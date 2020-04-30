@@ -507,18 +507,13 @@
     },
     {
         "flag": "tudo_bem",
-        "question": "opa tudo bem?",
-        "answer": "Tudo ótimo! E você?"
-    },
-    {
-        "flag": "tudo_bem",
         "question": "tudo bem?"  ,
         "answer": "Tudo ótimo! E você?"
     },
     {
-        "flag": "tudo_bem",
-        "question": "tudo bom?"  ,
-        "answer": "Tudo ótimo! E você?"
+        "flag": "tudo_bem_resposta",
+        "question": "estou bem",
+        "answer": "Fico feliz, em que posso ajudá-lo?"
     },
     {
         "flag": "tudo_bem",
@@ -553,12 +548,32 @@
 
     {
         "flag": "tudo_bem_resposta",
-        "question": "estou bem",
+        "question": "eu estou bem",
         "answer": "Fico feliz, em que posso ajudá-lo?"
     },
     {
         "flag": "tudo_bem_resposta",
         "question": "estou otimo",
+        "answer": "Fico feliz, em que posso ajudá-lo?"
+    },
+    {
+        "flag": "tudo_bem_resposta",
+        "question": "eu estou otimo",
+        "answer": "Fico feliz, em que posso ajudá-lo?"
+    },
+    {
+        "flag": "tudo_bem_resposta",
+        "question": "eu estou feliz",
+        "answer": "Fico feliz, em que posso ajudá-lo?"
+    },
+    {
+        "flag": "tudo_bem_resposta",
+        "question": "estou feliz",
+        "answer": "Fico feliz, em que posso ajudá-lo?"
+    },
+    {
+        "flag": "tudo_bem_resposta",
+        "question": "estou certo",
         "answer": "Fico feliz, em que posso ajudá-lo?"
     },
 
