@@ -176,6 +176,9 @@
         $.get("/get", { msg: usrInput }).done(function (data) {
             const isConsulta = data["isConsulta"];
             const listOfAnswers = data["data"];
+
+            console.log(data);
+            
             listOfAnswers.forEach(ans => {
                 const botResponse =
                     `<p class="botText"><span>${ans['sentenca']} ${
